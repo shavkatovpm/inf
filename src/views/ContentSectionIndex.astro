@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import SectionIndex from './SectionIndex.astro';
+import type { CardItem } from './SectionIndex.astro';
+import type { Locale } from '../i18n/ui';
+import type { SectionKey } from '../i18n/pages';
+import { localePath } from '../config/site.js';
+
+interface Props { locale: Locale; section: 'taqqoslash' | 'xavfsizlik' | 'qollanma' }
+const { locale, section } = Astro.props;
+
+// id — "<locale>/<slug>" ko'rinishida.
+const entries = (await getCollection(section as any))
+  .filter((e: any) => e.id.startsWith(`${locale}/`))
+  .sort((a: any, b: any) => a.data.order - b.data.order);
+
+const items: CardItem[] = entries.map((e: any) => ({
+  href: localePath(`/${section}/${e.id.split('/').slice(1).join('/')}`, locale),
+  title: e.data.title,
+  desc: e.data.description,
+  meta: e.data.updated,
+}));
+
+const empty = {
+  uz: 'Bu bo‘limda hozircha maqola yo‘q.',
+  ru: 'В этом разделе пока нет материалов.',
+  en: 'No articles in this section yet.',
+}[locale];
+---
+
+<SectionIndex {locale} section={section as SectionKey} {items}>
+  {items.length === 0 && <p class="note">{empty}</p>}
+</SectionIndex>

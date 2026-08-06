@@ -1,0 +1,87 @@
+---
+/**
+ * Bo'lim indeksi — sarlavha, kirish va kartalar ro'yxati.
+ * Barcha bo'limlar (narxlar, reyting, taqqoslash, xavfsizlik, qollanma)
+ * shu bitta shablonni ishlatadi.
+ */
+import Layout from '../layouts/Layout.astro';
+import { t, type Locale } from '../i18n/ui';
+import { SECTIONS, type SectionKey } from '../i18n/pages';
+import { localePath } from '../config/site.js';
+import { VERIFIED_AT } from '../lib/providers';
+import { breadcrumbNode, itemListNode, articleNode } from '../lib/schema';
+import { localeUrl } from '../config/site.js';
+
+export interface CardItem {
+  href: string;
+  title: string;
+  desc: string;
+  meta?: string;
+}
+
+interface Props {
+  locale: Locale;
+  section: SectionKey;
+  items: CardItem[];
+  /** Fold ustidagi qo'shimcha javob bloki (ixtiyoriy). */
+  answer?: string;
+}
+
+const { locale, section, items, answer } = Astro.props;
+const tr = t(locale);
+const copy = SECTIONS[locale][section];
+const path = `/${section}`;
+
+const schema = [
+  breadcrumbNode(locale, [
+    { name: 'Infogram', path: '/' },
+    { name: copy.h1, path },
+  ]),
+  articleNode({
+    locale,
+    headline: copy.h1,
+    description: copy.description,
+    path,
+    datePublished: VERIFIED_AT,
+    dateModified: VERIFIED_AT,
+  }),
+  itemListNode({
+    name: copy.h1,
+    items: items.map((i) => ({
+      name: i.title,
+      url: `${localeUrl('/', locale).replace(/\/$/, '')}${i.href.replace(/^\/(ru|en)/, '')}`,
+      description: i.desc,
+    })),
+  }),
+];
+---
+
+<Layout {locale} title={copy.title} description={copy.description} {path} {schema}>
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href={localePath('/', locale)}>Infogram</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{copy.h1}</span>
+  </nav>
+
+  <h1>{copy.h1}</h1>
+  <p class="lede">{copy.intro}</p>
+
+  {answer && (
+    <div class="answer">
+      <p>{answer}</p>
+      <p class="meta">{tr('label.updated')}: {VERIFIED_AT}</p>
+    </div>
+  )}
+
+  <div class="cards">
+    {items.map((item) => (
+      <a class="card" href={item.href}>
+        <h2>{item.title}</h2>
+        <p>{item.desc}</p>
+        {item.meta && <span class="card-meta">{item.meta}</span>}
+      </a>
+    ))}
+  </div>
+
+  <slot />
+</Layout>

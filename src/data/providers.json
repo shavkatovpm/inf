@@ -1,0 +1,173 @@
+{
+  "$comment": "YAGONA HAQIQAT MANBAI. Narx sahifalari, kalkulyator, reyting, taqqoslash, llms.txt va JSON-LD — hammasi shu fayldan generatsiya qilinadi. Har qiymat ochiq manbadan tekshirilgan; tekshirilmagan qiymat null bo'ladi, taxmin YOZILMAYDI.",
+  "$types": {
+    "reseller": "So'mda sotuvchi mahalliy xizmat — reytingda qatnashadi, bot havolasi bo'ladi.",
+    "official": "Telegram'ning rasmiy yo'li — taqqoslash bazasi sifatida ko'rsatiladi, reytingda qatnashmaydi, so'mdagi narxi yo'q."
+  },
+  "currency": "UZS",
+  "verifiedAt": "2026-08-05",
+  "sources": {
+    "starsjoy": ["https://starsjoy.uz/narxlar", "https://starsjoy.uz/llms.txt"],
+    "uzgets": ["https://uzgets.uz/"],
+    "premiumsend": ["https://premiumsend.uz/"],
+    "fragment": ["https://fragment.com"],
+    "telegram-inapp": ["https://telegram.org/blog", "https://core.telegram.org/api/stars"],
+    "$domainDates": "whois .uz (cctld.uz) — 2026-08-05 da so'ralgan"
+  },
+
+  "providers": [
+    {
+      "id": "starsjoy",
+      "name": "StarsJoy",
+      "type": "reseller",
+      "primary": true,
+      "site": "https://starsjoy.uz",
+      "bot": "starsjoybot",
+      "domainCreated": "2026-03-02",
+      "payments": ["UzCard", "HUMO", "Click", "Payme"],
+      "deliveryMinutes": { "min": 1, "max": 5, "claim": "1–5 daqiqa" },
+      "publicReviews": { "count": 8000, "page": "https://starsjoy.uz/sharhlar", "dated": true },
+      "moneyBackGuarantee": true,
+      "products": {
+        "stars": {
+          "perUnit": 240,
+          "flatRate": true,
+          "packages": [
+            { "qty": 50, "price": 12000 },
+            { "qty": 100, "price": 24000 },
+            { "qty": 250, "price": 60000 },
+            { "qty": 500, "price": 120000 },
+            { "qty": 1000, "price": 240000 },
+            { "qty": 2500, "price": 600000 },
+            { "qty": 5000, "price": 1200000 }
+          ]
+        },
+        "premium": {
+          "plans": [
+            { "months": 3, "price": 172000 },
+            { "months": 6, "price": 232000 },
+            { "months": 12, "price": 422000 }
+          ]
+        },
+        "gifts": { "available": true, "priceListed": false }
+      }
+    },
+
+    {
+      "id": "uzgets",
+      "name": "Uzgets",
+      "type": "reseller",
+      "site": "https://uzgets.uz",
+      "bot": "uzgetsbot",
+      "domainCreated": "2026-05-03",
+      "payments": ["UzCard", "HUMO", "Click"],
+      "deliveryMinutes": { "min": null, "max": null, "claim": "avtomatik, aniq vaqt ko'rsatilmagan" },
+      "publicReviews": { "count": null, "page": null, "dated": false },
+      "moneyBackGuarantee": null,
+      "products": {
+        "stars": {
+          "perUnit": 220,
+          "flatRate": true,
+          "packages": [
+            { "qty": 50, "price": 11000 },
+            { "qty": 100, "price": 22000 },
+            { "qty": 500, "price": 110000 },
+            { "qty": 1000, "price": 220000 }
+          ]
+        },
+        "premium": {
+          "plans": [
+            { "months": 3, "price": 168000 },
+            { "months": 6, "price": 228000 },
+            { "months": 12, "price": 408000 }
+          ]
+        },
+        "gifts": { "available": false, "priceListed": false }
+      }
+    },
+
+    {
+      "id": "premiumsend",
+      "name": "PremiumSend",
+      "type": "reseller",
+      "site": "https://premiumsend.uz",
+      "bot": "premiumsendbot",
+      "domainCreated": "2026-04-02",
+      "payments": ["UzCard", "HUMO", "Click", "Payme"],
+      "deliveryMinutes": { "min": null, "max": null, "claim": "bir necha daqiqa" },
+      "publicReviews": { "count": null, "page": null, "dated": false },
+      "moneyBackGuarantee": null,
+      "products": {
+        "stars": { "available": false },
+        "premium": {
+          "plans": [
+            { "months": 1, "price": 59000 },
+            { "months": 3, "price": 175000 },
+            { "months": 6, "price": 235000 },
+            { "months": 12, "price": 425000 }
+          ]
+        },
+        "gifts": { "available": false, "priceListed": false }
+      }
+    },
+
+    {
+      "$comment": "Rasmiy yo'llar — taqqoslash bazasi. Narx so'mda e'lon qilinmaydi (valyuta va komissiya o'zgaruvchan), shuning uchun narx maydonlari null. Reytingda qatnashmaydi.",
+      "id": "telegram-inapp",
+      "name": "Telegram ilovasi (App Store / Google Play)",
+      "type": "official",
+      "site": "https://telegram.org",
+      "bot": null,
+      "domainCreated": null,
+      "payments": ["Xalqaro karta (Visa/Mastercard)", "App Store / Google Play hisobi"],
+      "deliveryMinutes": { "min": 0, "max": 1, "claim": "darhol" },
+      "publicReviews": { "count": null, "page": null, "dated": false },
+      "moneyBackGuarantee": null,
+      "requirements": [
+        "Xalqaro to'lov kartasi yoki xorijiy App Store / Google Play hisobi kerak",
+        "Narx do'kon komissiyasini o'z ichiga oladi",
+        "So'mda to'lov qilinmaydi — valyuta konvertatsiyasi bo'ladi"
+      ],
+      "products": {
+        "stars": { "perUnit": null, "flatRate": false, "packages": [] },
+        "premium": { "plans": [] },
+        "gifts": { "available": true, "priceListed": false }
+      }
+    },
+
+    {
+      "id": "fragment",
+      "name": "Fragment",
+      "type": "official",
+      "site": "https://fragment.com",
+      "bot": null,
+      "domainCreated": null,
+      "payments": ["TON (kriptovalyuta)"],
+      "deliveryMinutes": { "min": 0, "max": 5, "claim": "TON tarmog'iga bog'liq" },
+      "publicReviews": { "count": null, "page": null, "dated": false },
+      "moneyBackGuarantee": null,
+      "requirements": [
+        "TON kriptovalyutasi va hamyon kerak",
+        "So'mda to'g'ridan-to'g'ri to'lov yo'q",
+        "Telegram'ning rasmiy platformasi"
+      ],
+      "products": {
+        "stars": { "perUnit": null, "flatRate": false, "packages": [] },
+        "premium": { "plans": [] },
+        "gifts": { "available": true, "priceListed": false }
+      }
+    }
+  ],
+
+  "$methodology": {
+    "$comment": "Vaznlar reyting hisoblanishidan OLDIN e'lon qilinadi. /mezonlar sahifasida shu obyekt render qilinadi. Reytingda faqat type=reseller qatnashadi.",
+    "weights": {
+      "price": 0.30,
+      "deliverySpeed": 0.20,
+      "paymentCoverage": 0.15,
+      "trackRecord": 0.15,
+      "verifiedReviews": 0.10,
+      "guarantee": 0.10
+    }
+  }
+}

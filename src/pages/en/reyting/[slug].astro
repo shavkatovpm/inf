@@ -1,0 +1,10 @@
+---
+import ReytingProduct from '../../../views/ReytingProduct.astro';
+
+export function getStaticPaths() {
+  return [{ params: { slug: 'telegram-stars' } }, { params: { slug: 'telegram-premium' } }];
+}
+
+const { slug } = Astro.params;
+---
+<ReytingProduct locale="en" slug={slug as any} />

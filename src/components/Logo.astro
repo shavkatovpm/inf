@@ -1,0 +1,23 @@
+---
+/**
+ * Brend belgisi.
+ *
+ * Uchta turli uzunlikdagi chiziq — taqqoslash jadvalining qatorlari.
+ * Yulduzcha yoki "AI-sparkle" ishlatilmadi: u klishe va saytning
+ * mazmuniga (narx taqqoslash) hech narsa demaydi.
+ */
+interface Props { href: string }
+const { href } = Astro.props;
+---
+
+<a class="brand" href={href} aria-label="Infogram — bosh sahifa">
+  <svg class="mark" viewBox="0 0 20 20" width="19" height="19" aria-hidden="true">
+    <rect x="0" y="0" width="20" height="20" rx="5" fill="currentColor" />
+    <g fill="var(--bg)">
+      <rect x="4.5" y="5"    width="11" height="1.8" rx="0.9" />
+      <rect x="4.5" y="9.1"  width="7.5" height="1.8" rx="0.9" />
+      <rect x="4.5" y="13.2" width="9.5" height="1.8" rx="0.9" />
+    </g>
+  </svg>
+  <span class="wordmark">infogram<span class="tld">.uz</span></span>
+</a>

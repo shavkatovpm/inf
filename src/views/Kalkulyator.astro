@@ -1,0 +1,187 @@
+---
+/**
+ * Stars kalkulyatori.
+ *
+ * Progressive enhancement: JS o'chirilgan bo'lsa ham to'liq statik
+ * narx jadvali ko'rinadi (LLM va crawler aynan shuni o'qiydi).
+ * JS faqat ixtiyoriy miqdor kiritish imkonini qo'shadi — ~1 KB.
+ */
+import Layout from '../layouts/Layout.astro';
+import BuyCta from '../components/BuyCta.astro';
+import PriceTable from '../components/PriceTable.astro';
+import { t, type Locale } from '../i18n/ui';
+import { SECTIONS } from '../i18n/pages';
+import { localePath, botLink } from '../config/site.js';
+import {
+  PRIMARY, VERIFIED_AT, sellersOf, starsPerUnit, uzs,
+} from '../lib/providers';
+import { articleNode, breadcrumbNode, faqNode } from '../lib/schema';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const tr = t(locale);
+const copy = SECTIONS[locale].kalkulyator;
+const path = '/kalkulyator';
+const SOURCE = 'kalkulyator';
+
+const sellers = sellersOf('stars');
+const minUnit = Math.min(...sellers.map((p) => starsPerUnit(p)!));
+
+// JS uchun ma'lumot orolchasi — providers.json dan qisqartirilgan nusxa.
+const calcData = sellers.map((p) => ({
+  id: p.id,
+  name: p.name,
+  unit: starsPerUnit(p)!,
+  flat: p.products.stars.flatRate === true,
+  bot: p.bot,
+  packages: (p.products.stars.packages ?? []).map((x: any) => [x.qty, x.price]),
+}));
+
+const presets = [50, 100, 250, 500, 1000, 2500, 5000];
+
+const label = {
+  uz: { qty: 'Stars miqdori', calc: 'Hisoblash', result: 'Natija', cheapest: 'eng arzon', per: '1 dona' },
+  ru: { qty: 'Количество Stars', calc: 'Посчитать', result: 'Результат', cheapest: 'самый дешёвый', per: 'за штуку' },
+  en: { qty: 'Number of Stars', calc: 'Calculate', result: 'Result', cheapest: 'cheapest', per: 'per unit' },
+}[locale];
+
+const faq = {
+  uz: [
+    { q: 'Kalkulyator narxni qanday hisoblaydi?', a: `Xizmatning e’lon qilgan paket narxi bo‘lsa — o‘sha olinadi; bo‘lmasa 1 dona narxi miqdorga ko‘paytiriladi. Ma’lumot ${VERIFIED_AT} da tekshirilgan.` },
+    { q: 'Yakuniy narx botdagidan farq qiladimi?', a: 'Xizmatlar aksiya yoki miqdorga qarab chegirma qo‘llashi mumkin. Yakuniy summa har doim botda tasdiqlanadi.' },
+  ],
+  ru: [
+    { q: 'Как калькулятор считает цену?', a: `Если у сервиса есть опубликованная цена пакета — берётся она; иначе цена за штуку умножается на количество. Данные проверены ${VERIFIED_AT}.` },
+    { q: 'Отличается ли итоговая цена от бота?', a: 'Сервисы могут применять акции или скидки за объём. Итоговая сумма всегда подтверждается в боте.' },
+  ],
+  en: [
+    { q: 'How does the calculator work?', a: `If the service publishes a package price, that is used; otherwise the per-unit price is multiplied by the quantity. Data verified ${VERIFIED_AT}.` },
+    { q: 'Can the final price differ from the bot?', a: 'Services may apply promotions or volume discounts. The final amount is always confirmed in the bot.' },
+  ],
+}[locale];
+
+const schema = [
+  breadcrumbNode(locale, [
+    { name: 'Infogram', path: '/' },
+    { name: copy.h1, path },
+  ]),
+  articleNode({
+    locale, headline: copy.h1, description: copy.description, path,
+    datePublished: VERIFIED_AT, dateModified: VERIFIED_AT,
+  }),
+  faqNode(faq),
+];
+---
+
+<Layout {locale} title={copy.title} description={copy.description} {path} {schema}>
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href={localePath('/', locale)}>Infogram</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{copy.h1}</span>
+  </nav>
+
+  <h1>{copy.h1}</h1>
+  <p class="lede">{copy.intro}</p>
+
+  <div class="answer">
+    <p>
+      <strong>{locale === 'uz' ? 'Qisqa javob.' : locale === 'ru' ? 'Коротко.' : 'Short answer.'}</strong>{' '}
+      {locale === 'uz' && `1 Telegram Star ${uzs(minUnit)} so‘mdan. Masalan, 1000 Stars — ${uzs(minUnit * 1000)} so‘mdan.`}
+      {locale === 'ru' && `1 Telegram Star — от ${uzs(minUnit)} сум. Например, 1000 Stars — от ${uzs(minUnit * 1000)} сум.`}
+      {locale === 'en' && `1 Telegram Star from ${uzs(minUnit)} UZS. For example, 1000 Stars — from ${uzs(minUnit * 1000)} UZS.`}
+    </p>
+    <p class="meta">{tr('label.updated')}: {VERIFIED_AT}</p>
+  </div>
+
+  {/* JS bilan ishlaydigan qism. JS bo'lmasa yashirin qoladi. */}
+  <div class="calc" id="calc" hidden>
+    <label class="calc-field">
+      <span>{label.qty}</span>
+      <input type="number" id="calc-qty" min="1" max="1000000" step="1" value="1000" inputmode="numeric" />
+    </label>
+    <div class="calc-presets">
+      {presets.map((n) => (
+        <button type="button" class="chip-btn" data-qty={n}>{n}</button>
+      ))}
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>{tr('label.provider')}</th>
+            <th class="num">{label.per}</th>
+            <th class="num">{label.result}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="calc-rows"></tbody>
+      </table>
+    </div>
+  </div>
+
+  {/* JS'siz ham to'liq ko'rinadigan statik jadval — crawler shuni o'qiydi. */}
+  <h2>
+    {locale === 'uz' && 'Narx jadvali'}
+    {locale === 'ru' && 'Таблица цен'}
+    {locale === 'en' && 'Price table'}
+  </h2>
+  <PriceTable {locale} product="stars" source={SOURCE} quantities={presets} />
+
+  <BuyCta {locale} product={"stars"} source={`${SOURCE}-cta`} />
+
+  <h2>
+    {locale === 'uz' && 'Tez-tez beriladigan savollar'}
+    {locale === 'ru' && 'Частые вопросы'}
+    {locale === 'en' && 'Frequently asked questions'}
+  </h2>
+  {faq.map((item) => (<><h3>{item.q}</h3><p>{item.a}</p></>))}
+</Layout>
+
+<script is:inline define:vars={{ calcData, cheapestLabel: label.cheapest, openLabel: tr('label.open') }}>
+  (function () {
+    const box = document.getElementById('calc');
+    const input = document.getElementById('calc-qty');
+    const rows = document.getElementById('calc-rows');
+    if (!box || !input || !rows) return;
+    box.hidden = false;
+
+    const fmt = (n) => n.toLocaleString('ru-RU').replace(/ /g, ' ');
+
+    function priceFor(p, qty) {
+      const exact = p.packages.find((x) => x[0] === qty);
+      if (exact) return { value: exact[1], exact: true };
+      return { value: p.unit * qty, exact: p.flat };
+    }
+
+    function render() {
+      const qty = Math.max(1, Math.min(1000000, parseInt(input.value, 10) || 0));
+      const results = calcData.map((p) => ({ p, ...priceFor(p, qty) }));
+      const best = Math.min(...results.filter((r) => r.exact).map((r) => r.value));
+
+      rows.innerHTML = results
+        .sort((a, b) => a.value - b.value)
+        .map((r) => {
+          const isBest = r.exact && r.value === best;
+          const link = 'https://t.me/' + r.p.bot + '?start=ig_kalkulyator';
+          return (
+            '<tr>' +
+            '<th scope="row">' + r.p.name + '</th>' +
+            '<td class="num">' + fmt(r.p.unit) + '</td>' +
+            '<td class="num"><span class="' + (isBest ? 'best' : '') + '">' + fmt(r.value) + '</span>' +
+            (r.exact ? '' : ' <span class="approx">*</span>') +
+            (isBest ? ' <span class="approx">' + cheapestLabel + '</span>' : '') +
+            '</td>' +
+            '<td><a class="plink" href="' + link + '" target="_blank" rel="noopener">' + openLabel + ' ↗</a></td>' +
+            '</tr>'
+          );
+        })
+        .join('');
+    }
+
+    input.addEventListener('input', render);
+    box.querySelectorAll('.chip-btn').forEach((b) => {
+      b.addEventListener('click', () => { input.value = b.dataset.qty; render(); });
+    });
+    render();
+  })();
+</script>

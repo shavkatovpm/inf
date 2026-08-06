@@ -1,0 +1,187 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import BuyCta from '../components/BuyCta.astro';
+import PriceTable from '../components/PriceTable.astro';
+import OfficialRoutes from '../components/OfficialRoutes.astro';
+import ProviderLink from '../components/ProviderLink.astro';
+import { t, type Locale } from '../i18n/ui';
+import { localePath } from '../config/site.js';
+import {
+  rankBySegment, sellersOf, starsPerUnit, premiumPrice, uzs, VERIFIED_AT,
+} from '../lib/providers';
+import {
+  breadcrumbNode, datasetNode, faqNode, itemListNode, productOfferNode,
+} from '../lib/schema';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const tr = t(locale);
+
+const SOURCE = 'home';
+
+const starSellers = sellersOf('stars');
+const premiumSellers = sellersOf('premium');
+const cheapestStar = Math.min(...starSellers.map((p) => starsPerUnit(p)!));
+const cheapest12 = Math.min(
+  ...premiumSellers.map((p) => premiumPrice(p, 12)).filter((v): v is number => v !== null),
+);
+
+const segList = (['arzon', 'ishonchli', 'tez'] as const).map((id) => ({
+  id, top: rankBySegment('stars', id),
+}));
+const trusted = rankBySegment('stars', 'ishonchli')[0].provider;
+
+const title = {
+  uz: `Telegram Stars va Premium narxlari — O‘zbekiston, ${VERIFIED_AT.slice(0, 4)} | Infogram`,
+  ru: `Цены на Telegram Stars и Premium — Узбекистан, ${VERIFIED_AT.slice(0, 4)} | Infogram`,
+  en: `Telegram Stars & Premium prices — Uzbekistan, ${VERIFIED_AT.slice(0, 4)} | Infogram`,
+}[locale];
+
+const description = {
+  uz: `1 Telegram Star ${uzs(cheapestStar)} so‘mdan, Premium 12 oy ${uzs(cheapest12)} so‘mdan. So‘mda to‘lov qiluvchi xizmatlar va rasmiy yo‘l taqqoslandi — ${VERIFIED_AT} da yangilangan.`,
+  ru: `1 Telegram Star от ${uzs(cheapestStar)} сум, Premium 12 мес. от ${uzs(cheapest12)} сум. Сравнение сервисов с оплатой в сумах и официального пути, обновлено ${VERIFIED_AT}.`,
+  en: `1 Telegram Star from ${uzs(cheapestStar)} UZS, 12-month Premium from ${uzs(cheapest12)} UZS. UZS-paying services compared against the official route, updated ${VERIFIED_AT}.`,
+}[locale];
+
+const S = {
+  uz: {
+    answerLead: 'Qisqa javob.',
+    answer: `O‘zbekistonda so‘mda to‘lov qabul qiladigan xizmatlarda 1 Telegram Star ${uzs(cheapestStar)} so‘mdan, Telegram Premium 12 oylik esa ${uzs(cheapest12)} so‘mdan boshlanadi. Hammasi UzCard va HUMO qabul qiladi — Visa kartasi shart emas. Rasmiy yo‘l (App Store, Google Play, Fragment) xalqaro karta yoki TON talab qiladi.`,
+    pricesH: 'Narxlar',
+    pricesSub: 'Xizmatlarning o‘z sahifalarida e’lon qilingan narxlar. Har ustunda eng past narx belgilangan.',
+    segH: 'Qaysi xizmat — nimaga qarab',
+    segSub: 'Bitta umumiy “eng yaxshi” yo‘q: eng arzoni, eng tezi va isbotlangan ishonchi turli xizmatlarda. Shuning uchun reyting uch segmentga bo‘lingan.',
+    officialH: 'Rasmiy yo‘l bilan taqqoslash',
+    officialSub: 'Telegram’ning o‘z yo‘llari so‘mda narx e’lon qilmaydi va boshqa talablar qo‘yadi:',
+    recH: 'Birinchi marta olayotgan bo‘lsangiz',
+    rec: `Ochiq, sanasi ko‘rsatilgan sharhlar va pul qaytarish kafolati bo‘yicha yetakchi — ${trusted.name}. Katta summa o‘tkazayotganda bu mezon narxdan muhimroq.`,
+    faqH: 'Tez-tez beriladigan savollar',
+  },
+  ru: {
+    answerLead: 'Коротко.',
+    answer: `В сервисах с оплатой в сумах 1 Telegram Star стоит от ${uzs(cheapestStar)} сум, Telegram Premium на 12 месяцев — от ${uzs(cheapest12)} сум. Все принимают UzCard и HUMO, карта Visa не нужна. Официальный путь требует международную карту или TON.`,
+    pricesH: 'Цены',
+    pricesSub: 'Цены, опубликованные на страницах самих сервисов. В каждом столбце отмечена самая низкая.',
+    segH: 'Какой сервис — в зависимости от задачи',
+    segSub: 'Единого «лучшего» нет: самый дешёвый, самый быстрый и самый проверенный — разные сервисы. Поэтому рейтинг разделён на три сегмента.',
+    officialH: 'Сравнение с официальным путём',
+    officialSub: 'Собственные пути Telegram не публикуют цену в сумах и предъявляют другие требования:',
+    recH: 'Если покупаете впервые',
+    rec: `Лидер по открытым отзывам с датами и гарантии возврата — ${trusted.name}. При крупной сумме этот критерий важнее цены.`,
+    faqH: 'Частые вопросы',
+  },
+  en: {
+    answerLead: 'Short answer.',
+    answer: `Among services accepting UZS, 1 Telegram Star starts at ${uzs(cheapestStar)} UZS and 12-month Telegram Premium at ${uzs(cheapest12)} UZS. All accept UzCard and HUMO — no Visa card needed. The official route requires an international card or TON.`,
+    pricesH: 'Prices',
+    pricesSub: 'Prices published on the services’ own pages. The lowest in each column is marked.',
+    segH: 'Which service — depending on what matters',
+    segSub: 'There is no single “best”: cheapest, fastest and most proven are different services. That is why the ranking is split into three segments.',
+    officialH: 'Compared with the official route',
+    officialSub: 'Telegram’s own routes publish no UZS price and impose different requirements:',
+    recH: 'If this is your first purchase',
+    rec: `The leader on public dated reviews and money-back guarantee is ${trusted.name}. For a large amount, that matters more than price.`,
+    faqH: 'Frequently asked questions',
+  },
+}[locale];
+
+const faq = {
+  uz: [
+    { q: 'O‘zbekistonda 1 Telegram Star qancha turadi?', a: `So‘mda to‘lov qabul qiluvchi xizmatlarda 1 Star ${uzs(cheapestStar)} so‘mdan boshlanadi. Rasmiy yo‘lda narx do‘kon komissiyasi va valyuta kursiga bog‘liq.` },
+    { q: 'Telegram Premium 12 oylik eng arzon qancha?', a: `So‘mdagi ochiq narxlar ichida eng pasti — ${uzs(cheapest12)} so‘m.` },
+    { q: 'Visa kartasiz sotib olish mumkinmi?', a: 'Ha. Taqqoslangan mahalliy xizmatlarning barchasi UzCard va HUMO qabul qiladi.' },
+    { q: 'Xarid uchun parol kerakmi?', a: 'Yo‘q. Yetkazish faqat username orqali bajariladi. Parol yoki SMS kod so‘ralsa — bu firibgarlik belgisi.' },
+    { q: 'Infogram o‘zi Stars sotadimi?', a: 'Yo‘q. Infogram — narx va reyting nashri; xarid xizmatning o‘z botida amalga oshiriladi.' },
+  ],
+  ru: [
+    { q: 'Сколько стоит 1 Telegram Star в Узбекистане?', a: `В сервисах с оплатой в сумах — от ${uzs(cheapestStar)} сум. В официальном пути цена зависит от комиссии магазина и курса.` },
+    { q: 'Какая самая низкая цена Telegram Premium на 12 месяцев?', a: `Самая низкая опубликованная цена — ${uzs(cheapest12)} сум.` },
+    { q: 'Можно ли купить без карты Visa?', a: 'Да. Все сравниваемые локальные сервисы принимают UzCard и HUMO.' },
+    { q: 'Нужен ли пароль для покупки?', a: 'Нет. Доставка выполняется по username. Запрос пароля или SMS-кода — признак мошенничества.' },
+    { q: 'Продаёт ли Infogram сам?', a: 'Нет. Infogram — издание о ценах и рейтингах; покупка происходит в боте сервиса.' },
+  ],
+  en: [
+    { q: 'How much does 1 Telegram Star cost in Uzbekistan?', a: `Among services accepting UZS, from ${uzs(cheapestStar)} UZS. The official route depends on store commission and exchange rate.` },
+    { q: 'What is the cheapest 12-month Telegram Premium price?', a: `The lowest published price is ${uzs(cheapest12)} UZS.` },
+    { q: 'Can I buy without a Visa card?', a: 'Yes. Every compared local service accepts UzCard and HUMO.' },
+    { q: 'Is a password needed to buy?', a: 'No. Delivery runs on the username. A password or SMS-code request is a fraud signal.' },
+    { q: 'Does Infogram sell anything?', a: 'No. Infogram is a price and ranking publication; purchases happen in the service’s own bot.' },
+  ],
+}[locale];
+
+const schema = [
+  breadcrumbNode(locale, [{ name: 'Infogram', path: '/' }]),
+  datasetNode({ locale, modified: VERIFIED_AT }),
+  faqNode(faq),
+  itemListNode({
+    name: 'Telegram Stars — so‘mda to‘lov qiluvchi xizmatlar',
+    items: rankBySegment('stars', 'ishonchli').map((r) => ({ name: r.provider.name, url: r.provider.site })),
+  }),
+  ...starSellers.map((p) => productOfferNode(p, 'stars')),
+  ...premiumSellers.map((p) => productOfferNode(p, 'premium')),
+];
+---
+
+<Layout {locale} {title} {description} path="/" {schema}>
+  <Hero {locale} source={SOURCE} />
+
+  {/* Fold ustidagi to'g'ridan-to'g'ri javob — LLM extraction shundan ishlaydi. */}
+  <div class="answer">
+    <p><strong>{S.answerLead}</strong> {S.answer}</p>
+  </div>
+
+  {/* Narxlar — to'liq kenglikdagi kontrast band.
+      Saytning asosiy kontenti, shuning uchun vizual jihatdan ajratilgan. */}
+  <section class="band" id="narxlar">
+    <div class="band-inner">
+      <div class="band-head">
+        <h2>{S.pricesH}</h2>
+        <p class="meta">{tr('label.updated')} {VERIFIED_AT}</p>
+      </div>
+      <p class="lede">{S.pricesSub}</p>
+
+      <h3>Telegram Stars</h3>
+      <PriceTable {locale} product="stars" source={`${SOURCE}-stars`} />
+
+      <h3>Telegram Premium</h3>
+      <PriceTable {locale} product="premium" source={`${SOURCE}-premium`} />
+
+      <p class="band-foot-links">
+        <a href={localePath('/kalkulyator', locale)}>{tr('cta.calc')} →</a>
+        <a href={localePath('/mezonlar', locale)}>{tr('nav.mezonlar')} →</a>
+      </p>
+    </div>
+  </section>
+
+  <h2>{S.segH}</h2>
+  <p class="lede">{S.segSub}</p>
+
+  <div class="segments">
+    {segList.map((s) => (
+      <div class="seg">
+        <h3>{tr(`seg.${s.id}` as any)}</h3>
+        <p class="desc">{tr(`seg.${s.id}.desc` as any)}</p>
+        <ol>
+          {s.top.map((r) => (
+            <li><ProviderLink provider={r.provider} source={`${SOURCE}-seg-${s.id}`} /></li>
+          ))}
+        </ol>
+      </div>
+    ))}
+  </div>
+  <p class="note">
+    <a href={localePath('/mezonlar', locale)}>{tr('nav.mezonlar')}</a> — {tr('note.unknownPenalty')}
+  </p>
+
+  <h2>{S.officialH}</h2>
+  <p class="lede">{S.officialSub}</p>
+  <OfficialRoutes {locale} />
+
+  <h2>{S.recH}</h2>
+  <p>{S.rec}</p>
+  <BuyCta {locale} product="stars" source={`${SOURCE}-footer`} />
+
+  <h2>{S.faqH}</h2>
+  {faq.map((item) => (<><h3>{item.q}</h3><p>{item.a}</p></>))}
+</Layout>

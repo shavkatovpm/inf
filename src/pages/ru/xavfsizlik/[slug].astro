@@ -1,0 +1,17 @@
+---
+import { getCollection } from "astro:content";
+import Article from "../../../views/Article.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("xavfsizlik");
+  return entries
+    .filter((e) => e.id.startsWith("ru/"))
+    .map((e) => ({
+      params: { slug: e.id.split("/").slice(1).join("/") },
+      props: { entry: e },
+    }));
+}
+
+const { entry } = Astro.props;
+---
+<Article locale="ru" section="xavfsizlik" entry={entry} />

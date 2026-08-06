@@ -1,0 +1,120 @@
+---
+/**
+ * Bosh sahifa hero'si.
+ *
+ * Asimmetrik: chapda taklif va harakat, o'ngda narx tablosi.
+ * Narx — saytning eng qimmatli ma'lumoti, shuning uchun eng katta
+ * tipografik og'irlikni u oladi (display o'lchamdagi raqamlar).
+ *
+ * Bezak yo'q: gradient, glow, soya ishlatilmaydi. Ierarxiya faqat
+ * o'lcham, vazn, rang va bo'shliq bilan quriladi.
+ */
+import { t, type Locale } from '../i18n/ui';
+import { botLink } from '../config/site.js';
+import {
+  PRIMARY, VERIFIED_AT, sellersOf, starsPerUnit, premiumPrice, uzs,
+} from '../lib/providers';
+
+interface Props { locale: Locale; source: string }
+const { locale, source } = Astro.props;
+const tr = t(locale);
+
+const starSellers = sellersOf('stars');
+const premiumSellers = sellersOf('premium');
+const cheapestStar = Math.min(...starSellers.map((p) => starsPerUnit(p)!));
+const cheapest12 = Math.min(
+  ...premiumSellers.map((p) => premiumPrice(p, 12)).filter((v): v is number => v !== null),
+);
+const count = new Set([...starSellers, ...premiumSellers].map((p) => p.id)).size;
+
+const c = {
+  uz: {
+    live: 'Narxlar tekshirildi',
+    h1a: 'Telegram Stars va Premium.',
+    h1b: 'So‘mda, o‘z kartangiz bilan.',
+    sub: `Mahalliy karta qabul qiladigan ${count} ta xizmat ochiq mezonlar bo‘yicha taqqoslanadi. Narxlar ularning o‘z sahifalaridan olinadi — biz sotmaymiz va joylashuv uchun to‘lov olmaymiz.`,
+    l1: '1 Telegram Star', l2: 'Telegram Premium · 12 oy',
+    from: 'so‘mdan', per: 'eng past e’lon qilingan narx',
+    seeAll: 'Barcha narxlar',
+  },
+  ru: {
+    live: 'Цены проверены',
+    h1a: 'Telegram Stars и Premium.',
+    h1b: 'В сумах, вашей картой.',
+    sub: `${count} сервиса с оплатой локальной картой сравниваются по открытой методологии. Цены берутся с их собственных страниц — мы ничего не продаём и не берём плату за размещение.`,
+    l1: '1 Telegram Star', l2: 'Telegram Premium · 12 мес.',
+    from: 'сум', per: 'самая низкая опубликованная цена',
+    seeAll: 'Все цены',
+  },
+  en: {
+    live: 'Prices verified',
+    h1a: 'Telegram Stars and Premium.',
+    h1b: 'In UZS, with your own card.',
+    sub: `${count} services accepting local cards, compared under an open methodology. Prices come from their own pages — we sell nothing and take no payment for placement.`,
+    l1: '1 Telegram Star', l2: 'Telegram Premium · 12 months',
+    from: 'UZS', per: 'lowest published price',
+    seeAll: 'All prices',
+  },
+}[locale];
+---
+
+<section class="hero">
+  <div class="hero-split">
+   <div class="hero-main">
+    <div class="hero-text">
+      <p class="eyebrow">
+        <span class="dot" aria-hidden="true"></span>
+        {c.live} · <time datetime={VERIFIED_AT}>{VERIFIED_AT}</time>
+      </p>
+
+      <h1>{c.h1a}<br /><span class="soft">{c.h1b}</span></h1>
+
+      <p class="hero-sub">{c.sub}</p>
+    </div>
+
+    <div class="hero-buy">
+      <div class="cta-block">
+        <div class="hero-cta">
+          <a class="btn btn-primary" href={botLink(PRIMARY.bot!, `${source}-hero-stars`)} target="_blank" rel="noopener">
+            {tr('cta.buyStars')}
+            <span aria-hidden="true">→</span>
+          </a>
+          <a class="btn btn-ghost" href={botLink(PRIMARY.bot!, `${source}-hero-premium`)} target="_blank" rel="noopener">
+            {tr('cta.buyPremium')}
+          </a>
+        </div>
+        <p class="cta-note">
+          {locale === 'uz'
+            ? <><strong>{PRIMARY.name}</strong> orqali — @{PRIMARY.bot}</>
+            : <>{tr('cta.via')} <strong>{PRIMARY.name}</strong> — @{PRIMARY.bot}</>}
+        </p>
+      </div>
+    </div>
+   </div>
+
+    {/* Narx tablosi — mobilda CTA'dan oldin chiqadi (order orqali). */}
+    <div class="board hero-board">
+      <div class="board-row">
+        <span class="board-label">{c.l1}</span>
+        <span class="board-price">
+          <span class="n">{uzs(cheapestStar)}</span>
+          <span class="u">{c.from}</span>
+        </span>
+      </div>
+
+      <div class="board-row">
+        <span class="board-label">{c.l2}</span>
+        <span class="board-price">
+          <span class="n">{uzs(cheapest12)}</span>
+          <span class="u">{c.from}</span>
+        </span>
+        <span class="board-note">{c.per}</span>
+      </div>
+
+      <div class="board-foot">
+        {PRIMARY.payments.map((m) => <span class="pay">{m}</span>)}
+        <a href="#narxlar">{c.seeAll} ↓</a>
+      </div>
+    </div>
+  </div>
+</section>

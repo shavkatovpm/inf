@@ -1,0 +1,43 @@
+---
+import SectionIndex from './SectionIndex.astro';
+import type { CardItem } from './SectionIndex.astro';
+import type { Locale } from '../i18n/ui';
+import { PRODUCTS, PRODUCT_SLUGS, SLUG_TO_PRODUCT } from '../i18n/pages';
+import { localePath } from '../config/site.js';
+import { sellersOf, starsPerUnit, premiumPrice, uzs } from '../lib/providers';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+
+const minStar = Math.min(...sellersOf('stars').map((p) => starsPerUnit(p)!));
+const min12 = Math.min(
+  ...sellersOf('premium').map((p) => premiumPrice(p, 12)).filter((v): v is number => v !== null),
+);
+
+const fromLabel = { uz: 'so‘mdan', ru: 'сум', en: 'UZS from' }[locale];
+
+// Kartalar mahsulotning PILLAR sahifasiga yo'naltiradi (/telegram-stars),
+// /narxlar/<mahsulot> ga emas — ikkinchisi kalit so'zni kannibalizatsiya qilardi.
+const items: CardItem[] = PRODUCT_SLUGS.map((slug) => {
+  const c = PRODUCTS[locale][slug];
+  const key = SLUG_TO_PRODUCT[slug];
+  const meta =
+    key === 'stars' ? `${uzs(minStar)} ${fromLabel}`
+    : key === 'premium' ? `${uzs(min12)} ${fromLabel} · 12 ${locale === 'ru' ? 'мес.' : locale === 'en' ? 'mo' : 'oy'}`
+    : undefined;
+  return {
+    href: localePath(`/${slug}`, locale),
+    title: c.name,
+    desc: c.intro,
+    meta,
+  };
+});
+
+const answer = {
+  uz: `So‘mda to‘lov qabul qiladigan xizmatlarda 1 Telegram Star ${uzs(minStar)} so‘mdan, Telegram Premium 12 oylik ${uzs(min12)} so‘mdan boshlanadi. Barchasi UzCard va HUMO qabul qiladi.`,
+  ru: `В сервисах с оплатой в сумах 1 Telegram Star стоит от ${uzs(minStar)} сум, Telegram Premium на 12 месяцев — от ${uzs(min12)} сум. Все принимают UzCard и HUMO.`,
+  en: `Among services accepting UZS, 1 Telegram Star starts at ${uzs(minStar)} UZS and 12-month Telegram Premium at ${uzs(min12)} UZS. All accept UzCard and HUMO.`,
+}[locale];
+---
+
+<SectionIndex {locale} section="narxlar" {items} {answer} />

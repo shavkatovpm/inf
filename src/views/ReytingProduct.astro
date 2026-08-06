@@ -1,0 +1,237 @@
+---
+/**
+ * Reyting listicle — mahsulot bo'yicha.
+ *
+ * LLM'lar aynan shu formatni (raqamlangan, mezonli, ball ko'rsatilgan)
+ * iqtibos qilishga moyil. Shuning uchun ItemList schema + ochiq ball
+ * jadvali + har segment uchun alohida ro'yxat.
+ */
+import Layout from '../layouts/Layout.astro';
+import BuyCta from '../components/BuyCta.astro';
+import ProviderLink from '../components/ProviderLink.astro';
+import { t, type Locale } from '../i18n/ui';
+import { PRODUCTS, SLUG_TO_PRODUCT } from '../i18n/pages';
+import { localePath, botLink, localeUrl } from '../config/site.js';
+import {
+  PRIMARY, VERIFIED_AT, SEGMENTS, WEIGHTS, rank, rankBySegment,
+  starsPerUnit, premiumPerMonth, trackRecordMonths, uzs,
+} from '../lib/providers';
+import {
+  articleNode, breadcrumbNode, faqNode, itemListNode,
+} from '../lib/schema';
+
+interface Props { locale: Locale; slug: 'telegram-stars' | 'telegram-premium' }
+const { locale, slug } = Astro.props;
+const tr = t(locale);
+
+const pcopy = PRODUCTS[locale][slug];
+const product = SLUG_TO_PRODUCT[slug] as 'stars' | 'premium';
+const path = `/reyting/${slug}`;
+const SOURCE = `reyting-${slug}`;
+
+const base = rank(product);
+const segments = (['arzon', 'ishonchli', 'tez'] as const).map((id) => ({
+  id,
+  rows: rankBySegment(product, id),
+}));
+
+const title = {
+  uz: `${pcopy.name} xizmatlari reytingi — O‘zbekiston | Infogram`,
+  ru: `Рейтинг сервисов ${pcopy.name} — Узбекистан | Infogram`,
+  en: `${pcopy.name} service rankings — Uzbekistan | Infogram`,
+}[locale];
+
+const description = {
+  uz: `${pcopy.name} xizmatlari uch segmentda taqqoslandi: eng arzon, eng ishonchli, eng tez. Vaznlar ochiq e’lon qilingan, ${VERIFIED_AT} da yangilangan.`,
+  ru: `Сервисы ${pcopy.name} сравнены в трёх сегментах: самый дешёвый, надёжный и быстрый. Веса опубликованы, обновлено ${VERIFIED_AT}.`,
+  en: `${pcopy.name} services compared across three segments: cheapest, most trusted, fastest. Weights published, updated ${VERIFIED_AT}.`,
+}[locale];
+
+const h1 = {
+  uz: `${pcopy.name} xizmatlari reytingi`,
+  ru: `Рейтинг сервисов ${pcopy.name}`,
+  en: `${pcopy.name} service rankings`,
+}[locale];
+
+const answer = {
+  uz: `Bitta umumiy g‘olib yo‘q. Eng arzon narx — ${segments[0].rows[0].provider.name}; eng ishonchli (ochiq sanali sharhlar va pul qaytarish kafolati bo‘yicha) — ${segments[1].rows[0].provider.name}; eng tez yetkazish — ${segments[2].rows[0].provider.name}.`,
+  ru: `Единого победителя нет. Самая низкая цена — ${segments[0].rows[0].provider.name}; самый надёжный (по открытым отзывам с датами и гарантии возврата) — ${segments[1].rows[0].provider.name}; самая быстрая доставка — ${segments[2].rows[0].provider.name}.`,
+  en: `There is no single winner. Lowest price — ${segments[0].rows[0].provider.name}; most trusted (public dated reviews and money-back guarantee) — ${segments[1].rows[0].provider.name}; fastest delivery — ${segments[2].rows[0].provider.name}.`,
+}[locale];
+
+const critKeys = ['price', 'deliverySpeed', 'paymentCoverage', 'trackRecord', 'verifiedReviews', 'guarantee'] as const;
+
+const faq = {
+  uz: [
+    { q: 'Reyting kim tomonidan tuziladi?', a: `Reyting qo‘lda tuzilmaydi — ochiq e’lon qilingan vaznlar bo‘yicha hisoblanadi. Formula va manbalar mezonlar sahifasida.` },
+    { q: 'Nima uchun bir xizmat bir joyda 1-o‘rin, boshqasida oxirgi?', a: 'Har segment boshqa mezonga urg‘u beradi. Eng arzon xizmat eng ishonchli bo‘lishi shart emas — shuning uchun ular ajratilgan.' },
+    { q: 'E’lon qilinmagan ma’lumot qanday hisoblanadi?', a: 'Nol ball oladi. Isbotlanmagan ustunlik ustunlik sifatida qabul qilinmaydi.' },
+  ],
+  ru: [
+    { q: 'Кто составляет рейтинг?', a: 'Рейтинг не составляется вручную — он считается по опубликованным весам. Формула и источники на странице методологии.' },
+    { q: 'Почему сервис первый в одном сегменте и последний в другом?', a: 'Каждый сегмент делает акцент на разных критериях. Самый дешёвый сервис не обязан быть самым надёжным.' },
+    { q: 'Как учитываются неопубликованные данные?', a: 'Получают ноль баллов. Недоказанное преимущество не засчитывается.' },
+  ],
+  en: [
+    { q: 'Who compiles the ranking?', a: 'It is not hand-curated — it is computed from published weights. The formula and sources are on the methodology page.' },
+    { q: 'Why is a service first in one segment and last in another?', a: 'Each segment emphasises different criteria. The cheapest service need not be the most trusted.' },
+    { q: 'How is unpublished data treated?', a: 'It scores zero. An unproven advantage is not counted as an advantage.' },
+  ],
+}[locale];
+
+const schema = [
+  breadcrumbNode(locale, [
+    { name: 'Infogram', path: '/' },
+    { name: tr('nav.reyting'), path: '/reyting' },
+    { name: pcopy.name, path },
+  ]),
+  articleNode({
+    locale, headline: h1, description, path,
+    datePublished: VERIFIED_AT, dateModified: VERIFIED_AT,
+  }),
+  faqNode(faq),
+  ...segments.map((s) =>
+    itemListNode({
+      name: `${pcopy.name} — ${tr(`seg.${s.id}` as any)}`,
+      items: s.rows.map((r) => ({
+        name: r.provider.name,
+        url: r.provider.site,
+        description: `${tr(`seg.${s.id}` as any)}: ${r.total.toFixed(2)}`,
+      })),
+    }),
+  ),
+];
+
+/** Mezonning xom qiymatini o'qiladigan matnga aylantiradi. */
+function rawLabel(key: string, value: number | null, p: any): string {
+  if (value === null) return tr('label.notPublished');
+  if (key === 'price') {
+    return product === 'stars'
+      ? `${uzs(starsPerUnit(p))} / 1 ⭐`
+      : `${uzs(premiumPerMonth(p, 12) ?? premiumPerMonth(p, 3))} / ${tr('label.perMonth')}`;
+  }
+  if (key === 'deliverySpeed') return p.deliveryMinutes.claim;
+  if (key === 'paymentCoverage') return p.payments.join(', ');
+  if (key === 'trackRecord') {
+    const m = trackRecordMonths(p);
+    return m === null ? tr('label.notPublished') : `${m.toFixed(0)} ${tr('label.months')}`;
+  }
+  if (key === 'verifiedReviews') {
+    return p.publicReviews.count ? `${uzs(p.publicReviews.count)}+` : tr('label.notPublished');
+  }
+  if (key === 'guarantee') {
+    return p.moneyBackGuarantee === true
+      ? (locale === 'uz' ? 'bor' : locale === 'ru' ? 'есть' : 'yes')
+      : tr('label.notPublished');
+  }
+  return String(value);
+}
+---
+
+<Layout {locale} {title} {description} {path} {schema}>
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href={localePath('/', locale)}>Infogram</a>
+    <span aria-hidden="true">/</span>
+    <a href={localePath('/reyting', locale)}>{tr('nav.reyting')}</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{pcopy.name}</span>
+  </nav>
+
+  <h1>{h1}</h1>
+
+  <div class="answer">
+    <p><strong>{locale === 'uz' ? 'Qisqa javob.' : locale === 'ru' ? 'Коротко.' : 'Short answer.'}</strong> {answer}</p>
+    <p class="meta">
+      {tr('label.updated')}: {VERIFIED_AT} ·{' '}
+      <a href={localePath('/mezonlar', locale)}>{tr('nav.mezonlar')}</a>
+    </p>
+  </div>
+
+  {segments.map((s) => (
+    <>
+      <h2>{tr(`seg.${s.id}` as any)}</h2>
+      <p class="lede">
+        {tr(`seg.${s.id}.desc` as any)} —{' '}
+        <span class="meta">
+          {Object.entries(SEGMENTS[s.id].weights)
+            .map(([k, v]) => `${tr(`crit.${k}` as any)} ${Math.round((v as number) * 100)}%`)
+            .join(' · ')}
+        </span>
+      </p>
+      <ol class="rank-list">
+        {s.rows.map((r, i) => (
+          <li class={i === 0 ? 'rank-top' : undefined}>
+            <div class="rank-head">
+              <strong><ProviderLink provider={r.provider} source={`${SOURCE}-${s.id}`} /></strong>
+              <span class="score">{r.total.toFixed(2)}</span>
+            </div>
+            <p class="meta">
+              {rawLabel('price', r.parts.price?.raw ?? null, r.provider)} ·{' '}
+              {r.provider.deliveryMinutes.claim} ·{' '}
+              {r.provider.payments.length} {locale === 'uz' ? 'to‘lov usuli' : locale === 'ru' ? 'способа оплаты' : 'payment methods'}
+            </p>
+          </li>
+        ))}
+      </ol>
+    </>
+  ))}
+
+  <h2>
+    {locale === 'uz' && 'To‘liq ball jadvali'}
+    {locale === 'ru' && 'Полная таблица баллов'}
+    {locale === 'en' && 'Full score table'}
+  </h2>
+  <p class="lede">
+    {locale === 'uz' && 'Har mezonning xom qiymati va normallashtirilgan bali. Vaznlar mezonlar sahifasida e’lon qilingan.'}
+    {locale === 'ru' && 'Исходное значение и нормализованный балл по каждому критерию. Веса опубликованы в методологии.'}
+    {locale === 'en' && 'Raw value and normalised score per criterion. Weights are published in the methodology.'}
+  </p>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>{tr('label.provider')}</th>
+          {critKeys.map((k) => (
+            <th class="num">
+              {tr(`crit.${k}` as any)}<br />
+              <span class="approx">{Math.round((WEIGHTS[k] ?? 0) * 100)}%</span>
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {base.map((r) => (
+          <tr>
+            <th scope="row"><ProviderLink provider={r.provider} source={`${SOURCE}-table`} /></th>
+            {critKeys.map((k) => (
+              <td class="num">
+                <span>{r.parts[k] ? r.parts[k].normalized.toFixed(2) : '—'}</span><br />
+                <span class="approx">{rawLabel(k, r.parts[k]?.raw ?? null, r.provider)}</span>
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note">{tr('note.unknownPenalty')}</p>
+
+  <div class="answer">
+    <p>
+      {locale === 'uz' && `Birinchi marta olayotgan yoki katta summa o‘tkazayotgan bo‘lsangiz, "eng ishonchli" segmentidagi yetakchini tanlang.`}
+      {locale === 'ru' && 'При первой покупке или крупной сумме выбирайте лидера сегмента «самый надёжный».'}
+      {locale === 'en' && 'For a first purchase or a large amount, pick the leader of the “most trusted” segment.'}
+    </p>
+  </div>
+
+  <BuyCta {locale} product={product} source={`${SOURCE}-cta`} />
+
+  <h2>
+    {locale === 'uz' && 'Tez-tez beriladigan savollar'}
+    {locale === 'ru' && 'Частые вопросы'}
+    {locale === 'en' && 'Frequently asked questions'}
+  </h2>
+  {faq.map((item) => (<><h3>{item.q}</h3><p>{item.a}</p></>))}
+</Layout>

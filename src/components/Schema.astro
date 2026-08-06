@@ -1,0 +1,33 @@
+---
+/**
+ * JSON-LD stacking. GEO uchun asosiy qatlam — LLM'lar sahifadan faktni
+ * shu yerdan tortadi.
+ *
+ * Har sahifada kamida: WebSite/Organization (Layout'dan) + shu yerdagi
+ * kontentga mos tur(lar). Bir nechta turni bitta @graph ga yig'amiz —
+ * alohida <script> teglariga bo'lishdan ko'ra ishonchliroq o'qiladi.
+ */
+import { SITE, HREFLANG } from '../config/site.js';
+import type { Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  /** Tayyor JSON-LD node'lari. @context avtomatik qo'shiladi. */
+  nodes: Record<string, unknown>[];
+}
+
+const { locale, nodes } = Astro.props;
+
+const graph = nodes.map((n) => ({ inLanguage: HREFLANG[locale], ...n }));
+
+const payload = {
+  '@context': 'https://schema.org',
+  '@graph': graph,
+};
+---
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify(payload)}
+/>

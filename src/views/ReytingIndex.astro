@@ -1,0 +1,41 @@
+---
+import SectionIndex from './SectionIndex.astro';
+import type { CardItem } from './SectionIndex.astro';
+import type { Locale } from '../i18n/ui';
+import { PRODUCTS } from '../i18n/pages';
+import { localePath } from '../config/site.js';
+import { rankBySegment } from '../lib/providers';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+
+const slugs = ['telegram-stars', 'telegram-premium'] as const;
+
+const items: CardItem[] = slugs.map((slug) => {
+  const product = slug === 'telegram-stars' ? 'stars' : 'premium';
+  const trusted = rankBySegment(product, 'ishonchli')[0].provider.name;
+  const cheap = rankBySegment(product, 'arzon')[0].provider.name;
+  return {
+    href: localePath(`/reyting/${slug}`, locale),
+    title: PRODUCTS[locale][slug].name,
+    desc: {
+      uz: `Uch segment bo‘yicha reyting va to‘liq ball jadvali.`,
+      ru: 'Рейтинг по трём сегментам и полная таблица баллов.',
+      en: 'Ranking across three segments and the full score table.',
+    }[locale],
+    meta: {
+      uz: `Eng ishonchli: ${trusted} · Eng arzon: ${cheap}`,
+      ru: `Надёжный: ${trusted} · Дешёвый: ${cheap}`,
+      en: `Most trusted: ${trusted} · Cheapest: ${cheap}`,
+    }[locale],
+  };
+});
+
+const answer = {
+  uz: 'Reyting qo‘lda tuzilmaydi: har xizmat o‘zi e’lon qilgan ma’lumot bo‘yicha o‘lchanadi, qiymatlar 0–1 ga keltiriladi va oldindan e’lon qilingan vaznlar bilan yig‘iladi.',
+  ru: 'Рейтинг не составляется вручную: каждый сервис оценивается по опубликованным им данным, значения нормализуются к 0–1 и складываются с заранее объявленными весами.',
+  en: 'The ranking is not hand-curated: each service is measured on data it publishes, values are normalised to 0–1 and combined with weights announced in advance.',
+}[locale];
+---
+
+<SectionIndex {locale} section="reyting" {items} {answer} />

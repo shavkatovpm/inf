@@ -1,0 +1,51 @@
+---
+/**
+ * Rasmiy yo'llar — Fragment va Telegram ilovasi.
+ *
+ * Nima uchun bu yerda: so'mda sotuvchi xizmatlarni faqat bir-biri bilan
+ * solishtirish taqqoslashni yupqa qiladi. Rasmiy yo'l — o'quvchi haqiqatan
+ * ko'rib chiqadigan muqobil, va uning cheklovlari (xalqaro karta, TON,
+ * valyuta konvertatsiyasi) mahalliy xizmatning qiymatini tushuntiradi.
+ *
+ * Narx so'mda e'lon qilinmaydi — komissiya va kurs o'zgaruvchan, taxmin yozilmaydi.
+ */
+import { officialRoutes } from '../lib/providers';
+import type { Locale } from '../i18n/ui';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const routes = officialRoutes();
+
+const head = {
+  uz: { route: 'Rasmiy yo‘l', pay: 'To‘lov', req: 'Talab va cheklovlar' },
+  ru: { route: 'Официальный путь', pay: 'Оплата', req: 'Требования и ограничения' },
+  en: { route: 'Official route', pay: 'Payment', req: 'Requirements and limits' },
+}[locale];
+---
+
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">{head.route}</th>
+        <th scope="col">{head.pay}</th>
+        <th scope="col">{head.req}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {routes.map((r) => (
+        <tr class="official">
+          <th scope="row">
+            <a href={r.site} rel="noopener nofollow" target="_blank">{r.name}</a>
+          </th>
+          <td>{r.payments.join(', ')}</td>
+          <td>
+            <ul class="req">
+              {(r.requirements ?? []).map((x) => <li>{x}</li>)}
+            </ul>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

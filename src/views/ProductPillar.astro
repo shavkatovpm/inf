@@ -1,0 +1,218 @@
+---
+/**
+ * Mahsulot pillar sahifasi.
+ *
+ * SEO: bitta sahifa — bitta entity. Kalit so'z H1, title, URL, meta va
+ * birinchi 100 so'zda. `/narxlar/<mahsulot>` bilan kannibalizatsiya
+ * bo'lmasligi uchun narx shu sahifa ichida turadi, alohida sahifa yo'q.
+ *
+ * AEO/GEO ketma-ketligi: H1 → 40–60 so'zlik javob → faktlar jadvali →
+ * narx jadvali → savol-formatdagi H2'lar → qadamlar → FAQ → ichki klaster.
+ */
+import Layout from '../layouts/Layout.astro';
+import BuyCta from '../components/BuyCta.astro';
+import PriceTable from '../components/PriceTable.astro';
+import OfficialRoutes from '../components/OfficialRoutes.astro';
+import ProviderLink from '../components/ProviderLink.astro';
+import { t, type Locale } from '../i18n/ui';
+import { PRODUCTS, SLUG_TO_PRODUCT, type ProductSlug } from '../i18n/pages';
+import { PILLAR } from '../i18n/pillar';
+import { localePath, botLink } from '../config/site.js';
+import {
+  PRIMARY, VERIFIED_AT, sellersOf, starsPerUnit, premiumPrice,
+  rankBySegment, uzs,
+} from '../lib/providers';
+import {
+  articleNode, breadcrumbNode, faqNode, howToNode,
+  productOfferNode, datasetNode, itemListNode,
+} from '../lib/schema';
+
+interface Props { locale: Locale; slug: ProductSlug }
+const { locale, slug } = Astro.props;
+const tr = t(locale);
+
+const copy = PILLAR[locale][slug];
+const pname = PRODUCTS[locale][slug].name;
+const product = SLUG_TO_PRODUCT[slug];
+const path = `/${slug}`;
+const SOURCE = slug;
+
+const starSellers = sellersOf('stars');
+const premiumSellers = sellersOf('premium');
+const minStar = Math.min(...starSellers.map((p) => starsPerUnit(p)!));
+const min12 = Math.min(...premiumSellers.map((p) => premiumPrice(p, 12)).filter((v): v is number => v !== null));
+const min3 = Math.min(...premiumSellers.map((p) => premiumPrice(p, 3)).filter((v): v is number => v !== null));
+
+/** {star}/{p12}/{p3} o'rniga jonli raqamlarni qo'yadi. */
+const fill = (s: string) =>
+  s.replace(/\{star\}/g, uzs(minStar))
+   .replace(/\{p12\}/g, uzs(min12))
+   .replace(/\{p3\}/g, uzs(min3));
+
+const answer = fill(copy.answer);
+const facts = copy.facts.map((f) => ({ k: f.k, v: fill(f.v) }));
+const sections = copy.sections.map((s) => ({ h: s.h, body: s.body.map(fill) }));
+const faq = copy.faq.map((f) => ({ q: f.q, a: fill(f.a) }));
+
+// Narx jadvali faqat sotiladigan mahsulot uchun.
+const tableProduct = product === 'gifts' ? 'stars' : (product as 'stars' | 'premium');
+
+// Ichki klaster — tegishli sahifalarga havolalar.
+const related = [
+  { href: localePath('/kalkulyator', locale), label: tr('cta.calc') },
+  { href: localePath(`/reyting/${slug === 'telegram-gifts' ? 'telegram-stars' : slug}`, locale), label: tr('nav.reyting') },
+  { href: localePath('/taqqoslash/rasmiy-vs-mahalliy', locale), label: { uz: 'Rasmiy yo‘l bilan taqqoslash', ru: 'Сравнение с официальным путём', en: 'Compared with the official route' }[locale] },
+  { href: localePath('/xavfsizlik/firibgarlik-belgilari', locale), label: { uz: 'Firibgarlik belgilari', ru: 'Признаки мошенничества', en: 'Fraud warning signs' }[locale] },
+  { href: localePath('/mezonlar', locale), label: tr('nav.mezonlar') },
+];
+
+const topTrusted = rankBySegment(product === 'gifts' ? 'stars' : (product as 'stars' | 'premium'), 'ishonchli')[0];
+
+/** CTA matni sahifa mahsulotiga mos keladi: Stars sotib olish / Premium sotib olish / Sovg'a yuborish. */
+const ctaProduct = product as 'stars' | 'premium' | 'gifts';
+
+const schema = [
+  breadcrumbNode(locale, [
+    { name: 'Infogram', path: '/' },
+    { name: pname, path },
+  ]),
+  articleNode({
+    locale,
+    headline: copy.h1,
+    description: copy.metaDescription,
+    path,
+    datePublished: VERIFIED_AT,
+    dateModified: VERIFIED_AT,
+  }),
+  faqNode(faq),
+  howToNode({ name: copy.h1, steps: copy.steps }),
+  datasetNode({ locale, modified: VERIFIED_AT }),
+  itemListNode({
+    name: `${pname} — ${tr('seg.ishonchli')}`,
+    items: rankBySegment(product === 'gifts' ? 'stars' : (product as 'stars' | 'premium'), 'ishonchli')
+      .map((r) => ({ name: r.provider.name, url: r.provider.site })),
+  }),
+  ...(product !== 'gifts'
+    ? sellersOf(product as 'stars' | 'premium').map((p) => productOfferNode(p, product as 'stars' | 'premium'))
+    : []),
+];
+---
+
+<Layout
+  {locale}
+  title={copy.metaTitle}
+  description={copy.metaDescription}
+  {path}
+  {schema}
+>
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href={localePath('/', locale)}>Infogram</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{pname}</span>
+  </nav>
+
+  <h1>{copy.h1}</h1>
+
+  {/* 40–60 so'zlik to'g'ridan-to'g'ri javob — LLM extraction shundan ishlaydi. */}
+  <div class="answer">
+    <p><strong>{locale === 'uz' ? 'Qisqa javob.' : locale === 'ru' ? 'Коротко.' : 'Short answer.'}</strong> {answer}</p>
+    <p class="meta">{tr('label.updated')}: <time datetime={VERIFIED_AT}>{VERIFIED_AT}</time></p>
+  </div>
+
+  {/* Tezkor faktlar — mashina uchun eng oson o'qiladigan blok. */}
+  <div class="table-scroll">
+    <table>
+      <caption>
+        {locale === 'uz' && `${pname} — qisqa ma’lumot`}
+        {locale === 'ru' && `${pname} — кратко`}
+        {locale === 'en' && `${pname} — at a glance`}
+      </caption>
+      <tbody>
+        {facts.map((f) => (
+          <tr>
+            <th scope="row">{f.k}</th>
+            <td>{f.v}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  {/* Narx jadvali */}
+  <h2 id="narxlar">
+    {locale === 'uz' && `${pname} narxlari`}
+    {locale === 'ru' && `Цены на ${pname}`}
+    {locale === 'en' && `${pname} prices`}
+  </h2>
+  {product === 'gifts' && (
+    <p class="lede">
+      {locale === 'uz' && 'Sovg‘a Stars evaziga sotib olinadi, shuning uchun quyida Stars narxlari keltirilgan.'}
+      {locale === 'ru' && 'Подарок покупается за Stars, поэтому ниже приведены цены на Stars.'}
+      {locale === 'en' && 'Gifts are bought with Stars, so the Stars prices are shown below.'}
+    </p>
+  )}
+  <PriceTable
+    {locale}
+    product={tableProduct}
+    source={`${SOURCE}-price`}
+    quantities={[50, 100, 250, 500, 1000, 2500, 5000]}
+  />
+
+  {/* Savol-formatdagi H2'lar */}
+  {sections.map((s) => (
+    <>
+      <h2>{s.h}</h2>
+      {s.body.map((p) => <p set:html={p.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')} />)}
+    </>
+  ))}
+
+  {/* Qadamlar — HowTo schema bilan bir xil manba */}
+  <h2>
+    {locale === 'uz' && 'Bosqichma-bosqich'}
+    {locale === 'ru' && 'Пошагово'}
+    {locale === 'en' && 'Step by step'}
+  </h2>
+  <ol class="steps">
+    {copy.steps.map((s) => (
+      <li>
+        <strong>{s.name}</strong>
+        <span>{s.text}</span>
+      </li>
+    ))}
+  </ol>
+
+  {/* Tavsiya + CTA */}
+  <div class="answer">
+    <p>
+      {locale === 'uz' && `Ochiq sanali sharhlar va pul qaytarish kafolati bo‘yicha yetakchi — ${topTrusted.provider.name}. Birinchi marta olayotgan yoki katta summa o‘tkazayotgan bo‘lsangiz shu mezon muhimroq.`}
+      {locale === 'ru' && `Лидер по открытым отзывам с датами и гарантии возврата — ${topTrusted.provider.name}. При первой покупке или крупной сумме этот критерий важнее цены.`}
+      {locale === 'en' && `The leader on public dated reviews and money-back guarantee is ${topTrusted.provider.name}. For a first purchase or a large amount, that matters more than price.`}
+    </p>
+  </div>
+
+  <BuyCta {locale} product={ctaProduct} source={`${SOURCE}-cta`} />
+
+  <h2>
+    {locale === 'uz' && 'Rasmiy yo‘l bilan taqqoslash'}
+    {locale === 'ru' && 'Сравнение с официальным путём'}
+    {locale === 'en' && 'Compared with the official route'}
+  </h2>
+  <OfficialRoutes {locale} />
+
+  <h2>
+    {locale === 'uz' && 'Tez-tez beriladigan savollar'}
+    {locale === 'ru' && 'Частые вопросы'}
+    {locale === 'en' && 'Frequently asked questions'}
+  </h2>
+  {faq.map((item) => (<><h3>{item.q}</h3><p>{item.a}</p></>))}
+
+  {/* Ichki klaster */}
+  <h2>
+    {locale === 'uz' && 'Tegishli sahifalar'}
+    {locale === 'ru' && 'Связанные страницы'}
+    {locale === 'en' && 'Related pages'}
+  </h2>
+  <ul class="related">
+    {related.map((r) => <li><a href={r.href}>{r.label}</a></li>)}
+  </ul>
+</Layout>

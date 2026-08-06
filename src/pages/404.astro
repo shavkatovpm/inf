@@ -1,0 +1,41 @@
+---
+/**
+ * 404 — foydali qilingan: bo'sh sahifa o'rniga asosiy yo'nalishlar beriladi.
+ * `noindex` qo'yiladi, lekin havolalar `follow` qoladi.
+ */
+import Layout from '../layouts/Layout.astro';
+import { localePath } from '../config/site.js';
+import { t } from '../i18n/ui';
+
+const locale = 'uz' as const;
+const tr = t(locale);
+
+const links = [
+  { href: localePath('/', locale), label: 'Bosh sahifa' },
+  { href: localePath('/telegram-stars', locale), label: 'Telegram Stars — narxlar' },
+  { href: localePath('/telegram-premium', locale), label: 'Telegram Premium — narxlar' },
+  { href: localePath('/kalkulyator', locale), label: tr('cta.calc') },
+  { href: localePath('/xavfsizlik', locale), label: tr('nav.xavfsizlik') },
+  { href: localePath('/mezonlar', locale), label: tr('nav.mezonlar') },
+];
+---
+
+<Layout
+  {locale}
+  title="Sahifa topilmadi (404) | Infogram"
+  description="So‘ralgan sahifa mavjud emas. Asosiy bo‘limlarga o‘tish havolalari."
+  path="/404"
+  noindex
+>
+  <h1>Sahifa topilmadi</h1>
+  <div class="answer">
+    <p>
+      So‘ralgan manzil bo‘yicha sahifa yo‘q — u ko‘chirilgan yoki manzil xato
+      kiritilgan bo‘lishi mumkin. Quyida asosiy bo‘limlar.
+    </p>
+  </div>
+
+  <ul class="related">
+    {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+  </ul>
+</Layout>

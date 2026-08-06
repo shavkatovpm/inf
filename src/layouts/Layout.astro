@@ -1,0 +1,180 @@
+---
+import { SITE, LOCALES, HREFLANG, localeUrl, localePath } from '../config/site.js';
+import { t, type Locale } from '../i18n/ui';
+import Logo from '../components/Logo.astro';
+import Schema from '../components/Schema.astro';
+import { organizationNode, websiteNode } from '../lib/schema';
+import '../styles/global.css';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  /** Lokalsiz kanonik yo'l, masalan '/telegram-stars'. */
+  path: string;
+  /** Sahifaga xos qo'shimcha JSON-LD node'lari. */
+  schema?: Record<string, unknown>[];
+  /** 404 kabi indekslanmasligi kerak bo'lgan sahifalar uchun. */
+  noindex?: boolean;
+}
+
+const { locale, title, description, path, schema = [], noindex = false } = Astro.props;
+const tr = t(locale);
+
+const canonical = localeUrl(path, locale);
+// Mahsulot pillar sahifalari navigatsiyada birinchi — ular asosiy
+// kirish nuqtalari va eng ko'p ichki havola olishi kerak.
+const nav = [
+  { key: 'nav.stars', path: '/telegram-stars' },
+  { key: 'nav.premium', path: '/telegram-premium' },
+  { key: 'nav.gifts', path: '/telegram-gifts' },
+  { key: 'nav.narxlar', path: '/narxlar' },
+  { key: 'nav.reyting', path: '/reyting' },
+  { key: 'nav.xavfsizlik', path: '/xavfsizlik' },
+  { key: 'nav.qollanma', path: '/qollanma' },
+] as const;
+---
+
+<!doctype html>
+<html lang={HREFLANG[locale]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    {/* hreflang — uchala til + x-default. starsjoy'dagi eng katta bo'shliq shu yerda yopiladi. */}
+    {LOCALES.map((l) => (
+      <link rel="alternate" hreflang={HREFLANG[l]} href={localeUrl(path, l)} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={localeUrl(path, 'uz')} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={HREFLANG[locale].replace('-', '_')} />
+    <meta property="og:image" content={`${SITE.origin}/og-image.png`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={SITE.tagline[locale]} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={`${SITE.origin}/og-image.png`} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <link rel="alternate" type="application/rss+xml" title={SITE.name} href={`${SITE.origin}/rss.xml`} />
+    <meta
+      name="robots"
+      content={noindex ? 'noindex, follow' : 'index, follow, max-snippet:-1, max-image-preview:large'}
+    />
+
+    {/* Mashina-o'qish uchun havolalar. Footerda ko'rinmaydi — ular
+        odam uchun emas. llms.txt standart yo'ldan ham topiladi,
+        dataset esa Dataset JSON-LD ichida contentUrl sifatida e'lon qilingan. */}
+    <link rel="alternate" type="text/plain" title="llms.txt" href={`${SITE.origin}/llms.txt`} />
+    <link rel="alternate" type="application/json" title="Narx dataseti (CC-BY-4.0)" href={`${SITE.origin}/api/narxlar.json`} />
+
+    <Schema locale={locale} nodes={[organizationNode(locale), websiteNode(locale), ...schema]} />
+  </head>
+
+  <body>
+    <a href="#main" class="skip">→ Asosiy kontentga</a>
+
+    <header class="site-head">
+      <div class="wrap head-inner">
+        <Logo href={localePath('/', locale)} />
+
+        {/* Menyu tugmasi — JS yoqilgandagina ko'rinadi (skript uni ochadi).
+            JS bo'lmasa navigatsiya oddiy ro'yxat bo'lib ochiq qoladi. */}
+        <button type="button" class="nav-btn" id="nav-btn" aria-expanded="true" aria-controls="site-nav" hidden>
+          <span class="nav-btn-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span class="nav-btn-label">{tr('nav.menu')}</span>
+        </button>
+
+        <nav id="site-nav" class="site-nav" aria-label={tr('nav.main')}>
+          <ul>
+            {nav.map((item) => (
+              <li><a href={localePath(item.path, locale)}>{tr(item.key)}</a></li>
+            ))}
+          </ul>
+
+          {/* Tillar mobil panel ichida ham qulay bo'lishi uchun nav ichida turadi. */}
+          <ul class="langs" aria-label={tr('nav.lang')}>
+            {LOCALES.map((l) => (
+              <li>
+                <a
+                  href={localePath(path, l)}
+                  hreflang={HREFLANG[l]}
+                  aria-current={l === locale ? 'true' : undefined}
+                >{l.toUpperCase()}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <script is:inline>
+      (function () {
+        var btn = document.getElementById('nav-btn');
+        var nav = document.getElementById('site-nav');
+        if (!btn || !nav) return;
+
+        var mq = window.matchMedia('(max-width: 56rem)');
+
+        function apply() {
+          if (mq.matches) {
+            btn.hidden = false;
+            document.body.classList.add('has-navbtn');
+            close();
+          } else {
+            btn.hidden = true;
+            document.body.classList.remove('has-navbtn');
+            nav.classList.remove('is-open');
+            btn.setAttribute('aria-expanded', 'true');
+          }
+        }
+        function close() { nav.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); }
+        function toggle() {
+          var open = nav.classList.toggle('is-open');
+          btn.setAttribute('aria-expanded', String(open));
+        }
+
+        btn.addEventListener('click', toggle);
+        nav.addEventListener('click', function (e) {
+          if (e.target.tagName === 'A' && mq.matches) close();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && nav.classList.contains('is-open')) { close(); btn.focus(); }
+        });
+        mq.addEventListener('change', apply);
+        apply();
+      })();
+    </script>
+
+    <main id="main" class="wrap">
+      <slot />
+    </main>
+
+    <footer class="site-foot">
+      <div class="wrap">
+        <p class="tagline">{SITE.tagline[locale]}</p>
+        <ul class="foot-links">
+          <li><a href={localePath('/mezonlar', locale)}>{tr('nav.mezonlar')}</a></li>
+          <li><a href={localePath('/taqqoslash', locale)}>{tr('nav.taqqoslash')}</a></li>
+          <li><a href={localePath('/kalkulyator', locale)}>{tr('cta.calc')}</a></li>
+          <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+        </ul>
+        <p class="disclaimer">
+          Infogram — Telegram’ning rasmiy loyihasi emas. Narxlar provayderlarning
+          ochiq sahifalaridan olingan va o‘zgarishi mumkin.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

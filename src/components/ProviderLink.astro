@@ -1,0 +1,33 @@
+---
+/**
+ * Provayder nomi.
+ *
+ * - reseller (bot bor) → bot deep-link + `start` payload (atributsiya).
+ * - official (bot yo'q) → oddiy matn, havola emas. Rasmiy yo'l taqqoslash
+ *   bazasi sifatida ko'rsatiladi, unga trafik yo'naltirilmaydi.
+ *
+ * rel: sponsored/nofollow QO'YILMAYDI — bu tahririy taqqoslash havolasi.
+ */
+import { botLink } from '../config/site.js';
+import type { Provider } from '../lib/providers';
+
+interface Props {
+  provider: Provider;
+  /** Manba sahifa identifikatori — atributsiya shu orqali o'lchanadi. */
+  source: string;
+  label?: string;
+}
+
+const { provider, source, label } = Astro.props;
+const text = label ?? provider.name;
+const href = provider.bot ? botLink(provider.bot, source) : null;
+---
+
+{href ? (
+  <a class="plink" href={href} target="_blank" rel="noopener">
+    {text}
+    <span aria-hidden="true">↗</span>
+  </a>
+) : (
+  <span class="pname">{text}</span>
+)}

@@ -1,0 +1,89 @@
+---
+/**
+ * Kontent maqolasi uchun umumiy shablon.
+ * taqqoslash / xavfsizlik / qollanma — uchalasi shuni ishlatadi.
+ */
+import { render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import BuyCta from '../components/BuyCta.astro';
+import { t, type Locale } from '../i18n/ui';
+import { SECTIONS, type SectionKey } from '../i18n/pages';
+import { localePath, botLink } from '../config/site.js';
+import { PRIMARY } from '../lib/providers';
+import { articleNode, breadcrumbNode, faqNode, howToNode } from '../lib/schema';
+
+interface Props {
+  locale: Locale;
+  section: SectionKey;
+  entry: any;
+}
+const { locale, section, entry } = Astro.props;
+const tr = t(locale);
+
+const d = entry.data;
+const slug = entry.id.split('/').slice(1).join('/');
+const path = `/${section}/${slug}`;
+const SOURCE = `${section}-${slug}`;
+
+const { Content } = await render(entry);
+
+const schema = [
+  breadcrumbNode(locale, [
+    { name: 'Infogram', path: '/' },
+    { name: SECTIONS[locale][section].h1, path: `/${section}` },
+    { name: d.title, path },
+  ]),
+  articleNode({
+    locale,
+    headline: d.title,
+    description: d.description,
+    path,
+    datePublished: d.published,
+    dateModified: d.updated,
+  }),
+  ...(d.faq.length ? [faqNode(d.faq)] : []),
+  ...(d.steps.length ? [howToNode({ name: d.title, steps: d.steps })] : []),
+];
+---
+
+<Layout
+  {locale}
+  title={d.metaTitle ?? `${d.title} | Infogram`}
+  description={d.description}
+  {path}
+  {schema}
+>
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href={localePath('/', locale)}>Infogram</a>
+    <span aria-hidden="true">/</span>
+    <a href={localePath(`/${section}`, locale)}>{SECTIONS[locale][section].h1}</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{d.title}</span>
+  </nav>
+
+  <h1>{d.title}</h1>
+
+  <div class="answer">
+    <p><strong>{locale === 'uz' ? 'Qisqa javob.' : locale === 'ru' ? 'Коротко.' : 'Short answer.'}</strong> {d.answer}</p>
+    <p class="meta">
+      {tr('label.updated')}: <time datetime={d.updated}>{d.updated}</time>
+    </p>
+  </div>
+
+  <article class="prose">
+    <Content />
+  </article>
+
+  <BuyCta {locale} product={"stars"} source={`${SOURCE}-cta`} />
+
+  {d.faq.length > 0 && (
+    <>
+      <h2>
+        {locale === 'uz' && 'Tez-tez beriladigan savollar'}
+        {locale === 'ru' && 'Частые вопросы'}
+        {locale === 'en' && 'Frequently asked questions'}
+      </h2>
+      {d.faq.map((item: any) => (<><h3>{item.q}</h3><p>{item.a}</p></>))}
+    </>
+  )}
+</Layout>

@@ -1,0 +1,47 @@
+---
+/**
+ * Xarid CTA.
+ *
+ * Muhim: tugma matni HARAKATNI aytadi ("Stars sotib olish"), brendni emas.
+ * Tashrif buyuruvchining niyati "bot ochish" emas — u mahsulot olmoqchi.
+ * Brend nomi ostida kichik izoh sifatida qoladi: kim orqali ketayotgani
+ * yashirilmaydi, lekin qarorni to'sib ham qo'ymaydi.
+ */
+import { t, type Locale } from '../i18n/ui';
+import { botLink } from '../config/site.js';
+import { PRIMARY } from '../lib/providers';
+
+interface Props {
+  locale: Locale;
+  product: 'stars' | 'premium' | 'gifts';
+  /** Atributsiya uchun manba identifikatori. */
+  source: string;
+  /** Ikkinchi darajali havola (masalan, narxlarga). */
+  secondary?: { href: string; label: string };
+}
+
+const { locale, product, source, secondary } = Astro.props;
+const tr = t(locale);
+
+const label = {
+  stars: tr('cta.buyStars'),
+  premium: tr('cta.buyPremium'),
+  gifts: tr('cta.sendGift'),
+}[product];
+---
+
+<div class="cta-block">
+  <div class="hero-cta">
+    <a class="btn btn-primary" href={botLink(PRIMARY.bot!, source)} target="_blank" rel="noopener">
+      {label}
+      <span aria-hidden="true">→</span>
+    </a>
+    {secondary && <a class="link-cta" href={secondary.href}>{secondary.label}</a>}
+  </div>
+  {/* O'zbekchada "orqali" otdan KEYIN keladi, ru/en da oldin. */}
+  <p class="cta-note">
+    {locale === 'uz'
+      ? <><strong>{PRIMARY.name}</strong> orqali — @{PRIMARY.bot}</>
+      : <>{tr('cta.via')} <strong>{PRIMARY.name}</strong> — @{PRIMARY.bot}</>}
+  </p>
+</div>

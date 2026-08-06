@@ -1,0 +1,169 @@
+---
+/**
+ * Mezonlar — saytning ishonch tayanchi.
+ *
+ * Vaznlar bu yerda providers.json dan o'qib render qilinadi, ya'ni
+ * e'lon qilingan formula bilan hisoblangan natija bir manbadan keladi —
+ * ularni bir-biridan ajratib bo'lmaydi.
+ */
+import Layout from '../layouts/Layout.astro';
+import { t, type Locale } from '../i18n/ui';
+import { SEGMENTS, WEIGHTS, VERIFIED_AT, PROVIDERS, SOURCES } from '../lib/providers';
+import { articleNode, breadcrumbNode } from '../lib/schema';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const tr = t(locale);
+
+const title = {
+  uz: 'Mezonlar — reyting qanday hisoblanadi | Infogram',
+  ru: 'Критерии — как считается рейтинг | Infogram',
+  en: 'Criteria — how the ranking is calculated | Infogram',
+}[locale];
+
+const description = {
+  uz: 'Infogram reytingining mezonlari, vaznlari va ma’lumot manbalari. Formula natijadan oldin e’lon qilingan va ochiq.',
+  ru: 'Критерии, веса и источники данных рейтинга Infogram. Формула опубликована до расчёта результата.',
+  en: 'Criteria, weights and data sources behind the Infogram ranking. The formula is published ahead of the result.',
+}[locale];
+
+const critKeys = ['price', 'deliverySpeed', 'paymentCoverage', 'trackRecord', 'verifiedReviews', 'guarantee'] as const;
+
+const schema = [
+  breadcrumbNode(locale, [
+    { name: 'Infogram', path: '/' },
+    { name: tr('nav.mezonlar'), path: '/mezonlar' },
+  ]),
+  articleNode({
+    locale,
+    headline: title,
+    description,
+    path: '/mezonlar',
+    datePublished: VERIFIED_AT,
+    dateModified: VERIFIED_AT,
+  }),
+];
+---
+
+<Layout {locale} {title} {description} path="/mezonlar" {schema}>
+  <h1>{tr('nav.mezonlar')}</h1>
+
+  <div class="answer">
+    <p>
+      {locale === 'uz' && 'Reyting qo‘lda tuzilmaydi. Har provayder ochiq e’lon qilgan ma’lumot bo‘yicha o‘lchanadi, qiymatlar 0–1 oralig‘iga keltiriladi va quyidagi vaznlar bilan yig‘iladi. Formula natija hisoblanishidan oldin e’lon qilingan.'}
+      {locale === 'ru' && 'Рейтинг не составляется вручную. Каждый сервис оценивается по опубликованным им данным, значения нормализуются к 0–1 и суммируются с весами ниже. Формула опубликована до расчёта результата.'}
+      {locale === 'en' && 'The ranking is not hand-curated. Each provider is measured on data it publishes itself, values are normalised to 0–1 and combined with the weights below. The formula was published before the result was computed.'}
+    </p>
+  </div>
+
+  <h2>
+    {locale === 'uz' && 'Umumiy mezonlar va vaznlar'}
+    {locale === 'ru' && 'Общие критерии и веса'}
+    {locale === 'en' && 'Base criteria and weights'}
+  </h2>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>{locale === 'uz' ? 'Mezon' : locale === 'ru' ? 'Критерий' : 'Criterion'}</th>
+          <th class="num">{locale === 'uz' ? 'Vazn' : locale === 'ru' ? 'Вес' : 'Weight'}</th>
+          <th>{locale === 'uz' ? 'Nimadan o‘lchanadi' : locale === 'ru' ? 'Источник значения' : 'Measured from'}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {critKeys.map((k) => (
+          <tr>
+            <th scope="row">{tr(`crit.${k}` as any)}</th>
+            <td class="num">{Math.round((WEIGHTS[k] ?? 0) * 100)}%</td>
+            <td class="meta">
+              {k === 'price' && (locale === 'uz' ? '1 Star narxi / Premium 1 oyga tushadigan narx' : locale === 'ru' ? 'Цена 1 Star / Premium за месяц' : 'Price per Star / Premium per month')}
+              {k === 'deliverySpeed' && (locale === 'uz' ? 'Provayder e’lon qilgan eng yomon holat' : locale === 'ru' ? 'Заявленный худший случай' : 'Provider’s stated worst case')}
+              {k === 'paymentCoverage' && (locale === 'uz' ? 'Qabul qilinadigan to‘lov usullari soni' : locale === 'ru' ? 'Число способов оплаты' : 'Number of accepted payment methods')}
+              {k === 'trackRecord' && (locale === 'uz' ? 'Domen ro‘yxatdan o‘tgan sana (whois)' : locale === 'ru' ? 'Дата регистрации домена (whois)' : 'Domain registration date (whois)')}
+              {k === 'verifiedReviews' && (locale === 'uz' ? 'Ochiq, sanasi ko‘rsatilgan sharhlar soni' : locale === 'ru' ? 'Число открытых отзывов с датами' : 'Public, dated reviews')}
+              {k === 'guarantee' && (locale === 'uz' ? 'E’lon qilingan pul qaytarish kafolati' : locale === 'ru' ? 'Заявленная гарантия возврата' : 'Stated money-back guarantee')}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2>
+    {locale === 'uz' && 'Nega uchta segment?'}
+    {locale === 'ru' && 'Почему три сегмента?'}
+    {locale === 'en' && 'Why three segments?'}
+  </h2>
+  <p>
+    {locale === 'uz' && 'O‘lchangan ma’lumotda hech bir provayder barcha mezonda yetakchi emas — eng arzoni, eng tezi va isbotlangan ishonchi bo‘yicha yetakchisi turlicha. Hammasini bitta raqamga siqish o‘quvchiga soxta aniqlik beradi, shuning uchun har segment o‘z vazni bilan alohida hisoblanadi:'}
+    {locale === 'ru' && 'По измеренным данным ни один сервис не лидирует по всем критериям — самый дешёвый, самый быстрый и самый проверенный это разные сервисы. Сжатие в одно число даёт ложную точность, поэтому каждый сегмент считается отдельно:'}
+    {locale === 'en' && 'On the measured data no single provider leads on every criterion — cheapest, fastest and most proven are different services. Collapsing that into one number gives false precision, so each segment is computed separately:'}
+  </p>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>{locale === 'uz' ? 'Segment' : locale === 'ru' ? 'Сегмент' : 'Segment'}</th>
+          <th>{locale === 'uz' ? 'Vaznlar' : locale === 'ru' ? 'Веса' : 'Weights'}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {(['arzon', 'ishonchli', 'tez'] as const).map((sid) => (
+          <tr>
+            <th scope="row">
+              {tr(`seg.${sid}` as any)}
+              <br /><span class="meta">{tr(`seg.${sid}.desc` as any)}</span>
+            </th>
+            <td class="meta">
+              {Object.entries(SEGMENTS[sid].weights)
+                .map(([k, v]) => `${tr(`crit.${k}` as any)} ${Math.round((v as number) * 100)}%`)
+                .join(' · ')}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2>
+    {locale === 'uz' && 'Qoidalar'}
+    {locale === 'ru' && 'Правила'}
+    {locale === 'en' && 'Rules'}
+  </h2>
+  <ul>
+    <li>
+      {locale === 'uz' && 'E’lon qilinmagan ma’lumot 0 ball oladi. Isbotlanmagan ustunlik ustunlik sifatida hisoblanmaydi.'}
+      {locale === 'ru' && 'Неопубликованные данные получают 0 баллов. Недоказанное преимущество не засчитывается.'}
+      {locale === 'en' && 'Unpublished data scores zero. An unproven advantage is not counted as an advantage.'}
+    </li>
+    <li>
+      {locale === 'uz' && 'Hech bir provayder joylashuv yoki o‘rin uchun to‘lov qilmaydi.'}
+      {locale === 'ru' && 'Ни один сервис не платит за размещение или позицию.'}
+      {locale === 'en' && 'No provider pays for inclusion or position.'}
+    </li>
+    <li>
+      {locale === 'uz' && 'Faqat sanasi ko‘rsatilgan, ochiq ko‘rinadigan sharhlar hisobga olinadi.'}
+      {locale === 'ru' && 'Учитываются только открытые отзывы с указанием даты.'}
+      {locale === 'en' && 'Only public, dated reviews are counted.'}
+    </li>
+    <li>
+      {locale === 'uz' && 'Narxlar provayderlarning o‘z sahifalaridan olinadi va sana bilan belgilanadi.'}
+      {locale === 'ru' && 'Цены берутся со страниц самих сервисов и датируются.'}
+      {locale === 'en' && 'Prices are taken from the providers’ own pages and dated.'}
+    </li>
+  </ul>
+
+  <h2>{tr('label.sources')}</h2>
+  <p class="meta">{tr('label.updated')}: {VERIFIED_AT}</p>
+  <ul>
+    {PROVIDERS.map((p) => (
+      <li>
+        {p.name} — {((SOURCES as any)[p.id] ?? []).map((u: string, i: number) => (
+          <>{i > 0 && ', '}<a href={u} rel="noopener">{new URL(u).pathname === '/' ? new URL(u).host : new URL(u).pathname}</a></>
+        ))}
+      </li>
+    ))}
+  </ul>
+</Layout>
