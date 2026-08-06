@@ -118,8 +118,8 @@ const schema = [
     name: 'Telegram Stars — so‘mda to‘lov qiluvchi xizmatlar',
     items: rankBySegment('stars', 'ishonchli').map((r) => ({ name: r.provider.name, url: r.provider.site })),
   }),
-  ...starSellers.map((p) => productOfferNode(p, 'stars')),
-  ...premiumSellers.map((p) => productOfferNode(p, 'premium')),
+  ...starSellers.map((p) => productOfferNode(p, 'stars', locale)),
+  ...premiumSellers.map((p) => productOfferNode(p, 'premium', locale)),
 ];
 ---
 

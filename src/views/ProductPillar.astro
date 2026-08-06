@@ -103,7 +103,7 @@ const schema = [
       .map((r) => ({ name: r.provider.name, url: r.provider.site })),
   }),
   ...(product !== 'gifts'
-    ? sellersOf(product as 'stars' | 'premium').map((p) => productOfferNode(p, product as 'stars' | 'premium'))
+    ? sellersOf(product as 'stars' | 'premium').map((p) => productOfferNode(p, product as 'stars' | 'premium', locale))
     : []),
 ];
 ---

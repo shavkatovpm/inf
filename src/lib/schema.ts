@@ -116,8 +116,17 @@ export function howToNode(opts: { name: string; steps: { name: string; text: str
  * Narx ma'lumotini LLM uchun to'g'ridan-to'g'ri strukturali qiladi —
  * bozorda bu darajada qilingan boshqa sayt yo'q.
  */
-export function productOfferNode(p: Provider, product: ProductId) {
+export function productOfferNode(p: Provider, product: ProductId, locale: Locale = 'uz') {
   const offers: Record<string, unknown>[] = [];
+  const productName = product === 'stars' ? 'Telegram Stars' : 'Telegram Premium';
+  const descriptions: Record<Locale, string> = {
+    uz: `${p.name} xizmatidagi ${productName} paketlari va O‘zbekiston so‘midagi e’lon qilingan narxlar.`,
+    ru: `Пакеты ${productName} в сервисе ${p.name} и опубликованные цены в узбекских сумах.`,
+    en: `${productName} packages from ${p.name} and their published prices in Uzbek soums.`,
+  };
+  const monthLabel = (months: number) => (
+    locale === 'uz' ? 'oy' : locale === 'ru' ? 'мес.' : months === 1 ? 'month' : 'months'
+  );
 
   if (product === 'stars') {
     const unit = starsPerUnit(p);
@@ -144,7 +153,7 @@ export function productOfferNode(p: Provider, product: ProductId) {
     for (const plan of p.products?.premium?.plans ?? []) {
       offers.push({
         '@type': 'Offer',
-        name: `Telegram Premium — ${plan.months} oy`,
+        name: `Telegram Premium — ${plan.months} ${monthLabel(plan.months)}`,
         price: plan.price,
         priceCurrency: 'UZS',
         availability: 'https://schema.org/InStock',
@@ -155,7 +164,9 @@ export function productOfferNode(p: Provider, product: ProductId) {
 
   return {
     '@type': 'Product',
-    name: `${p.name} — ${product === 'stars' ? 'Telegram Stars' : 'Telegram Premium'}`,
+    name: `${p.name} — ${productName}`,
+    image: `${SITE.origin}/og-image.png`,
+    description: descriptions[locale],
     brand: { '@type': 'Brand', name: p.name },
     offers,
   };
