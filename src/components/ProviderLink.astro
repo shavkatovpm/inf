@@ -2,25 +2,21 @@
 /**
  * Provayder nomi.
  *
- * - Asosiy tavsiya (StarsJoy) → bot deep-link + `start` payload.
- * - Boshqa resellerlar → ochiq manba sifatida o'z saytiga chiqadi; ularning
- *   botiga conversion traffic yuborilmaydi.
+ * - Barcha resellerlar → bir xil qoidada o'zining ochiq saytiga chiqadi.
  * - official → oddiy matn, havola emas.
  */
-import { botLink } from '../config/site.js';
-import { PRIMARY, type Provider } from '../lib/providers';
+import type { Provider } from '../lib/providers';
 
 interface Props {
   provider: Provider;
-  /** Manba sahifa identifikatori — atributsiya shu orqali o'lchanadi. */
+  /** API pariteti uchun saqlanadi; editorial linklarda attribution yo'q. */
   source: string;
   label?: string;
 }
 
-const { provider, source, label } = Astro.props;
+const { provider, label } = Astro.props;
 const text = label ?? provider.name;
-const isPrimary = provider.id === PRIMARY.id;
-const href = isPrimary && provider.bot ? botLink(provider.bot, source) : provider.type === 'reseller' ? provider.site : null;
+const href = provider.type === 'reseller' ? provider.site : null;
 ---
 
 {href ? (
@@ -28,8 +24,7 @@ const href = isPrimary && provider.bot ? botLink(provider.bot, source) : provide
     class="plink"
     href={href}
     target="_blank"
-    rel={isPrimary ? 'noopener' : 'noopener nofollow'}
-    {...(isPrimary ? { 'data-funnel-event': true, 'data-source': source, 'data-product': 'comparison', 'data-provider': provider.id } : {})}
+    rel="noopener nofollow"
   >
     {text}
     <span aria-hidden="true">↗</span>

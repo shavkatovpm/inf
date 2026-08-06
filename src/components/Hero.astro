@@ -32,7 +32,7 @@ const c = {
     live: 'Narxlar tekshirildi',
     h1a: 'Telegram Stars va Premium.',
     h1b: 'So‘mda, o‘z kartangiz bilan.',
-    sub: `Mahalliy karta qabul qiladigan ${count} ta xizmat narxi va xarid yo‘llari bir joyda. Kerakli mahsulotni tanlang, narxlarni tekshiring va StarsJoy botida so‘mda xaridni yakunlang.`,
+    sub: `Mahalliy karta qabul qiladigan ${count} ta xizmat narxi va xarid yo‘llari bir joyda. Kerakli mahsulotni tanlang, narx va shartlarni tekshiring.`,
     l1: '1 Telegram Star', l2: 'Telegram Premium · 12 oy',
     from: 'so‘mdan', per: 'eng past e’lon qilingan narx',
     seeAll: 'Barcha narxlar',
@@ -41,7 +41,7 @@ const c = {
     live: 'Цены проверены',
     h1a: 'Telegram Stars и Premium.',
     h1b: 'В сумах, вашей картой.',
-    sub: `Цены и способы покупки у ${count} сервисов с локальной картой — в одном месте. Выберите продукт, проверьте цену и завершите покупку в боте StarsJoy за сумы.`,
+    sub: `Цены и способы покупки у ${count} сервисов с локальной картой — в одном месте. Выберите продукт, проверьте цену и условия.`,
     l1: '1 Telegram Star', l2: 'Telegram Premium · 12 мес.',
     from: 'сум', per: 'самая низкая опубликованная цена',
     seeAll: 'Все цены',
@@ -50,7 +50,7 @@ const c = {
     live: 'Prices verified',
     h1a: 'Telegram Stars and Premium.',
     h1b: 'In UZS, with your own card.',
-    sub: `Prices and buying routes for ${count} services accepting local cards, in one place. Choose a product, check the price, and complete your UZS purchase in the StarsJoy bot.`,
+    sub: `Prices and buying routes for ${count} services accepting local cards, in one place. Choose a product and check the price and terms.`,
     l1: '1 Telegram Star', l2: 'Telegram Premium · 12 months',
     from: 'UZS', per: 'lowest published price',
     seeAll: 'All prices',
@@ -96,9 +96,9 @@ const primaryProof = {
         </p>
         <p class="cta-proof">{primaryProof}</p>
         <p class="cta-disclosure">
-          {locale === 'uz' && 'Bot havolasi tashrif manbasini o‘lchash uchun start parametridan foydalanadi.'}
-          {locale === 'ru' && 'Ссылка на бота использует start-параметр для измерения источника перехода.'}
-          {locale === 'en' && 'The bot link uses a start parameter to measure the traffic source.'}
+          {locale === 'uz' && 'Xarid StarsJoy botida amalga oshiriladi.'}
+          {locale === 'ru' && 'Покупка оформляется в боте StarsJoy.'}
+          {locale === 'en' && 'The purchase is completed in the StarsJoy bot.'}
         </p>
       </div>
     </div>

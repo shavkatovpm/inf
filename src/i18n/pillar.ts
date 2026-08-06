@@ -99,7 +99,7 @@ export const PILLAR: Table = {
         { q: 'Mahalliy xizmatdan olingan Stars rasmiymi?', a: "Ha — Stars'ning o'zi Telegram tizimidagi bir xil valyuta. Farq faqat sotib olish kanali va to'lov usulida." },
       ],
       steps: [
-        { name: 't.me/starsjoybot ni oching', text: "Telegramda t.me/starsjoybot manzilini oching va /start bosing." },
+        { name: 'Rasmiy xarid botini oching', text: "Bot manzilini tanlangan xizmatning rasmiy saytidan oling va /start bosing." },
         { name: 'Stars bo‘limini tanlang', text: 'Menyudan Stars bo‘limiga o‘ting.' },
         { name: 'Miqdorni belgilang', text: 'Tayyor paketlardan birini tanlang yoki kerakli miqdorni kiriting.' },
         { name: 'Username kiriting', text: "Stars kimga tushishi kerak bo'lsa, o'sha username kiritiladi. Parol so'ralmaydi." },
@@ -168,7 +168,7 @@ export const PILLAR: Table = {
         { q: 'Premium bilan Stars orasidagi farq nima?', a: 'Premium — muddatli obuna; Stars — bir martalik to‘lovlar uchun valyuta. Ular alohida sotib olinadi.' },
       ],
       steps: [
-        { name: 't.me/starsjoybot ni oching', text: 'Telegramda t.me/starsjoybot manzilini oching va /start bosing.' },
+        { name: 'Rasmiy xarid botini oching', text: 'Bot manzilini tanlangan xizmatning rasmiy saytidan oling va /start bosing.' },
         { name: 'Premium bo‘limini tanlang', text: 'Menyudan Premium bo‘limiga o‘ting.' },
         { name: 'Tarifni tanlang', text: '1, 3, 6 yoki 12 oylik tariflardan birini tanlang.' },
         { name: 'Username kiriting', text: "Obuna kimga tegishli bo'lsa, o'sha username kiritiladi." },
@@ -291,7 +291,7 @@ export const PILLAR: Table = {
         { q: 'Настоящие ли Stars из локального сервиса?', a: 'Да — сами Stars это одна и та же валюта в системе Telegram. Различается только канал покупки.' },
       ],
       steps: [
-        { name: 'Откройте t.me/starsjoybot', text: 'Откройте в Telegram t.me/starsjoybot и нажмите /start.' },
+        { name: 'Откройте официальный бот покупки', text: 'Возьмите адрес на официальном сайте выбранного сервиса и нажмите /start.' },
         { name: 'Выберите раздел Stars', text: 'Перейдите в раздел Stars в меню.' },
         { name: 'Укажите количество', text: 'Выберите готовый пакет или введите нужное количество.' },
         { name: 'Введите username', text: 'Указывается username того, кому должны прийти Stars. Пароль не запрашивается.' },
@@ -360,7 +360,7 @@ export const PILLAR: Table = {
         { q: 'Чем Premium отличается от Stars?', a: 'Premium — подписка на срок; Stars — валюта для разовых платежей. Покупаются отдельно.' },
       ],
       steps: [
-        { name: 'Откройте t.me/starsjoybot', text: 'Откройте в Telegram t.me/starsjoybot и нажмите /start.' },
+        { name: 'Откройте официальный бот покупки', text: 'Возьмите адрес на официальном сайте выбранного сервиса и нажмите /start.' },
         { name: 'Выберите раздел Premium', text: 'Перейдите в раздел Premium в меню.' },
         { name: 'Выберите тариф', text: 'Выберите срок: 1, 3, 6 или 12 месяцев.' },
         { name: 'Введите username', text: 'Указывается username владельца подписки.' },
@@ -483,7 +483,7 @@ export const PILLAR: Table = {
         { q: 'Are Stars from a local service genuine?', a: 'Yes — Stars themselves are the same currency inside Telegram. Only the purchase channel differs.' },
       ],
       steps: [
-        { name: 'Open t.me/starsjoybot', text: 'Open t.me/starsjoybot in Telegram and press /start.' },
+        { name: 'Open the official purchase bot', text: 'Take the address from the selected service’s official website and press /start.' },
         { name: 'Choose the Stars section', text: 'Go to the Stars section in the menu.' },
         { name: 'Set the amount', text: 'Pick a ready-made package or enter the amount you need.' },
         { name: 'Enter the username', text: 'Enter the username that should receive the Stars. No password is requested.' },
@@ -552,7 +552,7 @@ export const PILLAR: Table = {
         { q: 'How does Premium differ from Stars?', a: 'Premium is a time-based subscription; Stars is a currency for one-off payments. They are bought separately.' },
       ],
       steps: [
-        { name: 'Open t.me/starsjoybot', text: 'Open t.me/starsjoybot in Telegram and press /start.' },
+        { name: 'Open the official purchase bot', text: 'Take the address from the selected service’s official website and press /start.' },
         { name: 'Choose the Premium section', text: 'Go to the Premium section in the menu.' },
         { name: 'Pick a plan', text: 'Choose a duration: 1, 3, 6 or 12 months.' },
         { name: 'Enter the username', text: 'Enter the username of the subscription owner.' },

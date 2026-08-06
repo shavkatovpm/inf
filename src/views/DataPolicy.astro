@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { localePath } from '../config/site.js';
 import type { Locale } from '../i18n/ui';
-import { PRIMARY, PROVIDERS, SOURCES, VERIFIED_AT, providerName } from '../lib/providers';
+import { PROVIDERS, SOURCES, VERIFIED_AT, providerName } from '../lib/providers';
 import { articleNode, breadcrumbNode } from '../lib/schema';
 
 interface Props { locale: Locale }
@@ -11,13 +11,13 @@ const path = '/data-policy';
 
 const copy = {
   uz: {
-    h1: 'Narxlar va tavsiya siyosati',
-    desc: 'Infogram narxlari qayerdan olinishi, qachon tekshirilishi va StarsJoy nega asosiy tavsiya ekanini tushuntiradi.',
-    lead: 'Infogram O‘zbekistondagi Telegram xizmatlari uchun narx va xarid qo‘llanmasi. StarsJoy saytning asosiy tavsiya qilingan xarid yo‘li: asosiy tugmalar @starsjoybot ga olib boradi va manba parametri conversionni o‘lchaydi.',
+    h1: 'Ma’lumot va taqqoslash siyosati',
+    desc: 'Infogram narxlari qayerdan olinishi, qachon tekshirilishi va xizmatlar qanday mezonlar asosida taqqoslanishini tushuntiradi.',
+    lead: 'Infogram O‘zbekistondagi Telegram xizmatlarining e’lon qilingan narxlari, to‘lov usullari va yetkazish shartlarini bir joyda taqqoslaydi. Ma’lumotlar ochiq manbalardan olinadi va tekshirish sanasi bilan ko‘rsatiladi.',
     method: 'Narxlar qanday tekshiriladi?',
     methodText: 'Narxlar provayderlarning ochiq sahifalaridan olinadi. Har qiymat oxirgi tekshiruv sanasi bilan beriladi; bot yoki sahifadagi yakuniy summa ustun turadi. Ma’lumot o‘zgarsa, jadval va dataset yangilanadi.',
     comparison: 'Taqqoslash qanday ishlaydi?',
-    comparisonText: 'Boshqa xizmatlar StarsJoy narxi va qulayligini tushunish uchun taqqoslashda ko‘rsatiladi. Ularning botlariga conversion traffic yuborilmaydi; jadvaldagi tashqi nomlar faqat ochiq manba sahifasiga olib boradi.',
+    comparisonText: 'Xizmatlar narx, to‘lov usullari, yetkazish vaqti, ochiq sharhlar va pul qaytarish sharti bo‘yicha bir xil mezonlarda solishtiriladi. Jadvaldagi provayder nomlari ma’lumot tekshirilgan ochiq manba sahifasiga olib boradi.',
     evidence: 'Review va buyurtma ma’lumoti',
     evidenceText: 'Buyurtmalar soni va ochiq sharhlar soni alohida ko‘rsatkichlardir. Reytingda faqat sanasi ko‘rinadigan ochiq sharhlar hisobga olinadi; buyurtmalar soni review sifatida ishlatilmaydi.',
     correction: 'Tuzatish yoki yangilash',
@@ -26,13 +26,13 @@ const copy = {
     back: 'Narxlar jadvaliga qaytish',
   },
   ru: {
-    h1: 'Политика цен и рекомендаций',
-    desc: 'Как Infogram получает и проверяет цены, а также почему StarsJoy является основным рекомендуемым способом покупки.',
-    lead: 'Infogram — справочник цен и покупки Telegram-сервисов в Узбекистане. StarsJoy — основной рекомендуемый путь покупки: главные кнопки ведут в @starsjoybot, а параметр источника измеряет конверсию.',
+    h1: 'Политика данных и сравнения',
+    desc: 'Откуда Infogram получает цены, когда проверяет их и по каким единым критериям сравнивает сервисы.',
+    lead: 'Infogram сравнивает опубликованные цены, способы оплаты и условия доставки Telegram-сервисов в Узбекистане. Данные берутся из открытых источников и сопровождаются датой проверки.',
     method: 'Как проверяются цены?',
     methodText: 'Цены берутся с открытых страниц провайдеров и помечаются датой последней проверки. Итоговая сумма в боте или на странице имеет приоритет. При изменении данных обновляются таблица и dataset.',
     comparison: 'Как работает сравнение?',
-    comparisonText: 'Другие сервисы показаны, чтобы дать контекст для цены и удобства StarsJoy. Их боты не получают conversion-трафик; внешние названия в таблице ведут только на открытую страницу-источник.',
+    comparisonText: 'Сервисы сравниваются по единым критериям: цена, способы оплаты, срок доставки, открытые отзывы и условия возврата. Названия провайдеров в таблице ведут на открытые страницы, где проверялись данные.',
     evidence: 'Отзывы и заказы',
     evidenceText: 'Число заказов и число открытых отзывов — разные показатели. В рейтинге учитываются только публичные отзывы с датой; число заказов не используется как число отзывов.',
     correction: 'Исправление или обновление',
@@ -41,13 +41,13 @@ const copy = {
     back: 'Вернуться к таблице цен',
   },
   en: {
-    h1: 'Price and recommendation policy',
-    desc: 'How Infogram obtains and verifies prices, and why StarsJoy is the primary recommended buying route.',
-    lead: 'Infogram is a price and buying guide for Telegram services in Uzbekistan. StarsJoy is the primary recommended purchase route: primary buttons open @starsjoybot and a source parameter measures conversion.',
+    h1: 'Data and comparison policy',
+    desc: 'Where Infogram obtains prices, when it verifies them, and which consistent criteria are used to compare services.',
+    lead: 'Infogram compares published prices, payment methods and delivery terms for Telegram services in Uzbekistan. Data comes from public sources and is shown with a verification date.',
     method: 'How are prices checked?',
     methodText: 'Prices come from providers’ public pages and carry a last-verification date. The final bot or page total takes precedence. When data changes, the table and dataset are updated.',
     comparison: 'How does comparison work?',
-    comparisonText: 'Other services are shown to provide price and convenience context for StarsJoy. Their bots receive no conversion traffic; external provider names in the table lead only to a public source page.',
+    comparisonText: 'Services are compared using consistent criteria: price, payment methods, delivery time, public reviews and refund terms. Provider names in the table link to the public pages used to verify the data.',
     evidence: 'Reviews and orders',
     evidenceText: 'Completed orders and public reviews are separate measurements. Rankings count only dated public reviews; order volume is never treated as a review count.',
     correction: 'Corrections and updates',

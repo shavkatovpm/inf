@@ -28,7 +28,7 @@ export const GET: APIRoute = async () => {
   push(
     `# ${SITE.name}`,
     '',
-    `> ${SITE.tagline.uz} Narxlar provayderlarning ochiq sahifalaridan olinadi, sana bilan belgilanadi va ochiq mezonlar bo'yicha taqqoslanadi. StarsJoy Infogramning asosiy tavsiya qilingan xarid yo'li; asosiy CTA'lar @starsjoybot ga olib boradi. Siyosat: ${SITE.origin}/data-policy`,
+    `> ${SITE.tagline.uz} Narxlar provayderlarning ochiq sahifalaridan olinadi, sana bilan belgilanadi va barcha xizmatlar ochiq mezonlar bo'yicha taqqoslanadi. Siyosat: ${SITE.origin}/data-policy`,
     '',
     `Oxirgi tekshiruv: ${VERIFIED_AT}`,
     '',

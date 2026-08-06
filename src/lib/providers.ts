@@ -8,7 +8,7 @@ export interface Provider {
   name: string;
   /** reseller — so'mda sotadi, reytingda qatnashadi. official — taqqoslash bazasi. */
   type: 'reseller' | 'official';
-  /** Asosiy tavsiya qilinadigan xizmat — CTA'lar shunga yo'naltiriladi. */
+  /** Xarid CTA'lari yo'naltiriladigan tijoriy xizmat. Reytingga ta'sir qilmaydi. */
   primary?: boolean;
   site: string;
   bot: string | null;

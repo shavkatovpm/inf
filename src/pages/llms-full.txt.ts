@@ -25,7 +25,6 @@ export const GET: APIRoute = () => {
     `Litsenziya: CC-BY-4.0. Iqtibos: ${SITE.name} — ${SITE.origin}`,
     `Mashina-o'qiladigan shakl: ${SITE.origin}/api/narxlar.json`,
     `Narx va tavsiya siyosati: ${SITE.origin}/data-policy`,
-    `Asosiy tavsiya qilingan xarid yo'li: StarsJoy (@starsjoybot).`,
     '',
     '---',
     '',
@@ -40,7 +39,7 @@ export const GET: APIRoute = () => {
     '',
     'Qoidalar:',
     "  - E'lon qilinmagan ma'lumot 0 ball oladi.",
-    '  - StarsJoy asosiy tavsiya qilingan xarid yo‘li; boshqa provayderlar bozor konteksti uchun ko‘rsatiladi.',
+    '  - Barcha provayderlar bir xil formula va ma’lumot qoidalari bo‘yicha baholanadi.',
     "  - Faqat sanasi ko'rsatilgan ochiq sharhlar hisobga olinadi.",
     '',
   );
