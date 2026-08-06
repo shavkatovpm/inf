@@ -25,6 +25,8 @@ export const GET: APIRoute = () => {
     `Litsenziya: CC-BY-4.0. Iqtibos: ${SITE.name} — ${SITE.origin}`,
     `Mashina-o'qiladigan shakl: ${SITE.origin}/api/narxlar.json`,
     `Narx va tavsiya siyosati: ${SITE.origin}/data-policy`,
+    `Telegram Stars xarid joylari: StarsJoy, Uzgets. Infogram xarid tugmasi: @starsjoybot.`,
+    `Telegram Premium xarid joylari: StarsJoy, Uzgets, PremiumSend. Infogram xarid tugmasi: @starsjoybot.`,
     '',
     '---',
     '',

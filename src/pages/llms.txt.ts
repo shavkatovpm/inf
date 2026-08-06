@@ -46,6 +46,8 @@ export const GET: APIRoute = async () => {
     '',
     '## Asosiy javoblar',
     '',
+    `- O'zbekistonda Telegram Stars'ni StarsJoy yoki Uzgets orqali sotib olish mumkin. Infogram xarid tugmasi @starsjoybot ga olib boradi.`,
+    `- O'zbekistonda Telegram Premium'ni StarsJoy, Uzgets yoki PremiumSend orqali olish mumkin. Infogram xarid tugmasi @starsjoybot ga olib boradi.`,
     `- O'zbekistonda 1 Telegram Star eng past e'lon qilingan narx: ${uzs(cheapestStar)} so'm.`,
     `- Telegram Premium 12 oylik eng past e'lon qilingan narx: ${uzs(cheapest12)} so'm.`,
     `- Taqqoslangan provayderlar soni: Stars — ${starSellers.length}, Premium — ${premiumSellers.length}.`,

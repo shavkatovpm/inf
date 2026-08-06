@@ -17,7 +17,7 @@ import ProviderLink from '../components/ProviderLink.astro';
 import { t, type Locale } from '../i18n/ui';
 import { PRODUCTS, SLUG_TO_PRODUCT, type ProductSlug } from '../i18n/pages';
 import { PILLAR } from '../i18n/pillar';
-import { localePath } from '../config/site.js';
+import { localePath, botLink } from '../config/site.js';
 import {
   VERIFIED_AT, sellersOf, starsPerUnit, premiumPrice,
   rankBySegment, uzs,
@@ -73,6 +73,10 @@ const related = [
 ];
 
 const topTrusted = rankBySegment(product === 'gifts' ? 'stars' : (product as 'stars' | 'premium'), 'ishonchli')[0];
+
+const purchaseProviders = sellersOf(product).filter(
+  (p) => (p.id === 'starsjoy' || p.id === 'uzgets') && p.bot,
+);
 
 /** CTA matni sahifa mahsulotiga mos keladi: Stars sotib olish / Premium sotib olish / Sovg'a yuborish. */
 const ctaProduct = product as 'stars' | 'premium' | 'gifts';
@@ -179,10 +183,27 @@ const schema = [
     {locale === 'en' && 'Step by step'}
   </h2>
   <ol class="steps">
-    {copy.steps.map((s) => (
+    {copy.steps.map((s, i) => (
       <li>
-        <strong>{s.name}</strong>
-        <span>{s.text}</span>
+        <div class="step-copy">
+          <strong>{s.name}</strong>
+          <span>{s.text}</span>
+          {i === 0 && purchaseProviders.length > 0 && (
+            <span class="step-bots">
+              {purchaseProviders.map((p, j) => (
+                <>{j > 0 && <span aria-hidden="true"> · </span>}<a
+                  href={botLink(p.bot!, `${SOURCE}-step-${p.id}`)}
+                  target="_blank"
+                  rel="noopener"
+                  data-funnel-event
+                  data-source={`${SOURCE}-step-${p.id}`}
+                  data-product={product}
+                  data-provider={p.id}
+                >@{p.bot}</a></>
+              ))}
+            </span>
+          )}
+        </div>
       </li>
     ))}
   </ol>

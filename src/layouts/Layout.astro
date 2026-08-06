@@ -180,9 +180,9 @@ const nav = [
           <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
         </ul>
         <p class="disclaimer">
-          Infogram — Telegram’ning rasmiy loyihasi emas. Narxlar provayderlarning
-          ochiq sahifalaridan olinadi va o‘zgarishi mumkin. Xarid tugmalari StarsJoy
-          botiga olib boradi.
+          {locale === 'uz' && 'Infogram — Telegram’ning rasmiy loyihasi emas. Narxlar provayderlarning ochiq sahifalaridan olinadi va o‘zgarishi mumkin. Xarid tugmalari StarsJoy botiga olib boradi.'}
+          {locale === 'ru' && 'Infogram не является официальным проектом Telegram. Цены берутся с открытых страниц сервисов и могут меняться. Кнопки покупки ведут в бот StarsJoy.'}
+          {locale === 'en' && 'Infogram is not an official Telegram project. Prices come from providers’ public pages and may change. Purchase buttons open the StarsJoy bot.'}
         </p>
       </div>
     </footer>

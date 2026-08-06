@@ -28,11 +28,12 @@ interface Props {
   items: CardItem[];
   /** Fold ustidagi qo'shimcha javob bloki (ixtiyoriy). */
   answer?: string;
+  answerCta?: { href: string; label: string };
   faq?: FaqItem[];
   related?: RelatedItem[];
 }
 
-const { locale, section, items, answer, faq = [], related = [] } = Astro.props;
+const { locale, section, items, answer, answerCta, faq = [], related = [] } = Astro.props;
 const tr = t(locale);
 const copy = SECTIONS[locale][section];
 const path = `/${section}`;
@@ -74,6 +75,9 @@ const schema = [
   {answer && (
     <div class="answer">
       <p>{answer}</p>
+      {answerCta && (
+        <p><a class="btn btn-primary answer-cta" href={answerCta.href} target="_blank" rel="noopener">{answerCta.label}<span aria-hidden="true">→</span></a></p>
+      )}
       <p class="meta">{tr('label.updated')}: {VERIFIED_AT}</p>
     </div>
   )}

@@ -4,7 +4,8 @@ import SectionIndex from './SectionIndex.astro';
 import type { CardItem } from './SectionIndex.astro';
 import type { Locale } from '../i18n/ui';
 import type { SectionKey } from '../i18n/pages';
-import { localePath } from '../config/site.js';
+import { localePath, botLink } from '../config/site.js';
+import { PRIMARY } from '../lib/providers';
 
 interface Props { locale: Locale; section: 'taqqoslash' | 'xavfsizlik' | 'qollanma' }
 const { locale, section } = Astro.props;
@@ -88,9 +89,18 @@ const related = [
   { href: localePath('/reyting', locale), title: { uz: 'Xizmatlar reytingi', ru: 'Рейтинг сервисов', en: 'Service rankings' }[locale], desc: { uz: 'Eng arzon, ishonchli va tez variantlarni ko‘ring.', ru: 'Посмотрите самые дешёвые, надёжные и быстрые варианты.', en: 'See the cheapest, most trusted and fastest options.' }[locale] },
   { href: localePath(section === 'xavfsizlik' ? '/qollanma' : '/xavfsizlik', locale), title: section === 'xavfsizlik' ? { uz: 'Amaliy qo‘llanmalar', ru: 'Практические инструкции', en: 'Practical guides' }[locale] : { uz: 'Xavfsiz xarid', ru: 'Безопасная покупка', en: 'Buy safely' }[locale], desc: section === 'xavfsizlik' ? { uz: 'Xarid jarayonini bosqichma-bosqich bajaring.', ru: 'Пройдите покупку шаг за шагом.', en: 'Follow the purchase process step by step.' }[locale] : { uz: 'Firibgarlik belgilarini xariddan oldin tekshiring.', ru: 'Проверьте признаки мошенничества до оплаты.', en: 'Check fraud warning signs before paying.' }[locale] },
 ];
+
+const answerCta = section === 'qollanma' ? {
+  href: botLink(PRIMARY.bot!, `qollanma-index-${locale}`),
+  label: {
+    uz: 'StarsJoy botida xarid qilish',
+    ru: 'Купить в боте StarsJoy',
+    en: 'Buy in the StarsJoy bot',
+  }[locale],
+} : undefined;
 ---
 
-<SectionIndex {locale} section={section as SectionKey} {items} answer={answers} faq={faqs} {related}>
+<SectionIndex {locale} section={section as SectionKey} {items} answer={answers} {answerCta} faq={faqs} {related}>
   {items.length === 0 && <p class="note">{empty}</p>}
   {section === 'qollanma' && (
     <section aria-labelledby="guide-scope-heading">

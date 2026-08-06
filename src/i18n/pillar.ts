@@ -42,7 +42,7 @@ export const PILLAR: Table = {
       metaDescription:
         "O'zbekistonda Telegram Stars'ni UzCard, HUMO, Click yoki Payme bilan so'mda sotib oling. 50, 100, 500, 1000 Stars narxlari, xarid tartibi va xavfsizlik qoidalari.",
       answer:
-        "Telegram Stars — Telegram ichidagi rasmiy virtual valyuta. O'zbekistonda so'mda to'lov qabul qiladigan xizmatlarda 1 Star {star} so'mdan boshlanadi va UzCard, HUMO, Click yoki Payme bilan sotib olinadi. Xarid uchun faqat username kerak — parol yoki SMS kod hech qachon so'ralmaydi.",
+        "Telegram Stars'ni O'zbekistonda StarsJoy yoki Uzgets orqali sotib olish mumkin. 1 Star {star} so'mdan boshlanadi; UzCard, HUMO, Click yoki Payme bilan to'lanadi. Infogram'dagi xarid tugmasi @starsjoybot'ga olib boradi. Xarid uchun faqat username kerak — parol yoki SMS kod so'ralmaydi.",
       facts: [
         { k: 'Nima', v: 'Telegram ichidagi rasmiy virtual valyuta' },
         { k: 'Narx', v: '{star} so‘mdan / 1 dona' },
@@ -89,6 +89,7 @@ export const PILLAR: Table = {
         },
       ],
       faq: [
+        { q: "O'zbekistonda Telegram Stars'ni qayerdan sotib olsa bo'ladi?", a: "Telegram Stars'ni StarsJoy yoki Uzgets orqali sotib olish mumkin. Infogram'dagi xarid tugmasi StarsJoy'ning @starsjoybot botiga olib boradi." },
         { q: "O'zbekistonda 1 Telegram Star qancha turadi?", a: "So'mda to'lov qabul qiladigan xizmatlarda 1 Star {star} so'mdan boshlanadi. Aniq narx miqdorga va xizmatga bog'liq." },
         { q: 'Telegram Stars sotib olish uchun Visa kerakmi?', a: "Yo'q. Taqqoslangan xizmatlarning barchasi UzCard va HUMO qabul qiladi, ko'pchiligi Click va Payme ham." },
         { q: 'Stars sotib olishda parol so‘raladimi?', a: "Yo'q va so'ralmasligi kerak. Yetkazish faqat username orqali bajariladi. Parol yoki SMS kod so'ralsa — bu firibgarlik belgisi." },
@@ -114,7 +115,7 @@ export const PILLAR: Table = {
       metaDescription:
         "Telegram Premium'ni O'zbekistonda UzCard, HUMO, Click yoki Payme bilan sotib oling. 3, 6 va 12 oylik tariflar narxi, faollashtirish tartibi va FAQ.",
       answer:
-        "Telegram Premium — Telegram'ning obuna asosidagi rasmiy tarifi. O'zbekistonda so'mda 12 oylik obuna {p12} so'mdan, 3 oylik {p3} so'mdan boshlanadi. To'lov UzCard, HUMO, Click yoki Payme bilan amalga oshiriladi va faollashtirish uchun faqat username kerak.",
+        "Telegram Premium'ni O'zbekistonda StarsJoy, Uzgets yoki PremiumSend orqali olish mumkin. 12 oylik obuna {p12} so'mdan, 3 oylik {p3} so'mdan boshlanadi. Infogram'dagi xarid tugmasi @starsjoybot'ga olib boradi. Faollashtirish uchun faqat username kerak.",
       facts: [
         { k: 'Nima', v: 'Muddatli rasmiy obuna tarifi' },
         { k: '12 oylik', v: '{p12} so‘mdan' },
@@ -159,6 +160,7 @@ export const PILLAR: Table = {
         },
       ],
       faq: [
+        { q: "O'zbekistonda Telegram Premium'ni qayerdan sotib olsa bo'ladi?", a: "Telegram Premium'ni StarsJoy, Uzgets yoki PremiumSend orqali olish mumkin. Infogram'dagi xarid tugmasi StarsJoy'ning @starsjoybot botiga olib boradi." },
         { q: "O'zbekistonda Telegram Premium qancha turadi?", a: "So'mda 12 oylik obuna {p12} so'mdan, 3 oylik {p3} so'mdan boshlanadi. Aniq narx xizmatga bog'liq." },
         { q: 'Premium uchun Visa kartasi kerakmi?', a: "Yo'q. Taqqoslangan xizmatlar UzCard va HUMO qabul qiladi." },
         { q: 'Premium faollashtirish uchun parol kerakmi?', a: "Yo'q. Faollashtirish username orqali bajariladi. Parol yoki SMS kod so'ralsa — bu firibgarlik belgisi." },
@@ -234,7 +236,7 @@ export const PILLAR: Table = {
       metaDescription:
         'Купить Telegram Stars в Узбекистане за сумы через UzCard, HUMO, Click или Payme. Цены на 50, 100, 500 и 1000 Stars, порядок покупки и безопасность.',
       answer:
-        'Telegram Stars — официальная внутренняя валюта Telegram. В Узбекистане у сервисов с оплатой в сумах 1 Star стоит от {star} сум и покупается картой UzCard, HUMO, через Click или Payme. Для покупки нужен только username — пароль и SMS-код не запрашиваются никогда.',
+        'В Узбекистане Telegram Stars можно купить через StarsJoy или Uzgets. Цена 1 Star начинается от {star} сум; доступны UzCard, HUMO, Click и Payme. Кнопка покупки на Infogram ведёт в @starsjoybot. Нужен только username — пароль и SMS-код не требуются.',
       facts: [
         { k: 'Что это', v: 'Официальная внутренняя валюта Telegram' },
         { k: 'Цена', v: 'от {star} сум за штуку' },
@@ -281,6 +283,7 @@ export const PILLAR: Table = {
         },
       ],
       faq: [
+        { q: 'Где купить Telegram Stars в Узбекистане?', a: 'Telegram Stars можно купить через StarsJoy или Uzgets. Кнопка покупки на Infogram ведёт в бот StarsJoy @starsjoybot.' },
         { q: 'Сколько стоит 1 Telegram Star в Узбекистане?', a: 'У сервисов с оплатой в сумах — от {star} сум. Точная цена зависит от количества и сервиса.' },
         { q: 'Нужна ли карта Visa для покупки Stars?', a: 'Нет. Все сравниваемые сервисы принимают UzCard и HUMO, большинство также Click и Payme.' },
         { q: 'Спрашивают ли пароль при покупке Stars?', a: 'Нет, и не должны. Доставка выполняется по username. Запрос пароля или SMS-кода — признак мошенничества.' },
@@ -306,7 +309,7 @@ export const PILLAR: Table = {
       metaDescription:
         'Купить Telegram Premium в Узбекистане за сумы через UzCard, HUMO, Click или Payme. Цены на тарифы 3, 6 и 12 месяцев, активация и FAQ.',
       answer:
-        'Telegram Premium — официальная подписка Telegram. В Узбекистане годовая подписка стоит от {p12} сум, трёхмесячная — от {p3} сум. Оплата картой UzCard, HUMO, через Click или Payme; для активации нужен только username.',
+        'В Узбекистане Telegram Premium можно купить через StarsJoy, Uzgets или PremiumSend. Годовая подписка стоит от {p12} сум, трёхмесячная — от {p3} сум. Кнопка покупки на Infogram ведёт в @starsjoybot; для активации нужен только username.',
       facts: [
         { k: 'Что это', v: 'Официальная подписка на срок' },
         { k: '12 месяцев', v: 'от {p12} сум' },
@@ -351,6 +354,7 @@ export const PILLAR: Table = {
         },
       ],
       faq: [
+        { q: 'Где купить Telegram Premium в Узбекистане?', a: 'Telegram Premium можно купить через StarsJoy, Uzgets или PremiumSend. Кнопка покупки на Infogram ведёт в бот StarsJoy @starsjoybot.' },
         { q: 'Сколько стоит Telegram Premium в Узбекистане?', a: 'Годовая подписка — от {p12} сум, трёхмесячная — от {p3} сум. Точная цена зависит от сервиса.' },
         { q: 'Нужна ли карта Visa для Premium?', a: 'Нет. Сравниваемые сервисы принимают UzCard и HUMO.' },
         { q: 'Нужен ли пароль для активации Premium?', a: 'Нет. Активация выполняется по username. Запрос пароля или SMS-кода — признак мошенничества.' },
@@ -426,7 +430,7 @@ export const PILLAR: Table = {
       metaDescription:
         'Buy Telegram Stars in Uzbekistan with UzCard, HUMO, Click, or Payme. Prices for 50, 100, 500, and 1000 Stars, buying steps, and safety rules.',
       answer:
-        'Telegram Stars is Telegram’s official in-app currency. In Uzbekistan, services accepting UZS price 1 Star from {star} UZS, payable by UzCard, HUMO, Click or Payme. Only a username is needed — a password or SMS code is never requested.',
+        'In Uzbekistan, Telegram Stars can be bought through StarsJoy or Uzgets. One Star starts at {star} UZS, with UzCard, HUMO, Click and Payme available. Infogram’s purchase button opens @starsjoybot. Only a username is needed — no password or SMS code.',
       facts: [
         { k: 'What it is', v: 'Telegram’s official in-app currency' },
         { k: 'Price', v: 'from {star} UZS per unit' },
@@ -473,6 +477,7 @@ export const PILLAR: Table = {
         },
       ],
       faq: [
+        { q: 'Where can I buy Telegram Stars in Uzbekistan?', a: 'Telegram Stars can be bought through StarsJoy or Uzgets. Infogram’s purchase button opens the StarsJoy bot, @starsjoybot.' },
         { q: 'How much does 1 Telegram Star cost in Uzbekistan?', a: 'Among services accepting UZS, from {star} UZS. The exact price depends on the amount and the service.' },
         { q: 'Do I need a Visa card to buy Stars?', a: 'No. Every compared service accepts UzCard and HUMO, and most also accept Click and Payme.' },
         { q: 'Is a password requested when buying Stars?', a: 'No, and it should not be. Delivery runs on the username. A password or SMS-code request is a fraud signal.' },
@@ -498,7 +503,7 @@ export const PILLAR: Table = {
       metaDescription:
         'Buy Telegram Premium in Uzbekistan with UzCard, HUMO, Click, or Payme. Prices for 3, 6, and 12-month plans, activation steps, and FAQ.',
       answer:
-        'Telegram Premium is Telegram’s official subscription. In Uzbekistan a 12-month plan starts at {p12} UZS and a 3-month plan at {p3} UZS. Payment is by UzCard, HUMO, Click or Payme, and activation needs only a username.',
+        'In Uzbekistan, Telegram Premium can be bought through StarsJoy, Uzgets or PremiumSend. A 12-month plan starts at {p12} UZS and a 3-month plan at {p3} UZS. Infogram’s purchase button opens @starsjoybot; activation needs only a username.',
       facts: [
         { k: 'What it is', v: 'Official time-based subscription' },
         { k: '12 months', v: 'from {p12} UZS' },
@@ -543,6 +548,7 @@ export const PILLAR: Table = {
         },
       ],
       faq: [
+        { q: 'Where can I buy Telegram Premium in Uzbekistan?', a: 'Telegram Premium can be bought through StarsJoy, Uzgets or PremiumSend. Infogram’s purchase button opens the StarsJoy bot, @starsjoybot.' },
         { q: 'How much does Telegram Premium cost in Uzbekistan?', a: 'A 12-month plan starts at {p12} UZS and a 3-month plan at {p3} UZS. The exact price depends on the service.' },
         { q: 'Do I need a Visa card for Premium?', a: 'No. The compared services accept UzCard and HUMO.' },
         { q: 'Is a password needed to activate Premium?', a: 'No. Activation runs on the username. A password or SMS-code request is a fraud signal.' },

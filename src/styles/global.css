@@ -202,6 +202,7 @@ ul, ol { max-width: var(--measure); }
 .answer p { margin: 0 0 var(--s-2); max-width: 44rem; font-size: var(--t-md); line-height: 1.6; }
 .answer p:last-child { margin-bottom: 0; }
 .answer strong { font-weight: 600; }
+.answer .answer-cta { margin-top: var(--s-2); font-size: var(--t-sm); }
 
 .meta { color: var(--muted); font-size: var(--t-sm); }
 .note {
@@ -377,6 +378,8 @@ ul, ol { max-width: var(--measure); }
 
 /* Xarid bloki — harakat tugmasi + kichik brend izohi. */
 .cta-block { margin: var(--s-5) 0 var(--s-6); }
+.cta-options-title { margin: 0 0 var(--s-3); font-size: var(--t-sm); color: var(--fg-2); }
+.btn-provider { font-weight: 600; }
 /* Hero ichida oraliqni faqat flex `gap` boshqaradi — element
    margin'lari ustiga qo'shilib ketmasligi uchun nolga tushiriladi. */
 .hero .cta-block { margin: 0; }
@@ -543,10 +546,14 @@ tr.official th, tr.official td { color: var(--muted); }
 .steps li::before {
   content: counter(step);
   color: var(--muted); font-size: var(--t-sm); font-variant-numeric: tabular-nums;
+  grid-column: 1; grid-row: 1;
 }
-.steps strong { font-weight: 500; }
-.steps span { color: var(--fg-2); font-size: var(--t-sm); }
-.steps strong + span { display: block; margin-top: var(--s-1); }
+.step-copy { grid-column: 2; min-width: 0; }
+.steps strong { display: block; font-weight: 500; }
+.steps .step-copy > span { display: block; color: var(--fg-2); font-size: var(--t-sm); margin-top: var(--s-1); }
+.steps .step-bots { margin-top: var(--s-2); }
+.steps .step-bots a { font-weight: 600; }
+.steps .step-bots span { display: inline; }
 
 /* ─────────────────────────── kalkulyator ──────────────────── */
 

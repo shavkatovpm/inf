@@ -9,7 +9,7 @@
  */
 import { t, type Locale } from '../i18n/ui';
 import { botLink } from '../config/site.js';
-import { PRIMARY } from '../lib/providers';
+import { PRIMARY, sellersOf } from '../lib/providers';
 
 interface Props {
   locale: Locale;
@@ -28,9 +28,19 @@ const label = {
   premium: tr('cta.buyPremium'),
   gifts: tr('cta.sendGift'),
 }[product];
+
+// Stars va Premium uchun foydalanuvchiga ikkinchi sotib olish yo'lini ham
+// ko'rsatamiz. StarsJoy asosiy CTA bo'lib qoladi, Uzgets — muqobil variant.
+const alternative = sellersOf(product).find((p) => p.id === 'uzgets' && p.bot);
+const optionsTitle = {
+  uz: 'Xarid variantlari',
+  ru: 'Варианты покупки',
+  en: 'Purchase options',
+}[locale];
 ---
 
 <div class="cta-block">
+  <p class="cta-options-title"><strong>{optionsTitle}</strong></p>
   <div class="hero-cta">
     <a
       class="btn btn-primary"
@@ -43,19 +53,34 @@ const label = {
       data-provider={PRIMARY.id}
     >
       {label}
+      <span class="btn-provider">— {PRIMARY.name}</span>
       <span aria-hidden="true">→</span>
     </a>
+    {alternative && (
+      <a
+        class="btn btn-ghost"
+        href={botLink(alternative.bot!, `${source}-uzgets`)}
+        target="_blank"
+        rel="noopener"
+        data-funnel-event
+        data-source={`${source}-uzgets`}
+        data-product={product}
+        data-provider={alternative.id}
+      >
+        {label}
+        <span class="btn-provider">— {alternative.name}</span>
+        <span aria-hidden="true">→</span>
+      </a>
+    )}
     {secondary && <a class="link-cta" href={secondary.href}>{secondary.label}</a>}
   </div>
-  {/* O'zbekchada "orqali" otdan KEYIN keladi, ru/en da oldin. */}
   <p class="cta-note">
-    {locale === 'uz'
-      ? <><strong>{PRIMARY.name}</strong> orqali — @{PRIMARY.bot}</>
-      : <>{tr('cta.via')} <strong>{PRIMARY.name}</strong> — @{PRIMARY.bot}</>}
+    <strong>{PRIMARY.name}</strong> — @{PRIMARY.bot}
+    {alternative && <> · <strong>{alternative.name}</strong> — @{alternative.bot}</>}
   </p>
   <p class="cta-disclosure">
-    {locale === 'uz' && 'Xarid StarsJoy botida amalga oshiriladi.'}
-    {locale === 'ru' && 'Покупка оформляется в боте StarsJoy.'}
-    {locale === 'en' && 'The purchase is completed in the StarsJoy bot.'}
+    {locale === 'uz' && 'Xarid tanlangan xizmatning Telegram botida amalga oshiriladi.'}
+    {locale === 'ru' && 'Покупка оформляется в Telegram-боте выбранного сервиса.'}
+    {locale === 'en' && 'The purchase is completed in the selected service’s Telegram bot.'}
   </p>
 </div>
