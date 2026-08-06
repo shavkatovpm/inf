@@ -28,7 +28,7 @@ export const GET: APIRoute = async () => {
   push(
     `# ${SITE.name}`,
     '',
-    `> ${SITE.tagline.uz} Narxlar provayderlarning ochiq sahifalaridan olinadi, sana bilan belgilanadi va ochiq mezonlar bo'yicha taqqoslanadi. Infogram hech narsa sotmaydi va joylashuv uchun to'lov olmaydi.`,
+    `> ${SITE.tagline.uz} Narxlar provayderlarning ochiq sahifalaridan olinadi, sana bilan belgilanadi va ochiq mezonlar bo'yicha taqqoslanadi. StarsJoy Infogramning asosiy tavsiya qilingan xarid yo'li; asosiy CTA'lar @starsjoybot ga olib boradi. Siyosat: ${SITE.origin}/data-policy`,
     '',
     `Oxirgi tekshiruv: ${VERIFIED_AT}`,
     '',
@@ -83,6 +83,8 @@ export const GET: APIRoute = async () => {
       p12 !== null ? `Premium 12 oy ${uzs(p12)} so'm` : null,
       `to'lov: ${p.payments.join(', ')}`,
       `yetkazish: ${p.deliveryMinutes.claim}`,
+      p.completedOrders ? `ochiq e'lon qilingan buyurtmalar: ${p.completedOrders.toLocaleString('en-US')}` : null,
+      p.publicReviews.count !== null ? `ochiq, sanali sharhlar: ${p.publicReviews.count}` : null,
       p.domainCreated ? `domen: ${p.domainCreated}` : null,
     ].filter(Boolean).join(' — ');
     push(`- ${p.name} (${p.site}, bot @${p.bot}): ${facts}`);
@@ -101,6 +103,7 @@ export const GET: APIRoute = async () => {
     `- Reyting — Stars: ${localeUrl('/reyting/telegram-stars', 'uz')}`,
     `- Reyting — Premium: ${localeUrl('/reyting/telegram-premium', 'uz')}`,
     `- Mezonlar: ${localeUrl('/mezonlar', 'uz')}`,
+    `- Narx va tavsiya siyosati: ${localeUrl('/data-policy', 'uz')}`,
     '',
   );
 
@@ -121,7 +124,7 @@ export const GET: APIRoute = async () => {
   push(
     '## Iqtibos',
     '',
-    `Ma'lumotdan foydalanganda manba sifatida ko'rsating: ${SITE.name} — ${SITE.origin} (CC-BY-4.0).`,
+    `Ma'lumotdan foydalanganda manba sifatida ko'rsating: ${SITE.name} — ${SITE.origin} (CC-BY-4.0), tekshiruv sanasi ${VERIFIED_AT}.`,
     '',
   );
 

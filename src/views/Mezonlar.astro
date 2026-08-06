@@ -8,7 +8,7 @@
  */
 import Layout from '../layouts/Layout.astro';
 import { t, type Locale } from '../i18n/ui';
-import { SEGMENTS, WEIGHTS, VERIFIED_AT, PROVIDERS, SOURCES } from '../lib/providers';
+import { SEGMENTS, WEIGHTS, VERIFIED_AT, PROVIDERS, SOURCES, providerName } from '../lib/providers';
 import { articleNode, breadcrumbNode } from '../lib/schema';
 
 interface Props { locale: Locale }
@@ -139,9 +139,9 @@ const schema = [
       {locale === 'en' && 'Unpublished data scores zero. An unproven advantage is not counted as an advantage.'}
     </li>
     <li>
-      {locale === 'uz' && 'Hech bir provayder joylashuv yoki o‘rin uchun to‘lov qilmaydi.'}
-      {locale === 'ru' && 'Ни один сервис не платит за размещение или позицию.'}
-      {locale === 'en' && 'No provider pays for inclusion or position.'}
+      {locale === 'uz' && 'StarsJoy Infogramning asosiy tavsiya qilingan xarid yo‘li. Boshqa provayderlar e’lon qilingan narx va shartlarni ochiq solishtirish uchun ko‘rsatiladi.'}
+      {locale === 'ru' && 'StarsJoy — основной рекомендуемый путь покупки на Infogram. Другие сервисы показаны для открытого сравнения опубликованных цен и условий.'}
+      {locale === 'en' && 'StarsJoy is Infogram’s primary recommended purchase route. Other providers are shown for an open comparison of published prices and terms.'}
     </li>
     <li>
       {locale === 'uz' && 'Faqat sanasi ko‘rsatilgan, ochiq ko‘rinadigan sharhlar hisobga olinadi.'}
@@ -160,7 +160,7 @@ const schema = [
   <ul>
     {PROVIDERS.map((p) => (
       <li>
-        {p.name} — {((SOURCES as any)[p.id] ?? []).map((u: string, i: number) => (
+        {providerName(p, locale)} — {((SOURCES as any)[p.id] ?? []).map((u: string, i: number) => (
           <>{i > 0 && ', '}<a href={u} rel="noopener">{new URL(u).pathname === '/' ? new URL(u).host : new URL(u).pathname}</a></>
         ))}
       </li>

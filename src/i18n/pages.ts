@@ -76,7 +76,7 @@ export const PRODUCTS: Record<Locale, Record<ProductSlug, ProductCopy>> = {
       h1: 'Цены на Telegram Stars — Узбекистан',
       title: 'Цена Telegram Stars — в сумах, Узбекистан | Infogram',
       description:
-        'Цены на Telegram Stars в сумах: сколько стоит одна звезда, цены пакетов и способы оплаты. Независимое сравнение, обновляется еженедельно.',
+        'Цены на Telegram Stars в сумах: стоимость одной звезды, цены пакетов и способы оплаты. Проверяемые данные с датой проверки.',
       intro:
         'Telegram Stars — официальная внутренняя валюта Telegram. Ниже опубликованные цены сервисов, принимающих оплату в сумах.',
       what: {

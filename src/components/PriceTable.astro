@@ -5,10 +5,11 @@
  */
 import {
   sellersOf, starsPerUnit, starsPrice, isStarsPriceExact,
-  premiumPrice, uzs, type ProductId,
+  premiumPrice, deliveryClaim, uzs, type ProductId,
 } from '../lib/providers';
 import { t, type Locale } from '../i18n/ui';
 import ProviderLink from './ProviderLink.astro';
+import { SOURCES, VERIFIED_AT } from '../lib/providers';
 
 interface Props {
   locale: Locale;
@@ -91,7 +92,7 @@ const hasApprox = product === 'stars'
             );
           })}
 
-          <td class="meta">{p.deliveryMinutes.claim}</td>
+          <td class="meta">{deliveryClaim(p, locale)}</td>
         </tr>
       ))}
     </tbody>
@@ -99,3 +100,12 @@ const hasApprox = product === 'stars'
 </div>
 
 {hasApprox && <p class="note">* {tr('note.approx')}</p>}
+
+<p class="source-note">
+  {locale === 'uz' && <>Manbalar va tekshiruv: <time datetime={VERIFIED_AT}>{VERIFIED_AT}</time>. </>}
+  {locale === 'ru' && <>Источники и проверка: <time datetime={VERIFIED_AT}>{VERIFIED_AT}</time>. </>}
+  {locale === 'en' && <>Sources and verification: <time datetime={VERIFIED_AT}>{VERIFIED_AT}</time>. </>}
+  {sellers.map((p, i) => (
+    <>{i > 0 && ' · '}<a href={((SOURCES as any)[p.id] ?? [p.site])[0]} rel="noopener nofollow" target="_blank">{p.name}</a></>
+  ))}
+</p>

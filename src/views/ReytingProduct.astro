@@ -14,7 +14,7 @@ import { PRODUCTS, SLUG_TO_PRODUCT } from '../i18n/pages';
 import { localePath, botLink, localeUrl } from '../config/site.js';
 import {
   PRIMARY, VERIFIED_AT, SEGMENTS, WEIGHTS, rank, rankBySegment,
-  starsPerUnit, premiumPerMonth, trackRecordMonths, uzs,
+  starsPerUnit, premiumPerMonth, trackRecordMonths, deliveryClaim, uzs,
 } from '../lib/providers';
 import {
   articleNode, breadcrumbNode, faqNode, itemListNode,
@@ -110,7 +110,7 @@ function rawLabel(key: string, value: number | null, p: any): string {
       ? `${uzs(starsPerUnit(p))} / 1 ⭐`
       : `${uzs(premiumPerMonth(p, 12) ?? premiumPerMonth(p, 3))} / ${tr('label.perMonth')}`;
   }
-  if (key === 'deliverySpeed') return p.deliveryMinutes.claim;
+  if (key === 'deliverySpeed') return deliveryClaim(p, locale);
   if (key === 'paymentCoverage') return p.payments.join(', ');
   if (key === 'trackRecord') {
     const m = trackRecordMonths(p);
@@ -167,7 +167,7 @@ function rawLabel(key: string, value: number | null, p: any): string {
             </div>
             <p class="meta">
               {rawLabel('price', r.parts.price?.raw ?? null, r.provider)} ·{' '}
-              {r.provider.deliveryMinutes.claim} ·{' '}
+              {deliveryClaim(r.provider, locale)} ·{' '}
               {r.provider.payments.length} {locale === 'uz' ? 'to‘lov usuli' : locale === 'ru' ? 'способа оплаты' : 'payment methods'}
             </p>
           </li>

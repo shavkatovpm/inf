@@ -2,14 +2,13 @@
 /**
  * Provayder nomi.
  *
- * - reseller (bot bor) → bot deep-link + `start` payload (atributsiya).
- * - official (bot yo'q) → oddiy matn, havola emas. Rasmiy yo'l taqqoslash
- *   bazasi sifatida ko'rsatiladi, unga trafik yo'naltirilmaydi.
- *
- * rel: sponsored/nofollow QO'YILMAYDI — bu tahririy taqqoslash havolasi.
+ * - Asosiy tavsiya (StarsJoy) → bot deep-link + `start` payload.
+ * - Boshqa resellerlar → ochiq manba sifatida o'z saytiga chiqadi; ularning
+ *   botiga conversion traffic yuborilmaydi.
+ * - official → oddiy matn, havola emas.
  */
 import { botLink } from '../config/site.js';
-import type { Provider } from '../lib/providers';
+import { PRIMARY, type Provider } from '../lib/providers';
 
 interface Props {
   provider: Provider;
@@ -20,11 +19,18 @@ interface Props {
 
 const { provider, source, label } = Astro.props;
 const text = label ?? provider.name;
-const href = provider.bot ? botLink(provider.bot, source) : null;
+const isPrimary = provider.id === PRIMARY.id;
+const href = isPrimary && provider.bot ? botLink(provider.bot, source) : provider.type === 'reseller' ? provider.site : null;
 ---
 
 {href ? (
-  <a class="plink" href={href} target="_blank" rel="noopener">
+  <a
+    class="plink"
+    href={href}
+    target="_blank"
+    rel={isPrimary ? 'noopener' : 'noopener nofollow'}
+    {...(isPrimary ? { 'data-funnel-event': true, 'data-source': source, 'data-product': 'comparison', 'data-provider': provider.id } : {})}
+  >
     {text}
     <span aria-hidden="true">↗</span>
   </a>

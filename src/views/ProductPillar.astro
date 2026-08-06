@@ -60,6 +60,12 @@ const tableProduct = product === 'gifts' ? 'stars' : (product as 'stars' | 'prem
 // Ichki klaster — tegishli sahifalarga havolalar.
 const related = [
   { href: localePath('/kalkulyator', locale), label: tr('cta.calc') },
+  ...(product === 'stars'
+    ? [{
+      href: localePath('/qollanma/visa-siz-telegram-stars', locale),
+      label: { uz: 'Visa kartasisiz Stars sotib olish', ru: 'Купить Stars без Visa', en: 'Buy Stars without Visa' }[locale],
+    }]
+    : []),
   { href: localePath(`/reyting/${slug === 'telegram-gifts' ? 'telegram-stars' : slug}`, locale), label: tr('nav.reyting') },
   { href: localePath('/taqqoslash/rasmiy-vs-mahalliy', locale), label: { uz: 'Rasmiy yo‘l bilan taqqoslash', ru: 'Сравнение с официальным путём', en: 'Compared with the official route' }[locale] },
   { href: localePath('/xavfsizlik/firibgarlik-belgilari', locale), label: { uz: 'Firibgarlik belgilari', ru: 'Признаки мошенничества', en: 'Fraud warning signs' }[locale] },

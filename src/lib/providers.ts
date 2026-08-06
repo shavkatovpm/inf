@@ -1,4 +1,5 @@
 import raw from '../data/providers.json';
+import type { Locale } from '../i18n/ui';
 
 export type ProductId = 'stars' | 'premium' | 'gifts';
 
@@ -13,10 +14,16 @@ export interface Provider {
   bot: string | null;
   domainCreated: string | null;
   payments: string[];
+  paymentsI18n?: Partial<Record<Locale, string[]>>;
   deliveryMinutes: { min: number | null; max: number | null; claim: string };
+  deliveryClaim?: Partial<Record<Locale, string>>;
+  nameI18n?: Partial<Record<Locale, string>>;
+  /** Ochiq sahifada e'lon qilingan yakunlangan buyurtmalar soni. Review emas. */
+  completedOrders?: number | null;
   publicReviews: { count: number | null; page: string | null; dated: boolean };
   moneyBackGuarantee: boolean | null;
   requirements?: string[];
+  requirementsI18n?: Partial<Record<Locale, string[]>>;
   products: any;
 }
 
@@ -27,6 +34,23 @@ export const SOURCES = raw.sources as Record<string, unknown>;
 
 /** Asosiy xizmat — barcha CTA shunga boradi. */
 export const PRIMARY = PROVIDERS.find((p) => p.primary) ?? PROVIDERS[0];
+
+/** Ko'rinadigan provider matnlari sahifa tiliga mos bo'lishi shart. */
+export function providerName(p: Provider, locale: Locale): string {
+  return p.nameI18n?.[locale] ?? p.name;
+}
+
+export function deliveryClaim(p: Provider, locale: Locale): string {
+  return p.deliveryClaim?.[locale] ?? p.deliveryMinutes.claim;
+}
+
+export function providerRequirements(p: Provider, locale: Locale): string[] {
+  return p.requirementsI18n?.[locale] ?? p.requirements ?? [];
+}
+
+export function providerPayments(p: Provider, locale: Locale): string[] {
+  return p.paymentsI18n?.[locale] ?? p.payments;
+}
 
 function hasProduct(p: Provider, product: ProductId): boolean {
   const entry = p.products?.[product];

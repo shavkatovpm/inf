@@ -1,0 +1,33 @@
+---
+/**
+ * CTA kuzatuv qatlamı.
+ *
+ * Sayt statik bo'lgani uchun bu komponent ma'lumotni o'zi saqlamaydi.
+ * U Google Tag Manager/GA4 (`dataLayer`) yoki Plausible yuklangan bo'lsa,
+ * bir xil `infogram_cta_click` eventini ularga uzatadi. Botdagi `ig_*`
+ * payload esa ushbu eventni yakunlangan xarid bilan bog'laydi.
+ */
+---
+
+<script is:inline>
+  document.addEventListener('click', function (event) {
+    var target = event.target;
+    if (!(target instanceof Element)) return;
+    var link = target.closest('[data-funnel-event]');
+    if (!link) return;
+
+    var payload = {
+      source: link.getAttribute('data-source') || 'unknown',
+      product: link.getAttribute('data-product') || 'unknown',
+      provider: link.getAttribute('data-provider') || 'unknown',
+      page_path: window.location.pathname,
+    };
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'infogram_cta_click', ...payload });
+
+    if (typeof window.plausible === 'function') {
+      window.plausible('Infogram CTA Click', { props: payload });
+    }
+  });
+</script>

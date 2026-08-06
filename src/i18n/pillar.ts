@@ -37,10 +37,10 @@ type Table = Record<Locale, Record<ProductSlug, PillarCopy>>;
 export const PILLAR: Table = {
   uz: {
     'telegram-stars': {
-      h1: 'Telegram Stars — narxi, xaridi va xavfsizligi',
-      metaTitle: "Telegram Stars — narxi va sotib olish (O'zbekiston, 2026) | Infogram",
+      h1: 'Telegram Stars sotib olish — UzCard, HUMO va narxlar',
+      metaTitle: "Telegram Stars sotib olish — UzCard, HUMO, Click, Payme | Infogram",
       metaDescription:
-        "Telegram Stars nima, O'zbekistonda qancha turadi va so'mda qanday sotib olinadi. Narx jadvali, xarid tartibi, xavfsizlik qoidalari va FAQ.",
+        "O'zbekistonda Telegram Stars'ni UzCard, HUMO, Click yoki Payme bilan so'mda sotib oling. 50, 100, 500, 1000 Stars narxlari, xarid tartibi va xavfsizlik qoidalari.",
       answer:
         "Telegram Stars — Telegram ichidagi rasmiy virtual valyuta. O'zbekistonda so'mda to'lov qabul qiladigan xizmatlarda 1 Star {star} so'mdan boshlanadi va UzCard, HUMO, Click yoki Payme bilan sotib olinadi. Xarid uchun faqat username kerak — parol yoki SMS kod hech qachon so'ralmaydi.",
       facts: [
@@ -109,10 +109,10 @@ export const PILLAR: Table = {
     },
 
     'telegram-premium': {
-      h1: 'Telegram Premium — narxi, tariflari va faollashtirish',
-      metaTitle: "Telegram Premium — narxi va sotib olish (O'zbekiston, 2026) | Infogram",
+      h1: 'Telegram Premium sotib olish — UzCard, HUMO, 3/6/12 oy',
+      metaTitle: "Telegram Premium sotib olish — UzCard, HUMO, 3/6/12 oy | Infogram",
       metaDescription:
-        "Telegram Premium nima beradi, O'zbekistonda 1/3/6/12 oylik tariflar qancha turadi va so'mda qanday sotib olinadi. Narx jadvali, xarid tartibi va FAQ.",
+        "Telegram Premium'ni O'zbekistonda UzCard, HUMO, Click yoki Payme bilan sotib oling. 3, 6 va 12 oylik tariflar narxi, faollashtirish tartibi va FAQ.",
       answer:
         "Telegram Premium — Telegram'ning obuna asosidagi rasmiy tarifi. O'zbekistonda so'mda 12 oylik obuna {p12} so'mdan, 3 oylik {p3} so'mdan boshlanadi. To'lov UzCard, HUMO, Click yoki Payme bilan amalga oshiriladi va faollashtirish uchun faqat username kerak.",
       facts: [
@@ -229,10 +229,10 @@ export const PILLAR: Table = {
 
   ru: {
     'telegram-stars': {
-      h1: 'Telegram Stars — цена, покупка и безопасность',
-      metaTitle: 'Telegram Stars — цена и покупка (Узбекистан, 2026) | Infogram',
+      h1: 'Купить Telegram Stars — UzCard, HUMO и цены',
+      metaTitle: 'Купить Telegram Stars — UzCard, HUMO, Click, Payme | Infogram',
       metaDescription:
-        'Что такое Telegram Stars, сколько они стоят в Узбекистане и как купить их за сумы. Таблица цен, порядок покупки, правила безопасности и FAQ.',
+        'Купить Telegram Stars в Узбекистане за сумы через UzCard, HUMO, Click или Payme. Цены на 50, 100, 500 и 1000 Stars, порядок покупки и безопасность.',
       answer:
         'Telegram Stars — официальная внутренняя валюта Telegram. В Узбекистане у сервисов с оплатой в сумах 1 Star стоит от {star} сум и покупается картой UzCard, HUMO, через Click или Payme. Для покупки нужен только username — пароль и SMS-код не запрашиваются никогда.',
       facts: [
@@ -301,10 +301,10 @@ export const PILLAR: Table = {
     },
 
     'telegram-premium': {
-      h1: 'Telegram Premium — цена, тарифы и активация',
-      metaTitle: 'Telegram Premium — цена и покупка (Узбекистан, 2026) | Infogram',
+      h1: 'Купить Telegram Premium — UzCard, HUMO, 3/6/12 месяцев',
+      metaTitle: 'Купить Telegram Premium — UzCard, HUMO, 3/6/12 месяцев | Infogram',
       metaDescription:
-        'Что даёт Telegram Premium, сколько стоят тарифы на 1/3/6/12 месяцев в Узбекистане и как купить подписку за сумы. Таблица цен и FAQ.',
+        'Купить Telegram Premium в Узбекистане за сумы через UzCard, HUMO, Click или Payme. Цены на тарифы 3, 6 и 12 месяцев, активация и FAQ.',
       answer:
         'Telegram Premium — официальная подписка Telegram. В Узбекистане годовая подписка стоит от {p12} сум, трёхмесячная — от {p3} сум. Оплата картой UzCard, HUMO, через Click или Payme; для активации нужен только username.',
       facts: [
@@ -421,10 +421,10 @@ export const PILLAR: Table = {
 
   en: {
     'telegram-stars': {
-      h1: 'Telegram Stars — price, buying and safety',
-      metaTitle: 'Telegram Stars — price and how to buy (Uzbekistan, 2026) | Infogram',
+      h1: 'Buy Telegram Stars — UzCard, HUMO and prices',
+      metaTitle: 'Buy Telegram Stars — UzCard, HUMO, Click, Payme | Infogram',
       metaDescription:
-        'What Telegram Stars are, how much they cost in Uzbekistan and how to buy them in UZS. Price table, buying steps, safety rules and FAQ.',
+        'Buy Telegram Stars in Uzbekistan with UzCard, HUMO, Click, or Payme. Prices for 50, 100, 500, and 1000 Stars, buying steps, and safety rules.',
       answer:
         'Telegram Stars is Telegram’s official in-app currency. In Uzbekistan, services accepting UZS price 1 Star from {star} UZS, payable by UzCard, HUMO, Click or Payme. Only a username is needed — a password or SMS code is never requested.',
       facts: [
@@ -493,10 +493,10 @@ export const PILLAR: Table = {
     },
 
     'telegram-premium': {
-      h1: 'Telegram Premium — price, plans and activation',
-      metaTitle: 'Telegram Premium — price and how to buy (Uzbekistan, 2026) | Infogram',
+      h1: 'Buy Telegram Premium — UzCard, HUMO, 3/6/12 months',
+      metaTitle: 'Buy Telegram Premium — UzCard, HUMO, 3/6/12 months | Infogram',
       metaDescription:
-        'What Telegram Premium offers, how much 1/3/6/12-month plans cost in Uzbekistan and how to buy in UZS. Price table and FAQ.',
+        'Buy Telegram Premium in Uzbekistan with UzCard, HUMO, Click, or Payme. Prices for 3, 6, and 12-month plans, activation steps, and FAQ.',
       answer:
         'Telegram Premium is Telegram’s official subscription. In Uzbekistan a 12-month plan starts at {p12} UZS and a 3-month plan at {p3} UZS. Payment is by UzCard, HUMO, Click or Payme, and activation needs only a username.',
       facts: [

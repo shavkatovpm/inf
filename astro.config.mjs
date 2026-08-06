@@ -6,6 +6,10 @@ import vercel from '@astrojs/vercel';
 
 import { SITE } from './src/config/site.js';
 
+// Sitemapdagi sana build vaqtini emas, mazmunning haqiqiy yangilanishini bildiradi.
+const DATA_LAST_MODIFIED = new Date('2026-08-05T00:00:00.000Z');
+const POLICY_LAST_MODIFIED = new Date('2026-08-06T00:00:00.000Z');
+
 export default defineConfig({
   site: SITE.origin,
   output: 'static',
@@ -25,19 +29,11 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
-      // Data sahifalari tez-tez yangilanadi — freshness signali GEO uchun muhim.
-      changefreq: 'weekly',
-      lastmod: new Date(),
       serialize(item) {
-        if (/\/(narxlar|kalkulyator)(\/|$)/.test(item.url)) {
-          item.changefreq = 'daily';
-          item.priority = 0.9;
-        } else if (/\/(reyting|taqqoslash)(\/|$)/.test(item.url)) {
-          item.priority = 0.9;
-        } else if (item.url.replace(SITE.origin, '').replace(/\/(ru|en)/, '') === '/') {
-          item.priority = 1.0;
-        }
-        return item;
+        const pathname = new URL(item.url).pathname
+          .replace(/^\/(ru|en)(?=\/|$)/, '') || '/';
+        const isPolicy = /\/(data-policy|qollanma\/visa-siz-telegram-stars)$/.test(pathname);
+        return { ...item, lastmod: isPolicy ? POLICY_LAST_MODIFIED : DATA_LAST_MODIFIED };
       },
     }),
   ],

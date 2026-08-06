@@ -26,7 +26,9 @@
       "domainCreated": "2026-03-02",
       "payments": ["UzCard", "HUMO", "Click", "Payme"],
       "deliveryMinutes": { "min": 1, "max": 5, "claim": "1–5 daqiqa" },
-      "publicReviews": { "count": 8000, "page": "https://starsjoy.uz/sharhlar", "dated": true },
+      "deliveryClaim": { "uz": "1–5 daqiqa", "ru": "1–5 минут", "en": "1–5 minutes" },
+      "completedOrders": 8000,
+      "publicReviews": { "count": 35, "page": "https://starsjoy.uz/sharhlar", "dated": true },
       "moneyBackGuarantee": true,
       "products": {
         "stars": {
@@ -62,6 +64,7 @@
       "domainCreated": "2026-05-03",
       "payments": ["UzCard", "HUMO", "Click"],
       "deliveryMinutes": { "min": null, "max": null, "claim": "avtomatik, aniq vaqt ko'rsatilmagan" },
+      "deliveryClaim": { "uz": "avtomatik, aniq vaqt ko'rsatilmagan", "ru": "автоматически, точное время не указано", "en": "automatic, no exact time stated" },
       "publicReviews": { "count": null, "page": null, "dated": false },
       "moneyBackGuarantee": null,
       "products": {
@@ -95,6 +98,7 @@
       "domainCreated": "2026-04-02",
       "payments": ["UzCard", "HUMO", "Click", "Payme"],
       "deliveryMinutes": { "min": null, "max": null, "claim": "bir necha daqiqa" },
+      "deliveryClaim": { "uz": "bir necha daqiqa", "ru": "несколько минут", "en": "a few minutes" },
       "publicReviews": { "count": null, "page": null, "dated": false },
       "moneyBackGuarantee": null,
       "products": {
@@ -115,12 +119,19 @@
       "$comment": "Rasmiy yo'llar — taqqoslash bazasi. Narx so'mda e'lon qilinmaydi (valyuta va komissiya o'zgaruvchan), shuning uchun narx maydonlari null. Reytingda qatnashmaydi.",
       "id": "telegram-inapp",
       "name": "Telegram ilovasi (App Store / Google Play)",
+      "nameI18n": { "uz": "Telegram ilovasi (App Store / Google Play)", "ru": "Приложение Telegram (App Store / Google Play)", "en": "Telegram app (App Store / Google Play)" },
       "type": "official",
       "site": "https://telegram.org",
       "bot": null,
       "domainCreated": null,
       "payments": ["Xalqaro karta (Visa/Mastercard)", "App Store / Google Play hisobi"],
+      "paymentsI18n": {
+        "uz": ["Xalqaro karta (Visa/Mastercard)", "App Store / Google Play hisobi"],
+        "ru": ["Международная карта (Visa/Mastercard)", "Аккаунт App Store / Google Play"],
+        "en": ["International card (Visa/Mastercard)", "App Store / Google Play account"]
+      },
       "deliveryMinutes": { "min": 0, "max": 1, "claim": "darhol" },
+      "deliveryClaim": { "uz": "darhol", "ru": "сразу", "en": "immediately" },
       "publicReviews": { "count": null, "page": null, "dated": false },
       "moneyBackGuarantee": null,
       "requirements": [
@@ -128,6 +139,11 @@
         "Narx do'kon komissiyasini o'z ichiga oladi",
         "So'mda to'lov qilinmaydi — valyuta konvertatsiyasi bo'ladi"
       ],
+      "requirementsI18n": {
+        "uz": ["Xalqaro to'lov kartasi yoki xorijiy App Store / Google Play hisobi kerak", "Narx do'kon komissiyasini o'z ichiga oladi", "So'mda to'lov qilinmaydi — valyuta konvertatsiyasi bo'ladi"],
+        "ru": ["Нужна международная платёжная карта или иностранный аккаунт App Store / Google Play", "Цена включает комиссию магазина", "Оплата в сумах недоступна — будет конвертация валюты"],
+        "en": ["An international payment card or a foreign App Store / Google Play account is required", "The price includes the store commission", "Payment in UZS is unavailable; currency conversion applies"]
+      },
       "products": {
         "stars": { "perUnit": null, "flatRate": false, "packages": [] },
         "premium": { "plans": [] },
@@ -143,7 +159,13 @@
       "bot": null,
       "domainCreated": null,
       "payments": ["TON (kriptovalyuta)"],
+      "paymentsI18n": {
+        "uz": ["TON (kriptovalyuta)"],
+        "ru": ["TON (криптовалюта)"],
+        "en": ["TON (cryptocurrency)"]
+      },
       "deliveryMinutes": { "min": 0, "max": 5, "claim": "TON tarmog'iga bog'liq" },
+      "deliveryClaim": { "uz": "TON tarmog'iga bog'liq", "ru": "зависит от сети TON", "en": "depends on the TON network" },
       "publicReviews": { "count": null, "page": null, "dated": false },
       "moneyBackGuarantee": null,
       "requirements": [
@@ -151,6 +173,11 @@
         "So'mda to'g'ridan-to'g'ri to'lov yo'q",
         "Telegram'ning rasmiy platformasi"
       ],
+      "requirementsI18n": {
+        "uz": ["TON kriptovalyutasi va hamyon kerak", "So'mda to'g'ridan-to'g'ri to'lov yo'q", "Telegram'ning rasmiy platformasi"],
+        "ru": ["Нужны криптовалюта TON и кошелёк", "Прямой оплаты в сумах нет", "Официальная платформа Telegram"],
+        "en": ["TON cryptocurrency and a wallet are required", "There is no direct payment in UZS", "An official Telegram platform"]
+      },
       "products": {
         "stars": { "perUnit": null, "flatRate": false, "packages": [] },
         "premium": { "plans": [] },

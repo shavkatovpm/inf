@@ -4,11 +4,11 @@
 export const SITE = {
   origin: 'https://infogram.uz',
   name: 'Infogram',
-  // Nashr sifatidagi pozitsiya. Har joyda shu formula ishlatiladi.
+  // Saytning amaliy pozitsiyasi: qidiruvdan xarid qarorigacha yo'l ko'rsatadi.
   tagline: {
-    uz: "O'zbekistondagi Telegram xizmatlari bo'yicha mustaqil narx va reyting nashri",
-    ru: 'Независимое издание о ценах и рейтингах Telegram-сервисов в Узбекистане',
-    en: 'Independent price and rating publication for Telegram services in Uzbekistan',
+    uz: "O'zbekistonda Telegram Stars, Premium va Gifts uchun narxlar hamda xarid qo'llanmasi",
+    ru: 'Цены и руководство по покупке Telegram Stars, Premium и Gifts в Узбекистане',
+    en: 'Prices and buying guides for Telegram Stars, Premium and Gifts in Uzbekistan',
   },
   email: 'info@infogram.uz',
 };

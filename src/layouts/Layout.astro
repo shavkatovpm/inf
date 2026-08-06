@@ -4,6 +4,7 @@ import { t, type Locale } from '../i18n/ui';
 import Logo from '../components/Logo.astro';
 import Schema from '../components/Schema.astro';
 import { organizationNode, websiteNode } from '../lib/schema';
+import FunnelTracking from '../components/FunnelTracking.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -56,16 +57,17 @@ const nav = [
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={HREFLANG[locale].replace('-', '_')} />
-    <meta property="og:image" content={`${SITE.origin}/og-image.png`} />
+    <meta property="og:image" content={`${SITE.origin}/og-image-frame.png`} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={SITE.tagline[locale]} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content={`${SITE.origin}/og-image.png`} />
+    <meta name="twitter:image" content={`${SITE.origin}/og-image-frame.png`} />
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="/favicon-32.png" sizes="32x32" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" href="/favicon-frame.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-frame-48.png" type="image/png" sizes="48x48" />
+    <link rel="icon" href="/favicon-frame-32.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon-frame.png" />
 
     <link rel="alternate" type="application/rss+xml" title={SITE.name} href={`${SITE.origin}/rss.xml`} />
     <meta
@@ -77,21 +79,25 @@ const nav = [
         odam uchun emas. llms.txt standart yo'ldan ham topiladi,
         dataset esa Dataset JSON-LD ichida contentUrl sifatida e'lon qilingan. */}
     <link rel="alternate" type="text/plain" title="llms.txt" href={`${SITE.origin}/llms.txt`} />
+    <link rel="alternate" type="text/plain" title="llms.txt (Russian)" href={`${SITE.origin}/llms-ru.txt`} />
+    <link rel="alternate" type="text/plain" title="llms.txt (English)" href={`${SITE.origin}/llms-en.txt`} />
     <link rel="alternate" type="application/json" title="Narx dataseti (CC-BY-4.0)" href={`${SITE.origin}/api/narxlar.json`} />
 
     <Schema locale={locale} nodes={[organizationNode(locale), websiteNode(locale), ...schema]} />
   </head>
 
   <body>
-    <a href="#main" class="skip">→ Asosiy kontentga</a>
+    <a href="#main" class="skip">
+      → {locale === 'uz' ? 'Asosiy kontentga' : locale === 'ru' ? 'К основному содержанию' : 'Skip to main content'}
+    </a>
 
     <header class="site-head">
       <div class="wrap head-inner">
-        <Logo href={localePath('/', locale)} />
+        <Logo href={localePath('/', locale)} {locale} />
 
         {/* Menyu tugmasi — JS yoqilgandagina ko'rinadi (skript uni ochadi).
             JS bo'lmasa navigatsiya oddiy ro'yxat bo'lib ochiq qoladi. */}
-        <button type="button" class="nav-btn" id="nav-btn" aria-expanded="true" aria-controls="site-nav" hidden>
+        <button type="button" class="nav-btn" id="nav-btn" aria-label={tr('nav.menu')} aria-expanded="true" aria-controls="site-nav" hidden>
           <span class="nav-btn-bars" aria-hidden="true"><span></span><span></span><span></span></span>
           <span class="nav-btn-label">{tr('nav.menu')}</span>
         </button>
@@ -161,6 +167,8 @@ const nav = [
       <slot />
     </main>
 
+    <FunnelTracking />
+
     <footer class="site-foot">
       <div class="wrap">
         <p class="tagline">{SITE.tagline[locale]}</p>
@@ -168,11 +176,13 @@ const nav = [
           <li><a href={localePath('/mezonlar', locale)}>{tr('nav.mezonlar')}</a></li>
           <li><a href={localePath('/taqqoslash', locale)}>{tr('nav.taqqoslash')}</a></li>
           <li><a href={localePath('/kalkulyator', locale)}>{tr('cta.calc')}</a></li>
+          <li><a href={localePath('/data-policy', locale)}>{locale === 'uz' ? 'Ma’lumot siyosati' : locale === 'ru' ? 'Политика данных' : 'Data policy'}</a></li>
           <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
         </ul>
         <p class="disclaimer">
           Infogram — Telegram’ning rasmiy loyihasi emas. Narxlar provayderlarning
-          ochiq sahifalaridan olingan va o‘zgarishi mumkin.
+          ochiq sahifalaridan olinadi va o‘zgarishi mumkin. Xarid tugmalari StarsJoy
+          botiga olib boradi; start parametrlari trafik manbasi va konversiyani o‘lchaydi.
         </p>
       </div>
     </footer>
