@@ -26,8 +26,101 @@ const empty = {
   ru: 'В этом разделе пока нет материалов.',
   en: 'No articles in this section yet.',
 }[locale];
+
+const answers = {
+  xavfsizlik: {
+    uz: 'Xavfsiz xarid uchun xizmat sizdan faqat Telegram username so‘rashi kerak. Parol, SMS-kod yoki 2FA kodi so‘ralsa, to‘lovni darhol to‘xtating; narx, ochiq sharhlar, pul qaytarish sharti va rasmiy support kanalini oldindan tekshiring.',
+    ru: 'Для безопасной покупки сервису достаточно Telegram username. Если запрашивают пароль, SMS-код или код 2FA, немедленно остановите оплату; заранее проверьте цену, открытые отзывы, условия возврата и официальный канал поддержки.',
+    en: 'A safe purchase requires only the recipient’s Telegram username. Stop if a service asks for a password, SMS code or 2FA code; verify its price, public reviews, refund terms and official support channel before paying.',
+  },
+  qollanma: {
+    uz: 'Telegram Stars, Premium yoki Gifts xaridida mahsulot va paket tanlanadi, qabul qiluvchining username’i tekshiriladi, so‘mda to‘lov qilinadi va yetkazilgan mahsulot Telegram ichida tasdiqlanadi. Akkaunt paroli yoki tasdiqlash kodi kerak emas.',
+    ru: 'При покупке Telegram Stars, Premium или Gifts выберите продукт и пакет, проверьте username получателя, оплатите в сумах и подтвердите получение в Telegram. Пароль аккаунта и код подтверждения не нужны.',
+    en: 'To buy Telegram Stars, Premium or Gifts, choose the product and package, verify the recipient username, pay in UZS and confirm delivery inside Telegram. No account password or verification code is required.',
+  },
+  taqqoslash: {
+    uz: 'Xizmatni faqat narx bo‘yicha emas, to‘lov usuli, yetkazish vaqti, ochiq sharhlar va pul qaytarish kafolati bo‘yicha ham taqqoslang.',
+    ru: 'Сравнивайте сервисы не только по цене, но и по способам оплаты, сроку доставки, открытым отзывам и гарантии возврата.',
+    en: 'Compare services on payment methods, delivery time, public reviews and refund protection—not price alone.',
+  },
+}[section][locale];
+
+const faqs = {
+  xavfsizlik: {
+    uz: [
+      { q: 'Stars yoki Premium olish uchun SMS kod kerakmi?', a: 'Yo‘q. Yetkazish uchun qabul qiluvchining Telegram username’i yetarli; SMS kod akkauntga kirish imkonini beradi va uni hech kimga bermaslik kerak.' },
+      { q: 'Eng arzon taklif doim xavfsizmi?', a: 'Yo‘q. Narxni xizmat tarixi, sanali ochiq sharhlar, support va pul qaytarish sharti bilan birga baholang.' },
+      { q: 'To‘lovdan keyin mahsulot kelmasa nima qilinadi?', a: 'Chek va buyurtma ma’lumotlarini saqlang, avval rasmiy supportga murojaat qiling, yechilmasa to‘lov provayderi yoki bankingizda murojaat oching.' },
+    ],
+    ru: [
+      { q: 'Нужен ли SMS-код для получения Stars или Premium?', a: 'Нет. Для доставки достаточно Telegram username получателя; SMS-код даёт доступ к аккаунту, поэтому его нельзя сообщать.' },
+      { q: 'Самое дешёвое предложение всегда безопасно?', a: 'Нет. Оценивайте цену вместе с историей сервиса, открытыми отзывами с датами, поддержкой и условиями возврата.' },
+      { q: 'Что делать, если товар не пришёл после оплаты?', a: 'Сохраните чек и данные заказа, обратитесь в официальную поддержку, а если вопрос не решён — к платёжному сервису или банку.' },
+    ],
+    en: [
+      { q: 'Is an SMS code needed to receive Stars or Premium?', a: 'No. Delivery needs only the recipient’s Telegram username; an SMS code grants account access and must never be shared.' },
+      { q: 'Is the cheapest offer always safe?', a: 'No. Consider service history, dated public reviews, support and refund terms alongside price.' },
+      { q: 'What if the product does not arrive after payment?', a: 'Keep the receipt and order details, contact official support first, then open a case with the payment provider or your bank if unresolved.' },
+    ],
+  },
+  qollanma: {
+    uz: [
+      { q: 'UzCard yoki HUMO bilan to‘lash mumkinmi?', a: 'Ha. Mahalliy xizmatlar UzCard va HUMO, ko‘pincha Click va Payme orqali ham so‘mda to‘lov qabul qiladi.' },
+      { q: 'Boshqa odamga Stars yoki Premium yuborish mumkinmi?', a: 'Ha. Xarid vaqtida qabul qiluvchining to‘g‘ri Telegram username’ini kiriting.' },
+      { q: 'Xariddan oldin nimani tekshirish kerak?', a: 'Username, yakuniy summa, paket miqdori, yetkazish muddati va pul qaytarish shartini tekshiring.' },
+    ],
+    ru: [
+      { q: 'Можно оплатить UzCard или HUMO?', a: 'Да. Локальные сервисы принимают оплату в сумах через UzCard и HUMO, часто также через Click и Payme.' },
+      { q: 'Можно отправить Stars или Premium другому человеку?', a: 'Да. При покупке укажите точный Telegram username получателя.' },
+      { q: 'Что проверить перед покупкой?', a: 'Проверьте username, итоговую сумму, размер пакета, срок доставки и условия возврата.' },
+    ],
+    en: [
+      { q: 'Can I pay with UzCard or HUMO?', a: 'Yes. Local services accept UZS through UzCard and HUMO, and often Click and Payme.' },
+      { q: 'Can I send Stars or Premium to another person?', a: 'Yes. Enter the recipient’s exact Telegram username during checkout.' },
+      { q: 'What should I check before buying?', a: 'Verify the username, final amount, package size, delivery time and refund terms.' },
+    ],
+  },
+  taqqoslash: { uz: [], ru: [], en: [] },
+}[section][locale];
+
+const related = [
+  { href: localePath('/narxlar', locale), title: { uz: 'Narxlarni tekshirish', ru: 'Проверить цены', en: 'Check prices' }[locale], desc: { uz: 'Joriy narxlar va to‘lov usullarini solishtiring.', ru: 'Сравните актуальные цены и способы оплаты.', en: 'Compare current prices and payment methods.' }[locale] },
+  { href: localePath('/reyting', locale), title: { uz: 'Xizmatlar reytingi', ru: 'Рейтинг сервисов', en: 'Service rankings' }[locale], desc: { uz: 'Eng arzon, ishonchli va tez variantlarni ko‘ring.', ru: 'Посмотрите самые дешёвые, надёжные и быстрые варианты.', en: 'See the cheapest, most trusted and fastest options.' }[locale] },
+  { href: localePath(section === 'xavfsizlik' ? '/qollanma' : '/xavfsizlik', locale), title: section === 'xavfsizlik' ? { uz: 'Amaliy qo‘llanmalar', ru: 'Практические инструкции', en: 'Practical guides' }[locale] : { uz: 'Xavfsiz xarid', ru: 'Безопасная покупка', en: 'Buy safely' }[locale], desc: section === 'xavfsizlik' ? { uz: 'Xarid jarayonini bosqichma-bosqich bajaring.', ru: 'Пройдите покупку шаг за шагом.', en: 'Follow the purchase process step by step.' }[locale] : { uz: 'Firibgarlik belgilarini xariddan oldin tekshiring.', ru: 'Проверьте признаки мошенничества до оплаты.', en: 'Check fraud warning signs before paying.' }[locale] },
+];
 ---
 
-<SectionIndex {locale} section={section as SectionKey} {items}>
+<SectionIndex {locale} section={section as SectionKey} {items} answer={answers} faq={faqs} {related}>
   {items.length === 0 && <p class="note">{empty}</p>}
+  {section === 'qollanma' && (
+    <section aria-labelledby="guide-scope-heading">
+      <h2 id="guide-scope-heading">
+        {locale === 'uz' ? 'UzCard va HUMO orqali Telegram mahsulotlarini qanday olish mumkin?' : locale === 'ru' ? 'Как купить продукты Telegram через UzCard и HUMO?' : 'How can you buy Telegram products with UzCard and HUMO?'}
+      </h2>
+      <p>
+        {locale === 'uz' && 'O‘zbekistonda xarid jarayoni odatda besh qismdan iborat: mahsulotni tanlash, narx va muddatni solishtirish, qabul qiluvchi username’ini tekshirish, UzCard yoki HUMO bilan so‘mda to‘lash va Telegram ichida yetkazilganini tasdiqlash. Quyidagi qo‘llanmalar har bir mahsulot uchun aniq qadamlarni beradi.'}
+        {locale === 'ru' && 'В Узбекистане покупка обычно состоит из пяти этапов: выбор продукта, сравнение цены и срока, проверка username получателя, оплата в сумах через UzCard или HUMO и подтверждение доставки в Telegram. Инструкции ниже описывают шаги для каждого продукта.'}
+        {locale === 'en' && 'In Uzbekistan, a purchase usually has five parts: choose the product, compare price and term, verify the recipient username, pay in UZS with UzCard or HUMO, and confirm delivery in Telegram. The guides below provide product-specific steps.'}
+      </p>
+      <ol>
+        <li>{locale === 'uz' ? 'Stars, Premium yoki Gifts mahsulotini tanlang.' : locale === 'ru' ? 'Выберите Stars, Premium или Gifts.' : 'Choose Stars, Premium or Gifts.'}</li>
+        <li>{locale === 'uz' ? 'Paket, muddat va yakuniy narxni tekshiring.' : locale === 'ru' ? 'Проверьте пакет, срок и итоговую цену.' : 'Check the package, term and final price.'}</li>
+        <li>{locale === 'uz' ? 'Qabul qiluvchining username’ini xatosiz kiriting.' : locale === 'ru' ? 'Точно укажите username получателя.' : 'Enter the recipient username exactly.'}</li>
+        <li>{locale === 'uz' ? 'UzCard, HUMO, Click yoki Payme orqali to‘lang.' : locale === 'ru' ? 'Оплатите через UzCard, HUMO, Click или Payme.' : 'Pay through UzCard, HUMO, Click or Payme.'}</li>
+        <li>{locale === 'uz' ? 'Chekni saqlang va yetkazilganini tekshiring.' : locale === 'ru' ? 'Сохраните чек и проверьте доставку.' : 'Keep the receipt and confirm delivery.'}</li>
+      </ol>
+    </section>
+  )}
+  {section === 'xavfsizlik' && (
+    <section aria-labelledby="safety-scope-heading">
+      <h2 id="safety-scope-heading">
+        {locale === 'uz' ? 'Xavfsiz xizmatni qanday aniqlash mumkin?' : locale === 'ru' ? 'Как определить безопасный сервис?' : 'How can you identify a safer service?'}
+      </h2>
+      <p>
+        {locale === 'uz' && 'Xavfsizlik narxdan alohida baholanadi. Xizmat faqat username bilan ishlashi, yakuniy narx va yetkazish muddatini oldindan ko‘rsatishi, sanali ochiq sharhlarga, rasmiy support kanaliga va tushunarli pul qaytarish shartiga ega bo‘lishi kerak.'}
+        {locale === 'ru' && 'Безопасность оценивается отдельно от цены. Сервису должно быть достаточно username; он должен заранее показывать итоговую цену и срок доставки, иметь открытые отзывы с датами, официальную поддержку и понятные условия возврата.'}
+        {locale === 'en' && 'Safety should be assessed separately from price. A service should need only a username, disclose the final price and delivery time, and provide dated public reviews, official support and clear refund terms.'}
+      </p>
+    </section>
+  )}
 </SectionIndex>

@@ -68,6 +68,25 @@ export function articleNode(opts: {
   };
 }
 
+/** Bo'lim indekslari maqola emas — ular materiallar kolleksiyasidir. */
+export function collectionPageNode(opts: {
+  locale: Locale;
+  name: string;
+  description: string;
+  path: string;
+  mainEntity?: Record<string, unknown>;
+}) {
+  return {
+    '@type': 'CollectionPage',
+    '@id': `${localeUrl(opts.path, opts.locale)}#collection`,
+    name: opts.name,
+    description: opts.description,
+    url: localeUrl(opts.path, opts.locale),
+    isPartOf: { '@id': SITE_ID },
+    ...(opts.mainEntity ? { mainEntity: opts.mainEntity } : {}),
+  };
+}
+
 export function faqNode(items: { q: string; a: string }[]) {
   return {
     '@type': 'FAQPage',

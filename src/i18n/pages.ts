@@ -159,15 +159,15 @@ export const PRODUCTS: Record<Locale, Record<ProductSlug, ProductCopy>> = {
 export const SECTIONS = {
   uz: {
     narxlar: {
-      h1: 'Narxlar',
-      title: 'Telegram Stars, Premium va Gifts narxlari — O‘zbekiston | Infogram',
+      h1: 'Telegram Stars va Premium narxlari — O‘zbekiston',
+      title: 'Telegram Stars va Premium narxlari O‘zbekistonda | Infogram',
       description:
-        'So‘mda to‘lov qabul qiladigan xizmatlarning Telegram Stars, Premium va Gifts narxlari. Har hafta qayta tekshiriladi.',
-      intro: 'Har bir mahsulot bo‘yicha alohida narx jadvali, to‘lov usullari va yetkazish vaqtlari.',
+        'O‘zbekistonda Telegram Stars va Premium sotib olish narxlari: arzon takliflar, paketlar, UzCard va HUMO to‘lovi taqqoslandi. Har hafta tekshiriladi.',
+      intro: 'Telegram Stars, Premium va Gifts’ni O‘zbekistonda so‘mda sotib olish narxlari, paketlar, to‘lov usullari va yetkazish vaqtlari.',
     },
     reyting: {
-      h1: 'Reyting',
-      title: 'Telegram xizmatlari reytingi — O‘zbekiston | Infogram',
+      h1: 'Telegram Stars va Premium xizmatlari reytingi',
+      title: 'Telegram Stars va Premium xizmatlari reytingi | Infogram',
       description:
         'Telegram Stars va Premium xizmatlarining segmentlar bo‘yicha reytingi: eng arzon, eng ishonchli, eng tez. Ochiq mezonlar.',
       intro:
@@ -181,7 +181,7 @@ export const SECTIONS = {
       intro: 'Yonma-yon taqqoslashlar: qaysi holatda qaysi yo‘l qulayroq.',
     },
     xavfsizlik: {
-      h1: 'Xavfsizlik',
+      h1: 'Telegram Stars va Premium’ni xavfsiz sotib olish',
       title: 'Telegram Stars va Premium — firibgarlikdan himoya | Infogram',
       description:
         'Telegram Stars va Premium sotib olishda firibgarlik belgilari, xavfsiz xarid qoidalari va pul qaytarish tartibi.',
@@ -189,10 +189,10 @@ export const SECTIONS = {
         'Bu bo‘limda xarid oldidan tekshiriladigan belgilar va muammo yuzaga kelganda nima qilish kerakligi yig‘ilgan.',
     },
     qollanma: {
-      h1: 'Qo‘llanma',
-      title: 'Telegram Stars va Premium — bosqichma-bosqich qo‘llanmalar | Infogram',
-      description: 'Sotib olish, faollashtirish va muammolarni hal qilish bo‘yicha amaliy qo‘llanmalar.',
-      intro: 'Amaliy, bosqichma-bosqich qo‘llanmalar.',
+      h1: 'Telegram Stars va Premium sotib olish qo‘llanmalari',
+      title: 'Telegram Stars va Premium’ni UzCard, HUMO bilan olish | Infogram',
+      description: 'O‘zbekistonda Telegram Stars va Premium’ni UzCard, HUMO, Click yoki Payme orqali sotib olish bo‘yicha bosqichma-bosqich qo‘llanmalar.',
+      intro: 'UzCard, HUMO, Click va Payme orqali so‘mda xarid qilish, faollashtirish va muammolarni hal qilish bo‘yicha amaliy yo‘riqnomalar.',
     },
     kalkulyator: {
       h1: 'Telegram Stars kalkulyatori',
@@ -205,14 +205,14 @@ export const SECTIONS = {
 
   ru: {
     narxlar: {
-      h1: 'Цены',
+      h1: 'Цены Telegram Stars и Premium в Узбекистане',
       title: 'Цены на Telegram Stars, Premium и Gifts — Узбекистан | Infogram',
       description:
         'Цены сервисов, принимающих оплату в сумах, на Telegram Stars, Premium и Gifts. Перепроверяются еженедельно.',
       intro: 'По каждому продукту — отдельная таблица цен, способы оплаты и сроки доставки.',
     },
     reyting: {
-      h1: 'Рейтинг',
+      h1: 'Рейтинг сервисов Telegram Stars и Premium',
       title: 'Рейтинг Telegram-сервисов — Узбекистан | Infogram',
       description:
         'Рейтинг сервисов Telegram Stars и Premium по сегментам: самый дешёвый, самый надёжный, самый быстрый. Открытая методология.',
@@ -226,17 +226,17 @@ export const SECTIONS = {
       intro: 'Сравнения бок о бок: какой путь удобнее в каком случае.',
     },
     xavfsizlik: {
-      h1: 'Безопасность',
+      h1: 'Безопасная покупка Telegram Stars и Premium',
       title: 'Telegram Stars и Premium — защита от мошенничества | Infogram',
       description:
         'Признаки мошенничества при покупке Telegram Stars и Premium, правила безопасной покупки и порядок возврата.',
       intro: 'Здесь собраны признаки, которые стоит проверить до покупки, и что делать при проблеме.',
     },
     qollanma: {
-      h1: 'Инструкции',
+      h1: 'Как купить Telegram Stars и Premium в Узбекистане',
       title: 'Telegram Stars и Premium — пошаговые инструкции | Infogram',
-      description: 'Практические инструкции по покупке, активации и решению проблем.',
-      intro: 'Практические пошаговые инструкции.',
+      description: 'Как купить Telegram Stars и Premium в Узбекистане через UzCard, HUMO, Click или Payme: пошаговые инструкции, активация и решение проблем.',
+      intro: 'Пошаговые инструкции по оплате в сумах, активации и решению проблем с Telegram Stars и Premium.',
     },
     kalkulyator: {
       h1: 'Калькулятор Telegram Stars',
@@ -249,14 +249,14 @@ export const SECTIONS = {
 
   en: {
     narxlar: {
-      h1: 'Prices',
+      h1: 'Telegram Stars and Premium prices in Uzbekistan',
       title: 'Telegram Stars, Premium and Gifts prices — Uzbekistan | Infogram',
       description:
         'Prices from services accepting UZS for Telegram Stars, Premium and Gifts. Re-checked weekly.',
       intro: 'A separate price table for each product, with payment methods and delivery times.',
     },
     reyting: {
-      h1: 'Rankings',
+      h1: 'Telegram Stars and Premium service rankings',
       title: 'Telegram service rankings — Uzbekistan | Infogram',
       description:
         'Rankings of Telegram Stars and Premium services by segment: cheapest, most trusted, fastest. Open methodology.',
@@ -270,17 +270,17 @@ export const SECTIONS = {
       intro: 'Side-by-side comparisons: which route suits which situation.',
     },
     xavfsizlik: {
-      h1: 'Safety',
+      h1: 'Buying Telegram Stars and Premium safely',
       title: 'Telegram Stars and Premium — avoiding fraud | Infogram',
       description:
         'Fraud warning signs when buying Telegram Stars and Premium, safe-purchase rules and the refund process.',
       intro: 'What to check before buying, and what to do if something goes wrong.',
     },
     qollanma: {
-      h1: 'Guides',
+      h1: 'How to buy Telegram Stars and Premium in Uzbekistan',
       title: 'Telegram Stars and Premium — step-by-step guides | Infogram',
-      description: 'Practical guides for buying, activating and troubleshooting.',
-      intro: 'Practical, step-by-step guides.',
+      description: 'How to buy Telegram Stars and Premium in Uzbekistan with UzCard, HUMO, Click or Payme: step-by-step payment, activation and troubleshooting guides.',
+      intro: 'Step-by-step guides to paying in UZS, activating Telegram products and resolving purchase problems.',
     },
     kalkulyator: {
       h1: 'Telegram Stars calculator',

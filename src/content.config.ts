@@ -20,6 +20,8 @@ const articleSchema = z.object({
   updated: z.string(),
   /** Bo'limlar ichida tartib. */
   order: z.number().default(100),
+  /** CTA mahsuloti; umumiy/xavfsizlik maqolalarida stars default. */
+  product: z.enum(['stars', 'premium', 'gifts']).default('stars'),
   faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
   /** HowTo schema uchun — bo'lsa qadamlar qo'shiladi. */
   steps: z.array(z.object({ name: z.string(), text: z.string() })).default([]),

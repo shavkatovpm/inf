@@ -32,7 +32,7 @@ export default defineConfig({
       serialize(item) {
         const pathname = new URL(item.url).pathname
           .replace(/^\/(ru|en)(?=\/|$)/, '') || '/';
-        const isPolicy = /\/(data-policy|qollanma\/visa-siz-telegram-stars)$/.test(pathname);
+        const isPolicy = /\/(data-policy|narxlar|reyting|xavfsizlik|qollanma|qollanma\/visa-siz-telegram-stars|qollanma\/telegram-premium-qanday-olinadi|xavfsizlik\/tolov-qilindi-mahsulot-kelmadi)$/.test(pathname);
         return { ...item, lastmod: isPolicy ? POLICY_LAST_MODIFIED : DATA_LAST_MODIFIED };
       },
     }),

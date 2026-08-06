@@ -36,6 +36,41 @@ const answer = {
   ru: 'Рейтинг не составляется вручную: каждый сервис оценивается по опубликованным им данным, значения нормализуются к 0–1 и складываются с заранее объявленными весами.',
   en: 'The ranking is not hand-curated: each service is measured on data it publishes, values are normalised to 0–1 and combined with weights announced in advance.',
 }[locale];
+
+const faq = {
+  uz: [
+    { q: 'Telegram xizmatlari reytingi qanday hisoblanadi?', a: 'Narx, yetkazish tezligi, to‘lov qamrovi, xizmat tarixi, ochiq sharhlar va pul qaytarish kafolati 0–1 oralig‘ida normallashtirilib, segment vaznlari bilan hisoblanadi.' },
+    { q: 'Nega bitta umumiy eng yaxshi xizmat yo‘q?', a: 'Arzonlik, ishonchlilik va tezlik boshqa-boshqa ehtiyojlar. Shu sabab har bir maqsad uchun alohida reyting beriladi.' },
+    { q: 'Reyting qachon yangilanadi?', a: 'Provayder ma’lumotlari qayta tekshirilganda ballar avtomatik qayta hisoblanadi; tekshirish sanasi sahifada ko‘rsatiladi.' },
+  ],
+  ru: [
+    { q: 'Как рассчитывается рейтинг Telegram-сервисов?', a: 'Цена, скорость доставки, охват платежей, история сервиса, открытые отзывы и гарантия возврата нормализуются к 0–1 и считаются с весами сегмента.' },
+    { q: 'Почему нет одного лучшего сервиса?', a: 'Низкая цена, надёжность и скорость отвечают разным задачам, поэтому для каждой цели используется отдельный рейтинг.' },
+    { q: 'Когда обновляется рейтинг?', a: 'После перепроверки данных провайдеров баллы пересчитываются автоматически; дата проверки указана на странице.' },
+  ],
+  en: [
+    { q: 'How are Telegram service rankings calculated?', a: 'Price, delivery speed, payment coverage, track record, public reviews and refund protection are normalised to 0–1 and combined using segment weights.' },
+    { q: 'Why is there no single best service?', a: 'Low price, trust and speed serve different needs, so each goal has a separate ranking.' },
+    { q: 'When are rankings updated?', a: 'Scores are recalculated automatically when provider data is re-verified; the verification date appears on the page.' },
+  ],
+}[locale];
+
+const related = [
+  { href: localePath('/mezonlar', locale), title: { uz: 'Baholash mezonlari', ru: 'Методология оценки', en: 'Rating methodology' }[locale], desc: { uz: 'Formula, vaznlar va noma’lum ma’lumot jarimasini ko‘ring.', ru: 'Посмотрите формулу, веса и штраф за неизвестные данные.', en: 'See the formula, weights and missing-data penalty.' }[locale] },
+  { href: localePath('/narxlar', locale), title: { uz: 'Joriy narxlar', ru: 'Актуальные цены', en: 'Current prices' }[locale], desc: { uz: 'Stars, Premium va Gifts narxlarini tekshiring.', ru: 'Проверьте цены Stars, Premium и Gifts.', en: 'Check Stars, Premium and Gifts prices.' }[locale] },
+  { href: localePath('/xavfsizlik', locale), title: { uz: 'Xavfsiz xarid', ru: 'Безопасная покупка', en: 'Buy safely' }[locale], desc: { uz: 'Xizmatni tanlashdan oldin xavf belgilarini biling.', ru: 'Изучите признаки риска перед выбором сервиса.', en: 'Know the warning signs before choosing a service.' }[locale] },
+];
 ---
 
-<SectionIndex {locale} section="reyting" {items} {answer} />
+<SectionIndex {locale} section="reyting" {items} {answer} {faq} {related}>
+  <section aria-labelledby="ranking-purpose-heading">
+    <h2 id="ranking-purpose-heading">
+      {locale === 'uz' ? 'Qaysi Telegram xizmati arzon, ishonchli yoki tez?' : locale === 'ru' ? 'Какой Telegram-сервис дешевле, надёжнее или быстрее?' : 'Which Telegram service is cheaper, more trusted or faster?'}
+    </h2>
+    <p>
+      {locale === 'uz' && <>Reyting bitta reklama ro‘yxati emas. <strong>Eng arzon</strong> segment narxga, <strong>eng ishonchli</strong> segment xizmat tarixi, ochiq sharhlar va pul qaytarishga, <strong>eng tez</strong> segment esa e’lon qilingan yetkazish vaqtiga ko‘proq vazn beradi.</>}
+      {locale === 'ru' && <>Это не единый рекламный список. Сегмент <strong>самый дешёвый</strong> делает акцент на цене, <strong>самый надёжный</strong> — на истории, открытых отзывах и возврате, а <strong>самый быстрый</strong> — на заявленном сроке доставки.</>}
+      {locale === 'en' && <>This is not a single promotional list. The <strong>cheapest</strong> segment prioritises price, <strong>most trusted</strong> prioritises track record, public reviews and refunds, and <strong>fastest</strong> prioritises stated delivery time.</>}
+    </p>
+  </section>
+</SectionIndex>

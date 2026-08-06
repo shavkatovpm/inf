@@ -46,10 +46,10 @@ const nav = [
     <link rel="canonical" href={canonical} />
 
     {/* hreflang — uchala til + x-default. starsjoy'dagi eng katta bo'shliq shu yerda yopiladi. */}
-    {LOCALES.map((l) => (
+    {!noindex && LOCALES.map((l) => (
       <link rel="alternate" hreflang={HREFLANG[l]} href={localeUrl(path, l)} />
     ))}
-    <link rel="alternate" hreflang="x-default" href={localeUrl(path, 'uz')} />
+    {!noindex && <link rel="alternate" hreflang="x-default" href={localeUrl(path, 'uz')} />}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE.name} />
@@ -114,7 +114,7 @@ const nav = [
             {LOCALES.map((l) => (
               <li>
                 <a
-                  href={localePath(path, l)}
+                  href={localePath(noindex ? '/' : path, l)}
                   hreflang={HREFLANG[l]}
                   aria-current={l === locale ? 'true' : undefined}
                 >{l.toUpperCase()}</a>

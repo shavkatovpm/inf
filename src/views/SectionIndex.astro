@@ -9,7 +9,7 @@ import { t, type Locale } from '../i18n/ui';
 import { SECTIONS, type SectionKey } from '../i18n/pages';
 import { localePath } from '../config/site.js';
 import { VERIFIED_AT } from '../lib/providers';
-import { breadcrumbNode, itemListNode, articleNode } from '../lib/schema';
+import { breadcrumbNode, collectionPageNode, faqNode, itemListNode } from '../lib/schema';
 import { localeUrl } from '../config/site.js';
 
 export interface CardItem {
@@ -19,40 +19,45 @@ export interface CardItem {
   meta?: string;
 }
 
+export interface RelatedItem { href: string; title: string; desc: string }
+export interface FaqItem { q: string; a: string }
+
 interface Props {
   locale: Locale;
   section: SectionKey;
   items: CardItem[];
   /** Fold ustidagi qo'shimcha javob bloki (ixtiyoriy). */
   answer?: string;
+  faq?: FaqItem[];
+  related?: RelatedItem[];
 }
 
-const { locale, section, items, answer } = Astro.props;
+const { locale, section, items, answer, faq = [], related = [] } = Astro.props;
 const tr = t(locale);
 const copy = SECTIONS[locale][section];
 const path = `/${section}`;
+
+const listSchema = itemListNode({
+  name: copy.h1,
+  items: items.map((i) => ({
+    name: i.title,
+    url: `${localeUrl('/', locale).replace(/\/$/, '')}${i.href.replace(/^\/(ru|en)/, '')}`,
+    description: i.desc,
+  })),
+});
 
 const schema = [
   breadcrumbNode(locale, [
     { name: 'Infogram', path: '/' },
     { name: copy.h1, path },
   ]),
-  articleNode({
-    locale,
-    headline: copy.h1,
+  collectionPageNode({
+    locale, name: copy.h1,
     description: copy.description,
     path,
-    datePublished: VERIFIED_AT,
-    dateModified: VERIFIED_AT,
+    mainEntity: listSchema,
   }),
-  itemListNode({
-    name: copy.h1,
-    items: items.map((i) => ({
-      name: i.title,
-      url: `${localeUrl('/', locale).replace(/\/$/, '')}${i.href.replace(/^\/(ru|en)/, '')}`,
-      description: i.desc,
-    })),
-  }),
+  ...(faq.length ? [faqNode(faq)] : []),
 ];
 ---
 
@@ -84,4 +89,30 @@ const schema = [
   </div>
 
   <slot />
+
+  {related.length > 0 && (
+    <section aria-labelledby="related-heading">
+      <h2 id="related-heading">
+        {locale === 'uz' ? 'Mavzuni davom ettiring' : locale === 'ru' ? 'Продолжить изучение' : 'Continue exploring'}
+      </h2>
+      <div class="cards">
+        {related.map((item) => (
+          <a class="card" href={item.href}>
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {faq.length > 0 && (
+    <section aria-labelledby="faq-heading">
+      <h2 id="faq-heading">
+        {locale === 'uz' ? 'Ko‘p so‘raladigan savollar' : locale === 'ru' ? 'Частые вопросы' : 'Frequently asked questions'}
+      </h2>
+      {faq.map((item) => (<><h3>{item.q}</h3><p>{item.a}</p></>))}
+    </section>
+  )}
+
 </Layout>

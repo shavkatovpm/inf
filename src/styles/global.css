@@ -518,6 +518,10 @@ tr.official th, tr.official td { color: var(--muted); }
   margin: 0 0 var(--s-2); font-size: var(--t-md); font-weight: 600;
   padding: 0; border: none;
 }
+.card h3 {
+  margin: 0 0 var(--s-2); font-size: var(--t-md); font-weight: 600;
+  padding: 0; border: none;
+}
 .card p { margin: 0; color: var(--fg-2); font-size: var(--t-sm); max-width: none; }
 .card-meta {
   display: block; margin-top: var(--s-3);

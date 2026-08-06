@@ -38,6 +38,55 @@ const answer = {
   ru: `В сервисах с оплатой в сумах 1 Telegram Star стоит от ${uzs(minStar)} сум, Telegram Premium на 12 месяцев — от ${uzs(min12)} сум. Все принимают UzCard и HUMO.`,
   en: `Among services accepting UZS, 1 Telegram Star starts at ${uzs(minStar)} UZS and 12-month Telegram Premium at ${uzs(min12)} UZS. All accept UzCard and HUMO.`,
 }[locale];
+
+const faq = {
+  uz: [
+    { q: 'Telegram Stars narxi qancha?', a: `So‘mda to‘lov qabul qiladigan tekshirilgan xizmatlarda 1 Telegram Star narxi ${uzs(minStar)} so‘mdan boshlanadi. Yakuniy narx paket miqdori va xizmatga bog‘liq.` },
+    { q: 'Telegram Premium 12 oylik narxi qancha?', a: `Taqqoslangan mahalliy xizmatlarda 12 oylik Telegram Premium ${uzs(min12)} so‘mdan boshlanadi.` },
+    { q: 'UzCard va HUMO bilan to‘lash mumkinmi?', a: 'Ha. Jadvalga kiritilgan mahalliy xizmatlar UzCard va HUMO orqali so‘mda to‘lov qabul qiladi.' },
+  ],
+  ru: [
+    { q: 'Сколько стоит Telegram Stars?', a: `У проверенных сервисов с оплатой в сумах цена одной Telegram Star начинается от ${uzs(minStar)} сум. Итог зависит от пакета и сервиса.` },
+    { q: 'Сколько стоит Telegram Premium на 12 месяцев?', a: `У сравниваемых локальных сервисов цена Telegram Premium на 12 месяцев начинается от ${uzs(min12)} сум.` },
+    { q: 'Можно оплатить UzCard или HUMO?', a: 'Да. Локальные сервисы из таблицы принимают оплату в сумах через UzCard и HUMO.' },
+  ],
+  en: [
+    { q: 'How much does Telegram Stars cost?', a: `At verified services accepting UZS, one Telegram Star starts at ${uzs(minStar)} UZS. The final rate depends on package size and provider.` },
+    { q: 'How much is 12 months of Telegram Premium?', a: `Across the compared local services, 12-month Telegram Premium starts at ${uzs(min12)} UZS.` },
+    { q: 'Can I pay with UzCard or HUMO?', a: 'Yes. The local services in the comparison accept UZS payments through UzCard and HUMO.' },
+  ],
+}[locale];
+
+const related = [
+  { href: localePath('/reyting', locale), title: { uz: 'Xizmatlar reytingi', ru: 'Рейтинг сервисов', en: 'Service rankings' }[locale], desc: { uz: 'Narxdan tashqari ishonchlilik va tezlikni ham solishtiring.', ru: 'Сравните не только цену, но и надёжность и скорость.', en: 'Compare trust and speed as well as price.' }[locale] },
+  { href: localePath('/kalkulyator', locale), title: { uz: 'Stars kalkulyatori', ru: 'Калькулятор Stars', en: 'Stars calculator' }[locale], desc: { uz: 'Kerakli Stars miqdorining so‘mdagi narxini hisoblang.', ru: 'Рассчитайте цену нужного количества Stars в сумах.', en: 'Calculate the UZS cost of the Stars amount you need.' }[locale] },
+  { href: localePath('/xavfsizlik', locale), title: { uz: 'Xavfsiz xarid', ru: 'Безопасная покупка', en: 'Buy safely' }[locale], desc: { uz: 'To‘lovdan oldin firibgarlik belgilarini tekshiring.', ru: 'Проверьте признаки мошенничества до оплаты.', en: 'Check fraud warning signs before paying.' }[locale] },
+];
 ---
 
-<SectionIndex {locale} section="narxlar" {items} {answer} />
+<SectionIndex {locale} section="narxlar" {items} {answer} {faq} {related}>
+  <section aria-labelledby="price-intent-heading">
+    <h2 id="price-intent-heading">
+      {locale === 'uz' ? 'O‘zbekistonda Telegram Stars va Premium qancha turadi?' : locale === 'ru' ? 'Сколько стоят Telegram Stars и Premium в Узбекистане?' : 'How much do Telegram Stars and Premium cost in Uzbekistan?'}
+    </h2>
+    <p>
+      {locale === 'uz' && <>Telegram Stars narxi paket hajmiga, Premium narxi esa obuna muddatiga bog‘liq. Hozirgi tekshiruvda 1 Star <strong>{uzs(minStar)} so‘mdan</strong>, 12 oylik Telegram Premium esa <strong>{uzs(min12)} so‘mdan</strong> boshlanadi. Bu minimal e’lon qilingan narxlar; to‘lovdan oldin yakuniy summani xizmat sahifasida tekshiring.</>}
+      {locale === 'ru' && <>Цена Telegram Stars зависит от размера пакета, а Premium — от срока подписки. На момент проверки 1 Star стоит <strong>от {uzs(minStar)} сум</strong>, а Premium на 12 месяцев — <strong>от {uzs(min12)} сум</strong>. Перед оплатой проверьте итоговую сумму у сервиса.</>}
+      {locale === 'en' && <>Telegram Stars pricing depends on package size, while Premium depends on subscription term. At the latest check, 1 Star starts at <strong>{uzs(minStar)} UZS</strong> and 12-month Premium at <strong>{uzs(min12)} UZS</strong>. Verify the final amount with the service before paying.</>}
+    </p>
+
+    <h2>
+      {locale === 'uz' ? 'Arzon narxni qanday to‘g‘ri solishtirish kerak?' : locale === 'ru' ? 'Как правильно сравнить низкие цены?' : 'How should you compare low prices?'}
+    </h2>
+    <p>
+      {locale === 'uz' && <>“Eng arzon” taklifni topishda Stars uchun <strong>bir dona narxini</strong>, Premium uchun esa <strong>bir oylik qiymatni</strong> solishtiring. Paket soni, komissiya, yetkazish muddati va pul qaytarish sharti hisobga olinmasa, past ko‘ringan narx amalda foydali bo‘lmasligi mumkin.</>}
+      {locale === 'ru' && <>Для Stars сравнивайте <strong>цену одной звезды</strong>, для Premium — <strong>стоимость одного месяца</strong>. Учитывайте размер пакета, комиссию, срок доставки и условия возврата.</>}
+      {locale === 'en' && <>For Stars, compare the <strong>per-Star rate</strong>; for Premium, compare the <strong>monthly cost</strong>. Include package size, fees, delivery time and refund terms.</>}
+    </p>
+    <ul>
+      <li>{locale === 'uz' ? 'Stars: paket narxi ÷ Stars soni' : locale === 'ru' ? 'Stars: цена пакета ÷ количество Stars' : 'Stars: package price ÷ Stars quantity'}</li>
+      <li>{locale === 'uz' ? 'Premium: tarif narxi ÷ oylar soni' : locale === 'ru' ? 'Premium: цена тарифа ÷ количество месяцев' : 'Premium: plan price ÷ number of months'}</li>
+      <li>{locale === 'uz' ? 'Xavfsizlik: ochiq sharhlar, support va refund sharti' : locale === 'ru' ? 'Безопасность: открытые отзывы, поддержка и возврат' : 'Safety: public reviews, support and refund terms'}</li>
+    </ul>
+  </section>
+</SectionIndex>
