@@ -82,9 +82,11 @@ const nav = [
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={`${SITE.origin}/og-image-frame.png`} />
 
+    {/* Rasmlar scripts/build-brand.mjs dan chiqadi — belgi Logo.astro bilan bir manbadan. */}
     <link rel="icon" href="/favicon-frame.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-frame-48.png" type="image/png" sizes="48x48" />
-    <link rel="icon" href="/favicon-frame-32.png" sizes="32x32" />
+    <link rel="icon" href="/favicon-frame-32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
     <link rel="apple-touch-icon" href="/apple-touch-icon-frame.png" />
 
     <link rel="alternate" type="application/rss+xml" title={SITE.name} href={`${SITE.origin}/rss.xml`} />
