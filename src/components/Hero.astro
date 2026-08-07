@@ -81,11 +81,11 @@ const primaryProof = {
     <div class="hero-buy">
       <div class="cta-block">
         <div class="hero-cta">
-          <a class="btn btn-primary" href={botLink(PRIMARY.bot!, `${source}-hero-stars`)} target="_blank" rel="noopener" data-funnel-event data-source={`${source}-hero-stars`} data-product="stars" data-provider={PRIMARY.id}>
+          <a class="btn btn-primary" href={botLink(PRIMARY.bot!, `${source}-hero-stars`)} target="_blank" rel="noopener sponsored nofollow" data-funnel-event data-source={`${source}-hero-stars`} data-product="stars" data-provider={PRIMARY.id}>
             {tr('cta.buyStars')}
             <span aria-hidden="true">→</span>
           </a>
-          <a class="btn btn-ghost" href={botLink(PRIMARY.bot!, `${source}-hero-premium`)} target="_blank" rel="noopener" data-funnel-event data-source={`${source}-hero-premium`} data-product="premium" data-provider={PRIMARY.id}>
+          <a class="btn btn-ghost" href={botLink(PRIMARY.bot!, `${source}-hero-premium`)} target="_blank" rel="noopener sponsored nofollow" data-funnel-event data-source={`${source}-hero-premium`} data-product="premium" data-provider={PRIMARY.id}>
             {tr('cta.buyPremium')}
           </a>
         </div>
@@ -96,9 +96,9 @@ const primaryProof = {
         </p>
         <p class="cta-proof">{primaryProof}</p>
         <p class="cta-disclosure">
-          {locale === 'uz' && 'Xarid StarsJoy botida amalga oshiriladi.'}
-          {locale === 'ru' && 'Покупка оформляется в боте StarsJoy.'}
-          {locale === 'en' && 'The purchase is completed in the StarsJoy bot.'}
+          {locale === 'uz' && `Xarid ${PRIMARY.name} botida amalga oshiriladi.`}
+          {locale === 'ru' && `Покупка оформляется в боте ${PRIMARY.name}.`}
+          {locale === 'en' && `The purchase is completed in the ${PRIMARY.name} bot.`}
         </p>
       </div>
     </div>

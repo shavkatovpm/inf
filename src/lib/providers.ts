@@ -102,12 +102,27 @@ export function starsPrice(p: Provider, qty: number): number | null {
   return s.perUnit * qty;
 }
 
-/** Narx e'lon qilinganmi yoki hisoblanganmi — UI da "taxminiy" belgisi uchun. */
-export function isStarsPriceExact(p: Provider, qty: number): boolean {
+/**
+ * Narx provayder tomonidan tayyor paket sifatida e'lon qilinganmi.
+ * Faqat shu holatda jadvalda belgisiz ko'rsatiladi.
+ */
+export function isStarsPriceListed(p: Provider, qty: number): boolean {
+  return p.products?.stars?.packages?.some((x: any) => x.qty === qty) === true;
+}
+
+/**
+ * Narx ochiq ma'lumotdan kelib chiqadimi — ya'ni "eng arzon" belgisiga
+ * da'vogar bo'la oladimi.
+ *
+ * Paket narxi ham, e'lon qilingan flat rate'dan (1 dona × miqdor) chiqqan narx
+ * ham hisobga olinadi. Aks holda paket e'lon qilmagan, lekin arzonroq
+ * provayderning narxi taqqoslashdan tushib qolar edi va "eng arzon" belgisi
+ * qimmatroq xizmatga noto'g'ri berilardi.
+ */
+export function isStarsPricePublished(p: Provider, qty: number): boolean {
   const s = p.products?.stars;
   if (!s) return false;
-  if (s.packages?.some((x: any) => x.qty === qty)) return true;
-  return s.flatRate === true;
+  return isStarsPriceListed(p, qty) || s.flatRate === true;
 }
 
 const MS_PER_MONTH = 1000 * 60 * 60 * 24 * 30.44;
@@ -233,8 +248,47 @@ export function rankBySegment(product: ProductId, segment: SegmentId): ScoreBrea
     .sort((a, b) => b.total - a.total);
 }
 
-/** So'm formatlash — 240000 -> "240 000". */
-export function uzs(n: number | null): string {
-  if (n === null) return '—';
+/**
+ * "A, B yoki C" — lokalga mos bog'lovchi bilan.
+ * llms.txt va matnli javoblarda provayder nomlari qo'lda yozilmasligi uchun.
+ */
+export function joinNames(names: string[], locale: Locale, kind: 'or' | 'and' = 'or'): string {
+  if (names.length <= 1) return names[0] ?? '';
+  const conj = {
+    or: { uz: 'yoki', ru: 'или', en: 'or' },
+    and: { uz: 'va', ru: 'и', en: 'and' },
+  }[kind][locale];
+  return `${names.slice(0, -1).join(', ')} ${conj} ${names[names.length - 1]}`;
+}
+
+/** Mahsulotni sotuvchilar nomlari — matnga qo'yish uchun tayyor ro'yxat. */
+export function sellerNames(product: ProductId, locale: Locale): string[] {
+  return sellersOf(product).map((p) => providerName(p, locale));
+}
+
+/** Reseller'larda uchraydigan barcha to'lov usullari — takrorsiz birlashma. */
+export function allPayments(locale: Locale): string[] {
+  const seen = new Set<string>();
+  for (const p of PROVIDERS.filter((x) => x.type === 'reseller')) {
+    for (const method of providerPayments(p, locale)) seen.add(method);
+  }
+  return [...seen];
+}
+
+/**
+ * Barcha reseller'larda BIRDEK mavjud to'lov usullari.
+ * "Hammasi UzCard va HUMO qabul qiladi" kabi da'volar shu yerdan chiqadi —
+ * provayder qo'shilganda da'vo o'zi to'g'rilanadi.
+ */
+export function commonPayments(locale: Locale): string[] {
+  const lists = PROVIDERS.filter((p) => p.type === 'reseller').map((p) => providerPayments(p, locale));
+  if (lists.length === 0) return [];
+  const [first, ...rest] = lists;
+  return first.filter((method) => rest.every((list) => list.includes(method)));
+}
+
+/** So'm formatlash — 240000 -> "240 000". Ma'lumot yo'q bo'lsa "—". */
+export function uzs(n: number | null | undefined): string {
+  if (n === null || n === undefined) return '—';
   return n.toLocaleString('ru-RU').replace(/ /g, ' ');
 }

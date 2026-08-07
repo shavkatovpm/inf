@@ -29,9 +29,10 @@ const label = {
   gifts: tr('cta.sendGift'),
 }[product];
 
-// Stars va Premium uchun foydalanuvchiga ikkinchi sotib olish yo'lini ham
-// ko'rsatamiz. StarsJoy asosiy CTA bo'lib qoladi, Uzgets — muqobil variant.
-const alternative = sellersOf(product).find((p) => p.id === 'uzgets' && p.bot);
+// Foydalanuvchiga ikkinchi sotib olish yo'lini ham ko'rsatamiz: asosiy xizmat
+// (PRIMARY) birinchi CTA bo'lib qoladi, undan keyingi birinchi botli sotuvchi —
+// muqobil variant. Provayder ro'yxati o'zgarsa bu o'zi moslashadi.
+const alternative = sellersOf(product).find((p) => p.id !== PRIMARY.id && p.bot);
 const optionsTitle = {
   uz: 'Xarid variantlari',
   ru: 'Варианты покупки',
@@ -46,7 +47,7 @@ const optionsTitle = {
       class="btn btn-primary"
       href={botLink(PRIMARY.bot!, source)}
       target="_blank"
-      rel="noopener"
+      rel="noopener sponsored nofollow"
       data-funnel-event
       data-source={source}
       data-product={product}
@@ -61,7 +62,7 @@ const optionsTitle = {
         class="btn btn-ghost"
         href={botLink(alternative.bot!, `${source}-uzgets`)}
         target="_blank"
-        rel="noopener"
+        rel="noopener sponsored nofollow"
         data-funnel-event
         data-source={`${source}-uzgets`}
         data-product={product}

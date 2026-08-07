@@ -161,7 +161,10 @@ const schema = [
     {PROVIDERS.map((p) => (
       <li>
         {providerName(p, locale)} — {((SOURCES as any)[p.id] ?? []).map((u: string, i: number) => (
-          <>{i > 0 && ', '}<a href={u} rel="noopener">{new URL(u).pathname === '/' ? new URL(u).host : new URL(u).pathname}</a></>
+          // Tijoriy xizmatlarga havolalar nofollow: ular reytingda baholanadi,
+          // biz ularga reyting signali bermaymiz. Telegram'ning rasmiy
+          // hujjatlari esa oddiy manba iqtibosi.
+          <>{i > 0 && ', '}<a href={u} target="_blank" rel={p.type === 'reseller' ? 'noopener nofollow' : 'noopener'}>{new URL(u).pathname === '/' ? new URL(u).host : new URL(u).pathname}</a></>
         ))}
       </li>
     ))}

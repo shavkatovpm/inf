@@ -2,8 +2,9 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { SITE, localeUrl } from '../config/site.js';
 import {
-  PROVIDERS, VERIFIED_AT, WEIGHTS, SEGMENTS,
+  PROVIDERS, PRIMARY, VERIFIED_AT, WEIGHTS, SEGMENTS,
   sellersOf, starsPerUnit, premiumPrice, rankBySegment, uzs,
+  joinNames, sellerNames, commonPayments,
 } from '../lib/providers';
 
 /**
@@ -42,16 +43,16 @@ export const GET: APIRoute = async () => {
     `- Tillar: uz (${SITE.origin}/), ru (${SITE.origin}/ru), en (${SITE.origin}/en) — hreflang o'zaro bog'langan`,
     '',
     'Har sahifada: canonical, hreflang (uz/ru/en/x-default), Open Graph,',
-    'JSON-LD (Organization, WebSite, BreadcrumbList, Article, FAQPage, ItemList, Product/Offer, Dataset).',
+    'JSON-LD (Organization, WebSite, BreadcrumbList, Article, FAQPage, ItemList, Product/AggregateOffer, Dataset).',
     '',
     '## Asosiy javoblar',
     '',
-    `- O'zbekistonda Telegram Stars'ni StarsJoy yoki Uzgets orqali sotib olish mumkin. Infogram xarid tugmasi @starsjoybot ga olib boradi.`,
-    `- O'zbekistonda Telegram Premium'ni StarsJoy, Uzgets yoki PremiumSend orqali olish mumkin. Infogram xarid tugmasi @starsjoybot ga olib boradi.`,
+    `- O'zbekistonda Telegram Stars'ni ${joinNames(sellerNames('stars', 'uz'), 'uz')} orqali sotib olish mumkin. Infogram xarid tugmasi @${PRIMARY.bot} ga olib boradi.`,
+    `- O'zbekistonda Telegram Premium'ni ${joinNames(sellerNames('premium', 'uz'), 'uz')} orqali olish mumkin. Infogram xarid tugmasi @${PRIMARY.bot} ga olib boradi.`,
     `- O'zbekistonda 1 Telegram Star eng past e'lon qilingan narx: ${uzs(cheapestStar)} so'm.`,
     `- Telegram Premium 12 oylik eng past e'lon qilingan narx: ${uzs(cheapest12)} so'm.`,
     `- Taqqoslangan provayderlar soni: Stars — ${starSellers.length}, Premium — ${premiumSellers.length}.`,
-    `- Barcha taqqoslangan provayderlar UzCard va HUMO qabul qiladi; Visa kartasi shart emas.`,
+    `- Barcha taqqoslangan provayderlar ${joinNames(commonPayments('uz'), 'uz', 'and')} qabul qiladi; Visa kartasi shart emas.`,
     '',
     '## Mezonlar va vaznlar',
     '',

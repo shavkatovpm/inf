@@ -17,10 +17,22 @@ interface Props {
   schema?: Record<string, unknown>[];
   /** 404 kabi indekslanmasligi kerak bo'lgan sahifalar uchun. */
   noindex?: boolean;
+  /** Maqola va pillar sahifalarida 'article' — OG turi kontentga mos bo'lishi kerak. */
+  ogType?: 'website' | 'article';
+  /** ogType='article' bo'lganda OG vaqt teglari uchun. JSON-LD bilan bir manbadan. */
+  articleDates?: { published: string; modified: string };
 }
 
-const { locale, title, description, path, schema = [], noindex = false } = Astro.props;
+const {
+  locale, title, description, path,
+  schema = [], noindex = false, ogType = 'website', articleDates,
+} = Astro.props;
 const tr = t(locale);
+
+// Analitika faqat ID berilganda yuklanadi. Busiz FunnelTracking'dagi
+// `infogram_cta_click` eventini o'qiydigan hech kim bo'lmaydi.
+const GTM_ID = import.meta.env.PUBLIC_GTM_ID;
+const PLAUSIBLE_DOMAIN = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
 
 const canonical = localeUrl(path, locale);
 // Mahsulot pillar sahifalari navigatsiyada birinchi — ular asosiy
@@ -51,7 +63,13 @@ const nav = [
     ))}
     {!noindex && <link rel="alternate" hreflang="x-default" href={localeUrl(path, 'uz')} />}
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    {ogType === 'article' && articleDates && (
+      <>
+        <meta property="article:published_time" content={articleDates.published} />
+        <meta property="article:modified_time" content={articleDates.modified} />
+      </>
+    )}
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -84,9 +102,35 @@ const nav = [
     <link rel="alternate" type="application/json" title="Narx dataseti (CC-BY-4.0)" href={`${SITE.origin}/api/narxlar.json`} />
 
     <Schema locale={locale} nodes={[organizationNode(locale), websiteNode(locale), ...schema]} />
+
+    {GTM_ID && (
+      <script is:inline define:vars={{ GTM_ID }}>
+        (function (w, d, s, l, i) {
+          w[l] = w[l] || [];
+          w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+          var f = d.getElementsByTagName(s)[0];
+          var j = d.createElement(s);
+          j.async = true;
+          j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i;
+          f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', GTM_ID);
+      </script>
+    )}
+    {PLAUSIBLE_DOMAIN && (
+      <script defer is:inline data-domain={PLAUSIBLE_DOMAIN} src="https://plausible.io/js/script.js"></script>
+    )}
   </head>
 
   <body>
+    {GTM_ID && (
+      <noscript>
+        <iframe
+          src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+          height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"
+        ></iframe>
+      </noscript>
+    )}
+
     <a href="#main" class="skip">
       → {locale === 'uz' ? 'Asosiy kontentga' : locale === 'ru' ? 'К основному содержанию' : 'Skip to main content'}
     </a>
@@ -97,7 +141,7 @@ const nav = [
 
         {/* Menyu tugmasi — JS yoqilgandagina ko'rinadi (skript uni ochadi).
             JS bo'lmasa navigatsiya oddiy ro'yxat bo'lib ochiq qoladi. */}
-        <button type="button" class="nav-btn" id="nav-btn" aria-label={tr('nav.menu')} aria-expanded="true" aria-controls="site-nav" hidden>
+        <button type="button" class="nav-btn" id="nav-btn" aria-label={tr('nav.menu')} aria-expanded="false" aria-controls="site-nav" hidden>
           <span class="nav-btn-bars" aria-hidden="true"><span></span><span></span><span></span></span>
           <span class="nav-btn-label">{tr('nav.menu')}</span>
         </button>

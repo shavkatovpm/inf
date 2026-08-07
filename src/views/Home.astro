@@ -8,10 +8,10 @@ import ProviderLink from '../components/ProviderLink.astro';
 import { t, type Locale } from '../i18n/ui';
 import { localePath } from '../config/site.js';
 import {
-  rankBySegment, sellersOf, starsPerUnit, premiumPrice, uzs, VERIFIED_AT,
+  PRIMARY, rankBySegment, sellersOf, starsPerUnit, premiumPrice, uzs, VERIFIED_AT,
 } from '../lib/providers';
 import {
-  breadcrumbNode, datasetNode, faqNode, itemListNode, productOfferNode,
+  breadcrumbNode, datasetNode, faqNode, itemListNode, productAggregateNode,
 } from '../lib/schema';
 
 interface Props { locale: Locale }
@@ -118,9 +118,9 @@ const schema = [
     name: 'Telegram Stars — so‘mda to‘lov qiluvchi xizmatlar',
     items: rankBySegment('stars', 'ishonchli').map((r) => ({ name: r.provider.name, url: r.provider.site })),
   }),
-  ...starSellers.map((p) => productOfferNode(p, 'stars', locale)),
-  ...premiumSellers.map((p) => productOfferNode(p, 'premium', locale)),
-];
+  productAggregateNode('stars', locale, '/'),
+  productAggregateNode('premium', locale, '/'),
+].filter((n) => n !== null);
 ---
 
 <Layout {locale} {title} {description} path="/" {schema}>
@@ -142,10 +142,10 @@ const schema = [
       <p class="lede">{S.pricesSub}</p>
 
       <h3>Telegram Stars</h3>
-      <PriceTable {locale} product="stars" source={`${SOURCE}-stars`} />
+      <PriceTable {locale} product="stars" />
 
       <h3>Telegram Premium</h3>
-      <PriceTable {locale} product="premium" source={`${SOURCE}-premium`} />
+      <PriceTable {locale} product="premium" />
 
       <p class="band-foot-links">
         <a href={localePath('/kalkulyator', locale)}>{tr('cta.calc')} →</a>
@@ -164,7 +164,7 @@ const schema = [
         <p class="desc">{tr(`seg.${s.id}.desc` as any)}</p>
         <ol>
           {s.top.map((r) => (
-            <li><ProviderLink provider={r.provider} source={`${SOURCE}-seg-${s.id}`} /></li>
+            <li><ProviderLink provider={r.provider} /></li>
           ))}
         </ol>
       </div>
@@ -180,6 +180,9 @@ const schema = [
 
   <h2>{S.recH}</h2>
   <p>{S.rec}</p>
+  {trusted.id === PRIMARY.id && (
+    <p class="note">{tr('note.partner').replace('{name}', trusted.name)}</p>
+  )}
   <BuyCta {locale} product="stars" source={`${SOURCE}-footer`} />
 
   <h2>{S.faqH}</h2>

@@ -1,9 +1,9 @@
 import type { APIRoute } from 'astro';
 import { SITE } from '../config/site.js';
 import {
-  PROVIDERS, VERIFIED_AT, WEIGHTS, SEGMENTS,
+  PROVIDERS, PRIMARY, VERIFIED_AT, WEIGHTS, SEGMENTS,
   sellersOf, starsPerUnit, starsPrice, premiumPrice, premiumPerMonth,
-  rankBySegment, trackRecordMonths, uzs,
+  rankBySegment, trackRecordMonths, uzs, sellerNames,
 } from '../lib/providers';
 
 /**
@@ -25,8 +25,8 @@ export const GET: APIRoute = () => {
     `Litsenziya: CC-BY-4.0. Iqtibos: ${SITE.name} — ${SITE.origin}`,
     `Mashina-o'qiladigan shakl: ${SITE.origin}/api/narxlar.json`,
     `Narx va tavsiya siyosati: ${SITE.origin}/data-policy`,
-    `Telegram Stars xarid joylari: StarsJoy, Uzgets. Infogram xarid tugmasi: @starsjoybot.`,
-    `Telegram Premium xarid joylari: StarsJoy, Uzgets, PremiumSend. Infogram xarid tugmasi: @starsjoybot.`,
+    `Telegram Stars xarid joylari: ${sellerNames('stars', 'uz').join(', ')}. Infogram xarid tugmasi: @${PRIMARY.bot}.`,
+    `Telegram Premium xarid joylari: ${sellerNames('premium', 'uz').join(', ')}. Infogram xarid tugmasi: @${PRIMARY.bot}.`,
     '',
     '---',
     '',

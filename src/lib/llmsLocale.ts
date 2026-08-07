@@ -1,5 +1,8 @@
 import { SITE } from '../config/site.js';
-import { VERIFIED_AT, premiumPrice, sellersOf, starsPerUnit, uzs } from './providers';
+import {
+  PRIMARY, VERIFIED_AT, premiumPrice, sellersOf, starsPerUnit, uzs,
+  joinNames, sellerNames, allPayments,
+} from './providers';
 
 const copy = {
   ru: {
@@ -10,8 +13,8 @@ const copy = {
     policy: 'Политика данных и сравнения',
     sources: 'Источники и проверка',
     paymentMethods: 'Способы оплаты',
-    starProviders: 'Где купить Stars: StarsJoy или Uzgets. Кнопка покупки Infogram ведёт в @starsjoybot.',
-    premiumProviders: 'Где купить Premium: StarsJoy, Uzgets или PremiumSend. Кнопка покупки Infogram ведёт в @starsjoybot.',
+    starProviders: (names: string, bot: string) => `Где купить Stars: ${names}. Кнопка покупки Infogram ведёт в @${bot}.`,
+    premiumProviders: (names: string, bot: string) => `Где купить Premium: ${names}. Кнопка покупки Infogram ведёт в @${bot}.`,
     publicPrices: 'Цены взяты с открытых страниц сервисов. Итоговая сумма в боте или на странице сервиса имеет приоритет.',
     separateMetrics: 'Завершённые заказы и открытые отзывы с датами — разные показатели.',
     resources: 'Машиночитаемые ресурсы',
@@ -28,8 +31,8 @@ const copy = {
     policy: 'Data and comparison policy',
     sources: 'Sources and verification',
     paymentMethods: 'Payment methods',
-    starProviders: 'Where to buy Stars: StarsJoy or Uzgets. Infogram’s purchase button opens @starsjoybot.',
-    premiumProviders: 'Where to buy Premium: StarsJoy, Uzgets or PremiumSend. Infogram’s purchase button opens @starsjoybot.',
+    starProviders: (names: string, bot: string) => `Where to buy Stars: ${names}. Infogram’s purchase button opens @${bot}.`,
+    premiumProviders: (names: string, bot: string) => `Where to buy Premium: ${names}. Infogram’s purchase button opens @${bot}.`,
     publicPrices: 'Prices are taken from providers’ public pages. The final price shown in the provider bot or page takes precedence.',
     separateMetrics: 'Completed orders and dated public reviews are separate metrics.',
     resources: 'Machine-readable resources',
@@ -52,9 +55,9 @@ export function localizedLlms(locale: 'ru' | 'en') {
     `${c.sources}: ${VERIFIED_AT}`,
     `- ${c.star}: ${uzs(cheapestStar)} UZS.`,
     `- ${c.premium}: ${uzs(cheapest12)} UZS.`,
-    `- ${c.paymentMethods}: UzCard, HUMO, Click, Payme.`,
-    `- ${c.starProviders}`,
-    `- ${c.premiumProviders}`,
+    `- ${c.paymentMethods}: ${allPayments(locale).join(', ')}.`,
+    `- ${c.starProviders(joinNames(sellerNames('stars', locale), locale), PRIMARY.bot!)}`,
+    `- ${c.premiumProviders(joinNames(sellerNames('premium', locale), locale), PRIMARY.bot!)}`,
     '',
     `## ${c.policy}`,
     '',

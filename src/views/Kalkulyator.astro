@@ -117,6 +117,7 @@ const schema = [
         <tbody id="calc-rows"></tbody>
       </table>
     </div>
+    <p class="note">* {tr('note.approx')}</p>
   </div>
 
   {/* JS'siz ham to'liq ko'rinadigan statik jadval — crawler shuni o'qiydi. */}
@@ -125,7 +126,7 @@ const schema = [
     {locale === 'ru' && 'Таблица цен'}
     {locale === 'en' && 'Price table'}
   </h2>
-  <PriceTable {locale} product="stars" source={SOURCE} quantities={presets} />
+  <PriceTable {locale} product="stars" quantities={presets} />
 
   <BuyCta {locale} product={"stars"} source={`${SOURCE}-cta`} />
 
@@ -147,31 +148,37 @@ const schema = [
 
     const fmt = (n) => n.toLocaleString('ru-RU').replace(/ /g, ' ');
 
+    // `listed` — tayyor paket sifatida e'lon qilingan (belgisiz ko'rsatiladi).
+    // `published` — ochiq ma'lumotdan chiqadi (flat rate ham) va "eng arzon"
+    // belgisiga da'vogar bo'la oladi. PriceTable bilan bir xil qoida.
     function priceFor(p, qty) {
-      const exact = p.packages.find((x) => x[0] === qty);
-      if (exact) return { value: exact[1], exact: true };
-      return { value: p.unit * qty, exact: p.flat };
+      const pkg = p.packages.find((x) => x[0] === qty);
+      if (pkg) return { value: pkg[1], listed: true, published: true };
+      return { value: p.unit * qty, listed: false, published: p.flat };
     }
 
     function render() {
       const qty = Math.max(1, Math.min(1000000, parseInt(input.value, 10) || 0));
       const results = calcData.map((p) => ({ p, ...priceFor(p, qty) }));
-      const best = Math.min(...results.filter((r) => r.exact).map((r) => r.value));
+      const best = Math.min(...results.filter((r) => r.published).map((r) => r.value));
 
       rows.innerHTML = results
         .sort((a, b) => a.value - b.value)
         .map((r) => {
-          const isBest = r.exact && r.value === best;
-          const link = 'https://t.me/' + r.p.bot + '?start=ig_kalkulyator';
+          const isBest = r.published && r.value === best;
+          const source = 'kalkulyator-row-' + r.p.id;
+          const link = 'https://t.me/' + r.p.bot + '?start=ig_' + source;
           return (
             '<tr>' +
             '<th scope="row">' + r.p.name + '</th>' +
             '<td class="num">' + fmt(r.p.unit) + '</td>' +
             '<td class="num"><span class="' + (isBest ? 'best' : '') + '">' + fmt(r.value) + '</span>' +
-            (r.exact ? '' : ' <span class="approx">*</span>') +
+            (r.listed ? '' : ' <span class="approx">*</span>') +
             (isBest ? ' <span class="approx">' + cheapestLabel + '</span>' : '') +
             '</td>' +
-            '<td><a class="plink" href="' + link + '" target="_blank" rel="noopener">' + openLabel + ' ↗</a></td>' +
+            '<td><a class="plink" href="' + link + '" target="_blank" rel="noopener sponsored nofollow"' +
+            ' data-funnel-event data-source="' + source + '" data-product="stars" data-provider="' + r.p.id + '">' +
+            openLabel + ' ↗</a></td>' +
             '</tr>'
           );
         })

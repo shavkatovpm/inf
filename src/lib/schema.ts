@@ -4,7 +4,7 @@
  */
 import { SITE, localeUrl } from '../config/site.js';
 import type { Locale } from '../i18n/ui';
-import { type Provider, type ProductId, starsPerUnit, premiumPrice } from './providers';
+import { type ProductId, sellersOf, starsPerUnit } from './providers';
 
 const ORG_ID = `${SITE.origin}/#organization`;
 const SITE_ID = `${SITE.origin}/#website`;
@@ -112,63 +112,101 @@ export function howToNode(opts: { name: string; steps: { name: string; text: str
 }
 
 /**
- * Provayder + narxni Product/Offer sifatida beradi.
- * Narx ma'lumotini LLM uchun to'g'ridan-to'g'ri strukturali qiladi —
- * bozorda bu darajada qilingan boshqa sayt yo'q.
+ * Mahsulot + barcha sotuvchilarning narxlari — BITTA Product node.
+ *
+ * Nima uchun provayder boshiga alohida Product emas: Infogram sotuvchi emas,
+ * u taqqoslash nashri. Google'ning "product snippet" (merchant listing emas)
+ * shakli aynan shu holat uchun: sahifa mahsulot entity'si haqida, sotuvchilar
+ * esa `AggregateOffer` ichidagi alohida `Offer`lar sifatida beriladi.
+ * Har sotuvchining nomi bilan alohida "Product" e'lon qilish esa biz sotmaydigan
+ * tovarni sotayotgandek ko'rsatadi — bu structured data mismatch xavfi.
+ *
+ * `availability` ATAYLAB berilmaydi. Birinchidan, u uchinchi tomonning
+ * ombori haqidagi da'vo — biz uni tekshira olmaymiz, ya'ni saytning
+ * "tekshirilmagan qiymat yozilmaydi" qoidasiga zid. Ikkinchidan, `price` +
+ * `availability` juftligi Google uchun "merchant listing" signali bo'lib,
+ * biz sotmaydigan tovar uchun shippingDetails / hasMerchantReturnPolicy
+ * ogohlantirishlarini keltirib chiqaradi.
+ *
+ * `null` qaytsa — e'lon qilingan narx yo'q, node umuman chiqarilmaydi.
  */
-export function productOfferNode(p: Provider, product: ProductId, locale: Locale = 'uz') {
-  const offers: Record<string, unknown>[] = [];
+export function productAggregateNode(
+  product: Extract<ProductId, 'stars' | 'premium'>,
+  locale: Locale,
+  path: string,
+) {
   const productName = product === 'stars' ? 'Telegram Stars' : 'Telegram Premium';
-  const descriptions: Record<Locale, string> = {
-    uz: `${p.name} xizmatidagi ${productName} paketlari va O‘zbekiston so‘midagi e’lon qilingan narxlar.`,
-    ru: `Пакеты ${productName} в сервисе ${p.name} и опубликованные цены в узбекских сумах.`,
-    en: `${productName} packages from ${p.name} and their published prices in Uzbek soums.`,
-  };
   const monthLabel = (months: number) => (
     locale === 'uz' ? 'oy' : locale === 'ru' ? 'мес.' : months === 1 ? 'month' : 'months'
   );
+  const descriptions: Record<Locale, string> = {
+    uz: `O‘zbekistonda so‘mda to‘lov qabul qiladigan xizmatlarda ${productName} uchun e’lon qilingan narxlar.`,
+    ru: `Опубликованные цены на ${productName} в сервисах Узбекистана, принимающих оплату в сумах.`,
+    en: `Published ${productName} prices from services in Uzbekistan that accept payment in UZS.`,
+  };
 
-  if (product === 'stars') {
-    const unit = starsPerUnit(p);
-    for (const pkg of p.products?.stars?.packages ?? []) {
-      offers.push({
-        '@type': 'Offer',
-        name: `${pkg.qty} Telegram Stars`,
-        price: pkg.price,
-        priceCurrency: 'UZS',
-        availability: 'https://schema.org/InStock',
-        seller: { '@type': 'Organization', name: p.name, url: p.site },
-      });
-    }
-    if (offers.length === 0 && unit !== null) {
-      offers.push({
-        '@type': 'Offer',
-        name: '1 Telegram Star',
-        price: unit,
-        priceCurrency: 'UZS',
-        seller: { '@type': 'Organization', name: p.name, url: p.site },
-      });
-    }
-  } else if (product === 'premium') {
-    for (const plan of p.products?.premium?.plans ?? []) {
-      offers.push({
-        '@type': 'Offer',
-        name: `Telegram Premium — ${plan.months} ${monthLabel(plan.months)}`,
-        price: plan.price,
-        priceCurrency: 'UZS',
-        availability: 'https://schema.org/InStock',
-        seller: { '@type': 'Organization', name: p.name, url: p.site },
-      });
+  const offers: { '@type': string; name: string; price: number; [k: string]: unknown }[] = [];
+
+  for (const p of sellersOf(product)) {
+    const seller = { '@type': 'Organization', name: p.name, url: p.site };
+
+    if (product === 'stars') {
+      const packages = p.products?.stars?.packages ?? [];
+      if (packages.length > 0) {
+        for (const pkg of packages) {
+          offers.push({
+            '@type': 'Offer',
+            name: `${pkg.qty} Telegram Stars — ${p.name}`,
+            price: pkg.price,
+            priceCurrency: 'UZS',
+            seller,
+          });
+        }
+      } else {
+        const unit = starsPerUnit(p);
+        if (unit !== null) {
+          offers.push({
+            '@type': 'Offer',
+            name: `1 Telegram Star — ${p.name}`,
+            price: unit,
+            priceCurrency: 'UZS',
+            seller,
+          });
+        }
+      }
+    } else {
+      for (const plan of p.products?.premium?.plans ?? []) {
+        offers.push({
+          '@type': 'Offer',
+          name: `Telegram Premium — ${plan.months} ${monthLabel(plan.months)} — ${p.name}`,
+          price: plan.price,
+          priceCurrency: 'UZS',
+          seller,
+        });
+      }
     }
   }
 
+  if (offers.length === 0) return null;
+
+  const prices = offers.map((o) => o.price);
+
   return {
     '@type': 'Product',
-    name: `${p.name} — ${productName}`,
-    image: `${SITE.origin}/og-image.png`,
+    '@id': `${localeUrl(path, locale)}#product-${product}`,
+    name: productName,
     description: descriptions[locale],
-    brand: { '@type': 'Brand', name: p.name },
-    offers,
+    // Mahsulot Telegram'niki — sotuvchining emas.
+    brand: { '@type': 'Brand', name: 'Telegram' },
+    image: `${SITE.origin}/og-image-frame.png`,
+    offers: {
+      '@type': 'AggregateOffer',
+      priceCurrency: 'UZS',
+      lowPrice: Math.min(...prices),
+      highPrice: Math.max(...prices),
+      offerCount: offers.length,
+      offers,
+    },
   };
 }
 

@@ -13,18 +13,17 @@ import Layout from '../layouts/Layout.astro';
 import BuyCta from '../components/BuyCta.astro';
 import PriceTable from '../components/PriceTable.astro';
 import OfficialRoutes from '../components/OfficialRoutes.astro';
-import ProviderLink from '../components/ProviderLink.astro';
 import { t, type Locale } from '../i18n/ui';
 import { PRODUCTS, SLUG_TO_PRODUCT, type ProductSlug } from '../i18n/pages';
 import { PILLAR } from '../i18n/pillar';
 import { localePath, botLink } from '../config/site.js';
 import {
-  VERIFIED_AT, sellersOf, starsPerUnit, premiumPrice,
+  PRIMARY, VERIFIED_AT, sellersOf, starsPerUnit, premiumPrice,
   rankBySegment, uzs,
 } from '../lib/providers';
 import {
   articleNode, breadcrumbNode, faqNode, howToNode,
-  productOfferNode, datasetNode, itemListNode,
+  productAggregateNode, datasetNode, itemListNode,
 } from '../lib/schema';
 
 interface Props { locale: Locale; slug: ProductSlug }
@@ -102,10 +101,9 @@ const schema = [
     items: rankBySegment(product === 'gifts' ? 'stars' : (product as 'stars' | 'premium'), 'ishonchli')
       .map((r) => ({ name: r.provider.name, url: r.provider.site })),
   }),
-  ...(product !== 'gifts'
-    ? sellersOf(product as 'stars' | 'premium').map((p) => productOfferNode(p, product as 'stars' | 'premium', locale))
-    : []),
-];
+  // Gifts Stars evaziga olinadi — narx jadvali ham Stars'niki, schema ham.
+  productAggregateNode(tableProduct, locale, path),
+].filter((n) => n !== null);
 ---
 
 <Layout
@@ -114,6 +112,8 @@ const schema = [
   description={copy.metaDescription}
   {path}
   {schema}
+  ogType="article"
+  articleDates={{ published: VERIFIED_AT, modified: VERIFIED_AT }}
 >
   <nav class="crumbs" aria-label="Breadcrumb">
     <a href={localePath('/', locale)}>Infogram</a>
@@ -164,7 +164,6 @@ const schema = [
   <PriceTable
     {locale}
     product={tableProduct}
-    source={`${SOURCE}-price`}
     quantities={[50, 100, 250, 500, 1000, 2500, 5000]}
   />
 
@@ -194,7 +193,7 @@ const schema = [
                 <>{j > 0 && <span aria-hidden="true"> · </span>}<a
                   href={botLink(p.bot!, `${SOURCE}-step-${p.id}`)}
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener sponsored nofollow"
                   data-funnel-event
                   data-source={`${SOURCE}-step-${p.id}`}
                   data-product={product}
@@ -215,6 +214,9 @@ const schema = [
       {locale === 'ru' && `Лидер по открытым отзывам с датами и гарантии возврата — ${topTrusted.provider.name}. При первой покупке или крупной сумме этот критерий важнее цены.`}
       {locale === 'en' && `The leader on public dated reviews and money-back guarantee is ${topTrusted.provider.name}. For a first purchase or a large amount, that matters more than price.`}
     </p>
+    {topTrusted.provider.id === PRIMARY.id && (
+      <p class="note">{tr('note.partner').replace('{name}', topTrusted.provider.name)}</p>
+    )}
   </div>
 
   <BuyCta {locale} product={ctaProduct} source={`${SOURCE}-cta`} />

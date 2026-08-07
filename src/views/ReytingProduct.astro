@@ -11,7 +11,7 @@ import BuyCta from '../components/BuyCta.astro';
 import ProviderLink from '../components/ProviderLink.astro';
 import { t, type Locale } from '../i18n/ui';
 import { PRODUCTS, SLUG_TO_PRODUCT } from '../i18n/pages';
-import { localePath, localeUrl } from '../config/site.js';
+import { localePath } from '../config/site.js';
 import {
   VERIFIED_AT, SEGMENTS, WEIGHTS, rank, rankBySegment,
   starsPerUnit, premiumPerMonth, trackRecordMonths, deliveryClaim, uzs,
@@ -162,7 +162,7 @@ function rawLabel(key: string, value: number | null, p: any): string {
         {s.rows.map((r, i) => (
           <li class={i === 0 ? 'rank-top' : undefined}>
             <div class="rank-head">
-              <strong><ProviderLink provider={r.provider} source={`${SOURCE}-${s.id}`} /></strong>
+              <strong><ProviderLink provider={r.provider} /></strong>
               <span class="score">{r.total.toFixed(2)}</span>
             </div>
             <p class="meta">
@@ -203,7 +203,7 @@ function rawLabel(key: string, value: number | null, p: any): string {
       <tbody>
         {base.map((r) => (
           <tr>
-            <th scope="row"><ProviderLink provider={r.provider} source={`${SOURCE}-table`} /></th>
+            <th scope="row"><ProviderLink provider={r.provider} /></th>
             {critKeys.map((k) => (
               <td class="num">
                 <span>{r.parts[k] ? r.parts[k].normalized.toFixed(2) : '—'}</span><br />

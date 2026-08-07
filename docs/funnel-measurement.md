@@ -9,12 +9,29 @@ hodisasi va yakunlangan to'lovni bog'lash.
 Organic query → Infogram URL → CTA click → /start ig_<source> → order → paid
 ```
 
+## Analitikani yoqish
+
+Sayt kodida hech qanday analitika ID'si yozilmagan — u muhit o'zgaruvchisidan
+o'qiladi. Ikkalasi ham ixtiyoriy; berilmasa hech qanday tashqi skript
+yuklanmaydi (sahifa tezligi va maxfiylik uchun standart holat shu).
+
+| O'zgaruvchi | Nima qiladi |
+| --- | --- |
+| `PUBLIC_GTM_ID` | GTM konteynerini yuklaydi (`GTM-XXXXXXX`). GA4 shu orqali ulanadi. |
+| `PUBLIC_PLAUSIBLE_DOMAIN` | Plausible skriptini yuklaydi (`infogram.uz`). |
+
+Vercel'da: Project → Settings → Environment Variables → qiymatni qo'shib,
+qaytadan deploy qiling. Lokalda `.env` fayliga yozing.
+
+**Muhim:** ID berilmaguncha quyidagi `infogram_cta_click` eventlari `dataLayer`ga
+tushadi, lekin ularni o'qiydigan hech kim bo'lmaydi — ya'ni voronka o'lchanmaydi.
+
 ## Sayt eventlari
 
 Har CTA `infogram_cta_click` eventini `dataLayer`ga yuboradi. GTM/GA4da
 shu eventni GA4 event sifatida qabul qiling va quyidagi parametrlarni saqlang:
 
-- `source` — masalan, `telegram-stars-cta`
+- `source` — masalan, `telegram-stars-cta`, `kalkulyator-row-uzgets`
 - `product` — `stars`, `premium`, `gifts` yoki `comparison`
 - `provider` — provayder identifikatori
 - `page_path` — tashrif buyurilgan sahifa

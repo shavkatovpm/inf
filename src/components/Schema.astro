@@ -7,7 +7,7 @@
  * kontentga mos tur(lar). Bir nechta turni bitta @graph ga yig'amiz —
  * alohida <script> teglariga bo'lishdan ko'ra ishonchliroq o'qiladi.
  */
-import { SITE, HREFLANG } from '../config/site.js';
+import { HREFLANG } from '../config/site.js';
 import type { Locale } from '../i18n/ui';
 
 interface Props {
@@ -18,7 +18,18 @@ interface Props {
 
 const { locale, nodes } = Astro.props;
 
-const graph = nodes.map((n) => ({ inLanguage: HREFLANG[locale], ...n }));
+/**
+ * `inLanguage` — CreativeWork xususiyati. Organization, BreadcrumbList,
+ * ItemList va Product uni qo'llab-quvvatlamaydi; hammasiga qo'shib yuborish
+ * validatorlarda ogohlantirish beradi, shuning uchun ro'yxat aniq.
+ */
+const LOCALIZABLE = new Set([
+  'WebSite', 'WebPage', 'CollectionPage', 'Article', 'FAQPage', 'HowTo', 'Dataset',
+]);
+
+const graph = nodes.map((n) =>
+  LOCALIZABLE.has(n['@type'] as string) ? { inLanguage: HREFLANG[locale], ...n } : n,
+);
 
 const payload = {
   '@context': 'https://schema.org',

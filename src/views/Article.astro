@@ -51,6 +51,8 @@ const schema = [
   description={d.description}
   {path}
   {schema}
+  ogType="article"
+  articleDates={{ published: d.published, modified: d.updated }}
 >
   <nav class="crumbs" aria-label="Breadcrumb">
     <a href={localePath('/', locale)}>Infogram</a>

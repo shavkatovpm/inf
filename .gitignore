@@ -11,6 +11,9 @@ node_modules/
 .env.production
 .secrets/
 
+# local tooling
+.claude/settings.local.json
+
 # os
 .DS_Store
 *.log

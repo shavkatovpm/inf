@@ -42,9 +42,11 @@ export const ui = {
     'label.perMonth': '1 oyga',
 
     'note.approx':
-      "Provayder faqat boshlang‘ich narxni e’lon qilgan — yakuniy summa botda hisoblanadi.",
+      "Bu miqdor uchun tayyor paket e’lon qilinmagan — narx provayderning e’lon qilgan 1 dona narxidan hisoblangan. Yakuniy summa botda tasdiqlanadi.",
     'note.unknownPenalty':
       "E’lon qilinmagan ma’lumot ball bermaydi: isbotlanmagan ustunlik hisobga olinmaydi.",
+    'note.partner':
+      "Ochiqlik: {name} — Infogram’ning tijoriy hamkori va saytdagi xarid tugmalari shu xizmatga olib boradi. Reyting o‘rni kelishuvga bog‘liq emas, u faqat e’lon qilingan formuladan chiqadi; qolgan xizmatlarda ochiq sanali sharh va kafolat ma’lumoti topilmagani uchun ular bu ikki mezonda 0 ball oladi.",
     'cta.buyStars': 'Stars sotib olish',
     'cta.buyPremium': 'Premium sotib olish',
     'cta.sendGift': 'Sovg‘a yuborish',
@@ -93,9 +95,11 @@ export const ui = {
     'label.perMonth': 'за месяц',
 
     'note.approx':
-      'Сервис публикует только начальную цену — итоговая сумма считается в боте.',
+      'Для этого количества готовый пакет не опубликован — цена рассчитана по опубликованной цене за 1 штуку. Итоговая сумма подтверждается в боте.',
     'note.unknownPenalty':
       'Неопубликованные данные не дают баллов: недоказанное преимущество не учитывается.',
+    'note.partner':
+      'Раскрытие: {name} — коммерческий партнёр Infogram, кнопки покупки на сайте ведут в этот сервис. Место в рейтинге от соглашения не зависит и считается по опубликованной формуле; у остальных сервисов открытые отзывы с датами и гарантия возврата не найдены, поэтому по этим двум критериям они получают 0 баллов.',
     'cta.buyStars': 'Купить Stars',
     'cta.buyPremium': 'Купить Premium',
     'cta.sendGift': 'Отправить подарок',
@@ -144,9 +148,11 @@ export const ui = {
     'label.perMonth': 'per month',
 
     'note.approx':
-      'The provider publishes a starting price only — the final amount is calculated in the bot.',
+      'No ready-made package is published for this quantity — the price is derived from the provider’s published per-unit rate. The final amount is confirmed in the bot.',
     'note.unknownPenalty':
       'Unpublished data scores zero: an unproven advantage is not counted.',
+    'note.partner':
+      'Disclosure: {name} is Infogram’s commercial partner and the purchase buttons on this site open that service. Its ranking position does not depend on that arrangement — it follows the published formula; the other services have no public dated reviews or stated guarantee on record, so they score zero on those two criteria.',
     'cta.buyStars': 'Buy Stars',
     'cta.buyPremium': 'Buy Premium',
     'cta.sendGift': 'Send a gift',
