@@ -97,12 +97,12 @@ Tarjima — nusxa emas: narx misollari va so'rov shakli har tilda o'z auditoriya
 
 ## 2. Ketma-ketlik
 
-### Bosqich 0 — kod (materialdan oldin)
+### Bosqich 0 — kod ✅ bajarildi
 
-| Ish | Nega kerak |
+| Ish | Holat |
 | --- | --- |
-| `BuyCta` ni mahsulotga moslashtirish | Hozir `PRIMARY` + keyingi birinchi sotuvchi ko'rsatiladi, ya'ni PremiumSend hech qachon CTA olmaydi |
-| Bo'lim ro'yxatini markazlashtirish | Ro'yxat `llms.txt.ts` va `rss.xml.ts` da qotib yozilgan. Yangi bo'lim ro'yxatga tushmasa, u llms.txt va RSS'da **ko'rinmaydi** — AI uchun eng muhim ikki fayl |
+| `BuyCta` ni mahsulotga moslashtirish | ✅ Endi shu mahsulotni sotadigan **barcha** botli xizmat CTA oladi. Premium → 3 ta, Stars → 2 ta, Gifts → 1 ta |
+| Bo'lim ro'yxatini markazlashtirish | ✅ `src/lib/sections.ts` — yagona manba. Ro'yxat kolleksiyalardan farq qilsa `npm run check` xato beradi |
 
 ### Bosqich 1 — mavjud bo'limlarga (yangi kod kerak emas)
 
@@ -188,15 +188,15 @@ qimmatli bo'shliq shu.
 
 `/imkoniyatlar` va `/hisobot` uchun:
 
-- `src/content.config.ts` — kolleksiya
-- `src/i18n/pages.ts` — `SECTIONS` yozuvi (uz/ru/en)
-- `src/pages/<bo'lim>/[slug].astro` va `index.astro` — uz/ru/en uchun 6 ta fayl
-- `src/layouts/Layout.astro` — navigatsiya
-- `src/views/ContentSectionIndex.astro` — union tipi
-- `src/pages/llms.txt.ts` va `src/pages/rss.xml.ts` — bo'lim ro'yxati
+1. `src/lib/sections.ts` — `CONTENT_SECTIONS` ga bitta qator
+2. `src/content.config.ts` — kolleksiya (1-qadamsiz qilinsa `npm run check` xato beradi)
+3. `src/i18n/pages.ts` — `SECTIONS` yozuvi (uz/ru/en)
+4. `src/pages/<bo'lim>/[slug].astro` va `index.astro` — uz/ru/en uchun 6 ta fayl
+5. `src/layouts/Layout.astro` — navigatsiya
 
-Oxirgi ikkitasi unutilsa, bo'lim llms.txt va RSS'da ko'rinmaydi va xato ham bermaydi.
-Bosqich 0 dagi markazlashtirish aynan shuning uchun.
+llms.txt va RSS **qo'lda yangilanmaydi** — ular `CONTENT_SECTIONS` dan o'qiydi.
+`ContentSectionIndex.astro` ham `ContentSection` tipini ishlatadi, ya'ni union
+qo'lda kengaytirilmaydi.
 
 ## 5. Nashrdan oldingi tekshiruv
 

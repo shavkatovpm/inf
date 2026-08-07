@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import type { ContentSection } from './lib/sections';
 
 /**
  * Kontent kolleksiyalari.
@@ -43,3 +44,16 @@ const qollanma = defineCollection({
 });
 
 export const collections = { taqqoslash, xavfsizlik, qollanma };
+
+/**
+ * Kolleksiyalar va lib/sections.ts dagi ro'yxat bir xil bo'lishi shart.
+ * Biri ikkinchisisiz o'zgarsa, quyidagi tur `never` ga aylanadi va
+ * `npm run check` xato beradi — bo'lim jimgina yo'qolib qolmaydi.
+ */
+type SectionsMatchCollections =
+  ContentSection extends keyof typeof collections
+    ? keyof typeof collections extends ContentSection ? true : never
+    : never;
+
+const _assertSectionsMatch: SectionsMatchCollections = true;
+void _assertSectionsMatch;

@@ -4,10 +4,11 @@ import SectionIndex from './SectionIndex.astro';
 import type { CardItem } from './SectionIndex.astro';
 import type { Locale } from '../i18n/ui';
 import type { SectionKey } from '../i18n/pages';
+import type { ContentSection } from '../lib/sections';
 import { localePath, botLink } from '../config/site.js';
 import { PRIMARY } from '../lib/providers';
 
-interface Props { locale: Locale; section: 'taqqoslash' | 'xavfsizlik' | 'qollanma' }
+interface Props { locale: Locale; section: ContentSection }
 const { locale, section } = Astro.props;
 
 // id — "<locale>/<slug>" ko'rinishida.

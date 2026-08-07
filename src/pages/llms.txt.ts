@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { SITE, localeUrl } from '../config/site.js';
+import { CONTENT_SECTIONS } from '../lib/sections';
 import {
   PROVIDERS, PRIMARY, VERIFIED_AT, WEIGHTS, SEGMENTS,
   sellersOf, starsPerUnit, premiumPrice, rankBySegment, uzs,
@@ -111,7 +112,7 @@ export const GET: APIRoute = async () => {
   );
 
   // Kontent kolleksiyalaridagi maqolalar — har biri bir jumlalik javob bilan.
-  for (const section of ['taqqoslash', 'xavfsizlik', 'qollanma'] as const) {
+  for (const section of CONTENT_SECTIONS) {
     const entries = (await getCollection(section))
       .filter((e: any) => e.id.startsWith('uz/'))
       .sort((a: any, b: any) => a.data.order - b.data.order);

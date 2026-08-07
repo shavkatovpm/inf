@@ -2,6 +2,7 @@ import rss from '@astrojs/rss';
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { SITE, localeUrl } from '../config/site.js';
+import { CONTENT_SECTIONS } from '../lib/sections';
 import { VERIFIED_AT, sellersOf, starsPerUnit, premiumPrice, uzs } from '../lib/providers';
 
 /**
@@ -31,7 +32,7 @@ export const GET: APIRoute = async (context) => {
     },
   ];
 
-  for (const section of ['taqqoslash', 'xavfsizlik', 'qollanma'] as const) {
+  for (const section of CONTENT_SECTIONS) {
     const entries = (await getCollection(section)).filter((e: any) => e.id.startsWith('uz/'));
     for (const e of entries as any[]) {
       const slug = e.id.split('/').slice(1).join('/');
