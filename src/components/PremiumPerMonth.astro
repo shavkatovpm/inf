@@ -1,0 +1,115 @@
+---
+/**
+ * Premium tariflarining 1 OYGA tushadigan qiymati.
+ *
+ * Nima uchun alohida komponent: maqola matniga narx qo'lda yozilmasligi kerak —
+ * aks holda providers.json yangilanganda maqola jimgina yolg'on bo'lib qoladi.
+ * Jadval ham, undan chiqadigan xulosa ham shu yerda hisoblanadi.
+ *
+ * PriceTable umumiy summani ko'rsatadi; bu esa taqqoslash uchun yagona to'g'ri
+ * o'lchov bo'lgan oylik qiymatni beradi.
+ */
+import { sellersOf, premiumPrice, premiumPerMonth, providerName, uzs } from '../lib/providers';
+import { VERIFIED_AT } from '../lib/providers';
+import type { Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  months?: number[];
+}
+
+const { locale, months = [1, 3, 6, 12] } = Astro.props;
+const sellers = sellersOf('premium');
+
+/** Har muddat bo'yicha eng past oylik qiymat. */
+const bestPerMonth = new Map<number, number>();
+for (const m of months) {
+  const values = sellers
+    .map((p) => premiumPerMonth(p, m))
+    .filter((v): v is number => v !== null);
+  if (values.length) bestPerMonth.set(m, Math.min(...values));
+}
+
+const available = months.filter((m) => bestPerMonth.has(m));
+
+/** Muddatdan muddatga o'tishda oylik qiymat necha foizga tushadi. */
+const drops = available.slice(1).map((to, i) => {
+  const from = available[i];
+  const before = bestPerMonth.get(from)!;
+  const after = bestPerMonth.get(to)!;
+  return { from, to, pct: Math.round((1 - after / before) * 100) };
+});
+
+const biggest = drops.length ? drops.reduce((a, b) => (b.pct > a.pct ? b : a)) : null;
+const longest = available[available.length - 1];
+const shortest = available[0];
+const totalSaving = bestPerMonth.has(shortest) && bestPerMonth.has(longest)
+  ? Math.round((1 - bestPerMonth.get(longest)! / bestPerMonth.get(shortest)!) * 100)
+  : null;
+
+const T = {
+  uz: {
+    caption: '1 oyga tushadigan narx — muddat bo‘yicha',
+    service: 'Xizmat', month: 'oy', perMonth: '1 oyga', notPublished: 'e’lon qilinmagan',
+    best: 'eng past', total: 'umumiy', verified: 'Tekshirilgan',
+    summary: (b: typeof biggest, s: number | null) =>
+      `Eng katta pasayish ${b!.from} oydan ${b!.to} oyga o‘tishda: oylik qiymat ${b!.pct}% ga tushadi. ` +
+      (s !== null ? `${shortest} oydan ${longest} oyga o‘tganda esa jami ${s}% tejaladi.` : ''),
+  },
+  ru: {
+    caption: 'Цена за один месяц — по сроку',
+    service: 'Сервис', month: 'мес.', perMonth: 'за месяц', notPublished: 'не опубликовано',
+    best: 'самая низкая', total: 'всего', verified: 'Проверено',
+    summary: (b: typeof biggest, s: number | null) =>
+      `Наибольшее снижение — при переходе с ${b!.from} на ${b!.to} мес.: цена за месяц падает на ${b!.pct}%. ` +
+      (s !== null ? `С ${shortest} до ${longest} мес. экономия составляет ${s}%.` : ''),
+  },
+  en: {
+    caption: 'Cost per month, by term',
+    service: 'Service', month: 'mo', perMonth: 'per month', notPublished: 'not published',
+    best: 'lowest', total: 'total', verified: 'Verified',
+    summary: (b: typeof biggest, s: number | null) =>
+      `The steepest drop is from ${b!.from} to ${b!.to} months: the monthly cost falls by ${b!.pct}%. ` +
+      (s !== null ? `Across ${shortest} to ${longest} months the total saving is ${s}%.` : ''),
+  },
+}[locale];
+---
+
+<div class="table-scroll">
+  <table>
+    <caption>{T.caption}</caption>
+    <thead>
+      <tr>
+        <th scope="col">{T.service}</th>
+        {months.map((m) => <th scope="col" class="num">{m} {T.month}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {sellers.map((p) => (
+        <tr>
+          <th scope="row">{providerName(p, locale)}</th>
+          {months.map((m) => {
+            const per = premiumPerMonth(p, m);
+            const total = premiumPrice(p, m);
+            const isBest = per !== null && per === bestPerMonth.get(m);
+            return (
+              <td class="num">
+                {per === null ? (
+                  <span class="approx">{T.notPublished}</span>
+                ) : (
+                  <>
+                    <span class={isBest ? 'best' : undefined}>{uzs(per)}</span>
+                    <span class="approx"> · {T.total} {uzs(total)}</span>
+                  </>
+                )}
+              </td>
+            );
+          })}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+{biggest && <p class="note">{T.summary(biggest, totalSaving)}</p>}
+<p class="source-note">{T.verified}: <time datetime={VERIFIED_AT}>{VERIFIED_AT}</time></p>
