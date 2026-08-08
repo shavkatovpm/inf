@@ -16,7 +16,10 @@ export interface CardItem {
   href: string;
   title: string;
   desc: string;
+  /** Erkin matnli izoh (masalan reyting segmenti). */
   meta?: string;
+  /** ISO sana. `<time>` sifatida chiqadi — mashina o'qiy oladigan yangilanish signali. */
+  updated?: string;
 }
 
 export interface RelatedItem { href: string; title: string; desc: string }
@@ -87,7 +90,9 @@ const schema = [
       <a class="card" href={item.href}>
         <h2>{item.title}</h2>
         <p>{item.desc}</p>
-        {item.meta && <span class="card-meta">{item.meta}</span>}
+        {item.updated
+          ? <span class="card-meta">{tr('label.updated')}: <time datetime={item.updated}>{item.updated}</time></span>
+          : item.meta && <span class="card-meta">{item.meta}</span>}
       </a>
     ))}
   </div>

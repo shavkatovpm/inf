@@ -7,7 +7,7 @@ import { render } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import BuyCta from '../components/BuyCta.astro';
 import { t, type Locale } from '../i18n/ui';
-import { SECTIONS, type SectionKey } from '../i18n/pages';
+import { SECTIONS, PRODUCTS, type SectionKey } from '../i18n/pages';
 import { localePath } from '../config/site.js';
 import { articleNode, breadcrumbNode, faqNode, howToNode } from '../lib/schema';
 
@@ -25,6 +25,68 @@ const path = `/${section}/${slug}`;
 const SOURCE = `${section}-${slug}`;
 
 const { Content } = await render(entry);
+
+/**
+ * Maqola oxiridagi ichki havolalar.
+ *
+ * Maqola sahifasi saytdagi eng chekka nuqta — u yerdan bosh sahifaga va
+ * mahsulot ustuniga yo'l bo'lmasa, ham o'quvchi, ham crawler shu yerda
+ * to'xtaydi. Havola matni tavsiflovchi bo'lishi shart: "bu yerda" emas,
+ * sahifaning o'zi nima haqidaligi.
+ */
+const PRODUCT_SLUG = {
+  stars: 'telegram-stars',
+  premium: 'telegram-premium',
+  gifts: 'telegram-gifts',
+} as const;
+
+const pillarSlug = PRODUCT_SLUG[d.product as keyof typeof PRODUCT_SLUG];
+const pillarName = PRODUCTS[locale][pillarSlug].name;
+
+const relatedTitle = {
+  uz: 'Davom ettiring',
+  ru: 'Продолжить',
+  en: 'Continue',
+}[locale];
+
+const related = [
+  {
+    href: localePath('/', locale),
+    label: {
+      uz: 'Barcha narxlar va xizmatlar reytingi — bosh sahifa',
+      ru: 'Все цены и рейтинг сервисов — главная страница',
+      en: 'All prices and service rankings — home page',
+    }[locale],
+  },
+  {
+    href: localePath(`/${pillarSlug}`, locale),
+    label: {
+      uz: `${pillarName} — narxlar va xarid yo‘llari`,
+      ru: `${pillarName} — цены и способы покупки`,
+      en: `${pillarName} — prices and buying routes`,
+    }[locale],
+  },
+  {
+    href: localePath('/narxlar', locale),
+    label: {
+      uz: 'Barcha xizmatlarning e’lon qilingan narxlari',
+      ru: 'Опубликованные цены всех сервисов',
+      en: 'Published prices from every service',
+    }[locale],
+  },
+  ...(d.product === 'gifts' ? [] : [{
+    href: localePath(`/reyting/${pillarSlug}`, locale),
+    label: {
+      uz: `${pillarName} xizmatlari reytingi — ochiq mezonlar bo‘yicha`,
+      ru: `Рейтинг сервисов ${pillarName} — по открытым критериям`,
+      en: `${pillarName} service ranking — on published criteria`,
+    }[locale],
+  }]),
+  {
+    href: localePath(`/${section}`, locale),
+    label: SECTIONS[locale][section].h1,
+  },
+];
 
 const schema = [
   breadcrumbNode(locale, [
@@ -87,4 +149,11 @@ const schema = [
       {d.faq.map((item: any) => (<><h3>{item.q}</h3><p>{item.a}</p></>))}
     </>
   )}
+
+  <section aria-labelledby="related-heading">
+    <h2 id="related-heading">{relatedTitle}</h2>
+    <ul class="related">
+      {related.map((r) => <li><a href={r.href}>{r.label}</a></li>)}
+    </ul>
+  </section>
 </Layout>

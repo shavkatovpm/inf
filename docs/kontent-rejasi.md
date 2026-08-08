@@ -80,6 +80,18 @@ Har material `src/content.config.ts` dagi `articleSchema` ga bo'ysunadi. Majburi
 Matn strukturasi: H1 → qisqa javob → faktlar → savol shaklidagi H2'lar → FAQ →
 ichki havolalar. Bu ketma-ketlik pillar sahifalarida allaqachon ishlaydi.
 
+### 1.5.1 Ichki havolalar — avtomatik, qo'lda qo'shilmaydi
+
+`Article.astro` har maqola oxiriga havola bloki qo'yadi: bosh sahifa, mahsulot
+ustuni (`product` frontmatteriga qarab), narxlar, reyting va bo'lim indeksi.
+Havola matni tavsiflovchi — "bu yerda" emas, sahifaning o'zi nima haqidaligi.
+
+`Home.astro` esa eng so'nggi 4 ta materialni `updated` bo'yicha o'zi chiqaradi.
+Ya'ni yangi maqola bosh sahifadan **avtomatik** havola oladi.
+
+Demak MDX ichida bu havolalarni takrorlash shart emas — matn ichida faqat
+mavzuga tegishli kontekstual havola qoldiriladi.
+
 Sarlavhada yil ko'rsatilsa (`2026`), uni har yanvarda yangilash majburiyati tug'iladi —
 faqat haqiqatan yillik ma'lumot bo'lsa ishlatiladi.
 

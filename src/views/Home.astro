@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import BuyCta from '../components/BuyCta.astro';
@@ -13,6 +14,7 @@ import {
 import {
   breadcrumbNode, datasetNode, faqNode, itemListNode, productAggregateNode,
 } from '../lib/schema';
+import { CONTENT_SECTIONS } from '../lib/sections';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
@@ -30,6 +32,33 @@ const cheapest12 = Math.min(
 const segList = (['arzon', 'ishonchli', 'tez'] as const).map((id) => ({
   id, top: rankBySegment('stars', id),
 }));
+
+/**
+ * Eng so'nggi materiallar — barcha bo'limlardan, yangilanish sanasi bo'yicha.
+ *
+ * Bosh sahifa saytdagi eng ko'p havola oladigan sahifa; yangi material shu
+ * yerdan havola olmasa, u faqat sitemap va bo'lim indeksidan topiladi.
+ * ISO sanalar leksikografik tartibda ham to'g'ri solishtiriladi.
+ */
+const latest = (
+  await Promise.all(
+    CONTENT_SECTIONS.map(async (section) => {
+      const entries = await getCollection(section);
+      return entries
+        .filter((e: any) => e.id.startsWith(`${locale}/`))
+        .map((e: any) => ({
+          section,
+          slug: e.id.split('/').slice(1).join('/'),
+          title: e.data.title,
+          desc: e.data.description,
+          updated: e.data.updated as string,
+        }));
+    }),
+  )
+)
+  .flat()
+  .sort((a, b) => (a.updated === b.updated ? a.title.localeCompare(b.title) : a.updated < b.updated ? 1 : -1))
+  .slice(0, 4);
 const trusted = rankBySegment('stars', 'ishonchli')[0].provider;
 
 const title = {
@@ -56,6 +85,9 @@ const S = {
     officialSub: 'Telegram’ning o‘z yo‘llari so‘mda narx e’lon qilmaydi va boshqa talablar qo‘yadi:',
     recH: 'Birinchi marta olayotgan bo‘lsangiz',
     rec: `Ochiq, sanasi ko‘rsatilgan sharhlar va pul qaytarish kafolati bo‘yicha yetakchi — ${trusted.name}. Katta summa o‘tkazayotganda bu mezon narxdan muhimroq.`,
+    latestH: 'So‘nggi materiallar',
+    latestSub: 'Taqqoslashlar, qo‘llanmalar va xavfsizlik bo‘yicha eng oxirgi yangilangan sahifalar.',
+    latestAll: 'Barcha taqqoslashlar',
     faqH: 'Tez-tez beriladigan savollar',
   },
   ru: {
@@ -69,6 +101,9 @@ const S = {
     officialSub: 'Собственные пути Telegram не публикуют цену в сумах и предъявляют другие требования:',
     recH: 'Если покупаете впервые',
     rec: `Лидер по открытым отзывам с датами и гарантии возврата — ${trusted.name}. При крупной сумме этот критерий важнее цены.`,
+    latestH: 'Последние материалы',
+    latestSub: 'Сравнения, инструкции и материалы по безопасности, обновлённые последними.',
+    latestAll: 'Все сравнения',
     faqH: 'Частые вопросы',
   },
   en: {
@@ -82,6 +117,9 @@ const S = {
     officialSub: 'Telegram’s own routes publish no UZS price and impose different requirements:',
     recH: 'If this is your first purchase',
     rec: `The leader on public dated reviews and money-back guarantee is ${trusted.name}. For a large amount, that matters more than price.`,
+    latestH: 'Latest materials',
+    latestSub: 'The most recently updated comparisons, guides and safety pages.',
+    latestAll: 'All comparisons',
     faqH: 'Frequently asked questions',
   },
 }[locale];
@@ -184,6 +222,29 @@ const schema = [
     <p class="note">{tr('note.partner').replace('{name}', trusted.name)}</p>
   )}
   <BuyCta {locale} product="stars" source={`${SOURCE}-footer`} />
+
+  {/* So'nggi materiallar — yangi sahifa bosh sahifadan havola olishi uchun.
+      Kartalar h3: sahifadagi sarlavha ierarxiyasi buzilmasin. */}
+  {latest.length > 0 && (
+    <section aria-labelledby="latest-heading">
+      <h2 id="latest-heading">{S.latestH}</h2>
+      <p class="lede">{S.latestSub}</p>
+      <div class="cards">
+        {latest.map((a) => (
+          <a class="card" href={localePath(`/${a.section}/${a.slug}`, locale)}>
+            <h3>{a.title}</h3>
+            <p>{a.desc}</p>
+            <span class="card-meta">
+              {tr('label.updated')}: <time datetime={a.updated}>{a.updated}</time>
+            </span>
+          </a>
+        ))}
+      </div>
+      <p class="note">
+        <a href={localePath('/taqqoslash', locale)}>{S.latestAll}</a>
+      </p>
+    </section>
+  )}
 
   <h2>{S.faqH}</h2>
   {faq.map((item) => (<><h3>{item.q}</h3><p>{item.a}</p></>))}

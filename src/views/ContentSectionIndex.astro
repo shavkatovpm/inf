@@ -20,7 +20,7 @@ const items: CardItem[] = entries.map((e: any) => ({
   href: localePath(`/${section}/${e.id.split('/').slice(1).join('/')}`, locale),
   title: e.data.title,
   desc: e.data.description,
-  meta: e.data.updated,
+  updated: e.data.updated,
 }));
 
 const empty = {
