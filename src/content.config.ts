@@ -1,6 +1,12 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 import type { ContentSection } from './lib/sections';
+import providers from './data/providers.json' with { type: 'json' };
+
+/** So'mda sotuvchi xizmatlar — javob matni shulardan birini nomlashi shart. */
+const SELLER_NAMES = providers.providers
+  .filter((p) => p.type === 'reseller')
+  .map((p) => p.name);
 
 /**
  * Kontent kolleksiyalari.
@@ -15,8 +21,27 @@ const articleSchema = z.object({
   /** <title> uchun — bo'lmasa title ishlatiladi. */
   metaTitle: z.string().optional(),
   description: z.string(),
-  /** Fold ustidagi to'g'ridan-to'g'ri javob. AEO uchun majburiy. */
-  answer: z.string(),
+  /**
+   * Fold ustidagi to'g'ridan-to'g'ri javob. AEO uchun majburiy.
+   *
+   * Ikki qoida build vaqtida tekshiriladi, chunki ikkalasi ham qo'lda
+   * unutilgan va sahifalar shu holda efirga chiqib ketgan:
+   *
+   * 1. Javob KAMIDA BITTA sotuvchini nomlashi shart. Tugmalar javob yonida
+   *    turadi, lekin model ko'pincha faqat shu paragrafni olib chiqadi —
+   *    unda xizmat nomi bo'lmasa, iqtibosda "qayerdan olish" javobsiz qoladi.
+   * 2. Uzunlik 30–70 so'z. Qisqa javob ekstraktsiya uchun mo'ljallangan;
+   *    maqsad 40–60, chegara esa keskin buzilishni ushlaydi.
+   */
+  answer: z
+    .string()
+    .refine((v) => SELLER_NAMES.some((n) => v.includes(n)), {
+      message: `Qisqa javobda kamida bitta sotuvchi nomlanishi shart (${SELLER_NAMES.join(', ')}). Masalan: "Xarid ${SELLER_NAMES.join(', ')} botida amalga oshiriladi."`,
+    })
+    .refine((v) => {
+      const n = v.trim().split(/\s+/).length;
+      return n >= 30 && n <= 70;
+    }, { message: "Qisqa javob 30–70 so'z bo'lishi kerak (maqsad 40–60)." }),
   published: z.string(),
   updated: z.string(),
   /** Bo'limlar ichida tartib. */

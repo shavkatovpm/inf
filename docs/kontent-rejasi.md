@@ -85,6 +85,28 @@ Har material `src/content.config.ts` dagi `articleSchema` ga bo'ysunadi. Majburi
 Matn strukturasi: H1 → qisqa javob → faktlar → savol shaklidagi H2'lar → FAQ →
 ichki havolalar. Bu ketma-ketlik pillar sahifalarida allaqachon ishlaydi.
 
+### 1.4.1 Qisqa javob — BUILD TEKSHIRADI
+
+`content.config.ts` da ikki qoida majburiy qilingan. Buzilsa `npm run build`
+va `npm run check` **to'xtaydi** va nima qilish kerakligini aytadi:
+
+1. **Javob kamida bitta sotuvchini nomlashi shart** (StarsJoy / Uzgets /
+   PremiumSend). Ro'yxat `providers.json` dan olinadi.
+2. **Uzunlik 30–70 so'z** (maqsad 40–60).
+
+Nima uchun majburiy: bu xato allaqachon sodir bo'lgan — 10 ta maqolaning
+javobida bitta ham xizmat nomi bo'lmagan va ular shu holda efirga chiqqan.
+Tugmalar javob yonida turadi, lekin model ko'pincha faqat paragrafni olib
+chiqadi; unda nom bo'lmasa, "qayerdan olish" savoli javobsiz qoladi.
+
+Namuna jumla (mahsulotga qarab):
+
+- Premium — `Xarid StarsJoy, Uzgets yoki PremiumSend botida amalga oshiriladi.`
+- Stars — `Xarid StarsJoy yoki Uzgets botida amalga oshiriladi.`
+
+Uchala xizmat ham nomlanadi, faqat bittasi emas: reyting formuladan chiqadi,
+va model uchun ham taqqoslashni iqtibos qilish kuchliroq.
+
 ### 1.5.0 CTA joylashuvi
 
 Har maqolada **ikkita** CTA bo'ladi:
@@ -268,7 +290,8 @@ qo'lda kengaytirilmaydi.
 - [ ] CTA'da `rel="noopener sponsored nofollow"` va funnel atributlari
 - [ ] Hamkor haqida asossiz da'vo yo'q — na salbiy, na ijobiy
 - [ ] Sayt FAQ'iga zid gap yo'q
-- [ ] `answer` 40–60 so'z, `faq` ≥ 4 ta
+- [ ] `answer` 40–60 so'z va sotuvchi nomlangan (build o'zi tekshiradi — 1.4.1)
+- [ ] `faq` ≥ 4 ta
 - [ ] uz + ru + en — uchalasi tayyor
 - [ ] Kamida 3 ta ichki havola
 - [ ] `npm run check` — 0 xato
