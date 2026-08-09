@@ -62,6 +62,11 @@ Yozishdan oldin tekshiriladi:
 1. Uchala xizmatning joriy narxlari — `providers.json` dagi bilan solishtiriladi
 2. Telegram tomonidagi o'zgarishlar (funksiya, siyosat, narx)
 3. Mavzu bo'yicha raqobatchilar nima yozgan — takrorlamaslik uchun
+4. **Saytdagi mavjud sahifalarning SARLAVHALARI** — slug boshqacha bo'lsa ham
+   sarlavha o'sha so'rovni qamragan bo'lishi mumkin. Bu 1-materialda aynan
+   shunday bo'ldi: slug `telegram-premium-qanday-olinadi`, sarlavhasi esa
+   "UzCard yoki HUMO bilan sotib olish". Yangi sahifa o'rniga mavjudini
+   kuchaytirish kerak.
 
 Narx o'zgargan bo'lsa: avval `providers.json` va `verifiedAt` yangilanadi, keyin maqola
 yoziladi. Teskarisi emas.
@@ -120,9 +125,12 @@ iborat; ularni takrorlash infogram'ni yomonroq nusxaga aylantiradi. Maqsad —
 
 Bular foydalanuvchilar aynan yozadigan so'rovlar. Ketma-ketlikda birinchi.
 
-**A. Telegram Premium'ni UzCard, HUMO yoki so'mda sotib olish**
+**A. Telegram Premium'ni UzCard, HUMO yoki so'mda sotib olish** ✅ bajarildi
 
-- `/qollanma/premium-uzcard-humo`
+- ⚠️ YANGI SAHIFA EMAS. Mavjud `/qollanma/telegram-premium-qanday-olinadi`
+  allaqachon shu sarlavhani ko'targan ("Telegram Premium'ni UzCard yoki HUMO
+  bilan sotib olish") — yangi sahifa o'z sahifamizga raqobatchi bo'lardi.
+  Uning o'rniga mavjud sahifa kuchaytirildi (2026-08-09).
 - So'rovlar: *"uzcard orqali telegram premium sotib olish"*, *"humo orqali premium"*,
   *"so'mda premium sotib olish"*
 - Chegara: mavjud `telegram-premium-qanday-olinadi` **jarayonni** beradi
@@ -134,7 +142,9 @@ Bular foydalanuvchilar aynan yozadigan so'rovlar. Ketma-ketlikda birinchi.
 
 **B. Telegram Stars'ni UzCard, HUMO yoki so'mda sotib olish**
 
-- `/qollanma/stars-uzcard-humo`
+- ⚠️ YANGI SAHIFA EMAS — xuddi A dagidek. Mavjud
+  `/qollanma/stars-qanday-sotib-olinadi` sarlavhasi: "Telegram Stars'ni
+  UzCard yoki HUMO bilan sotib olish". O'sha sahifa kuchaytiriladi.
 - So'rovlar: *"uzcard orqali stars sotib olish"*, *"humo orqali stars"*,
   *"so'mda stars"*
 - Chegara: mavjud `stars-qanday-sotib-olinadi` jarayonni, `visa-siz-telegram-stars`
@@ -159,8 +169,8 @@ Bular foydalanuvchilar aynan yozadigan so'rovlar. Ketma-ketlikda birinchi.
 | # | Material | URL | CTA | Holat |
 | --- | --- | --- | --- | --- |
 | — | Premium muddatlari (hub) | `/taqqoslash/premium-muddatlari` | 3 | ✅ yozildi |
-| 1 | Premium — UzCard / HUMO / so'm | `/qollanma/premium-uzcard-humo` | 3 | ⏭ **birinchi** |
-| 2 | Stars — UzCard / HUMO / so'm | `/qollanma/stars-uzcard-humo` | 2 | ⏭ |
+| 1 | Premium — UzCard / HUMO / so'm | `/qollanma/telegram-premium-qanday-olinadi` (kuchaytirildi) | 3 | ✅ |
+| 2 | Stars — UzCard / HUMO / so'm | `/qollanma/stars-qanday-sotib-olinadi` (kuchaytiriladi) | 2 | ⏭ **keyingi** |
 | 3 | 3 oylik Premium | `/taqqoslash/premium-3-oylik` | 3 | ⏭ |
 | 4 | 6 oylik Premium | `/taqqoslash/premium-6-oylik` | 3 | ⏭ |
 | 5 | 12 oylik Premium | `/taqqoslash/premium-12-oylik` | 3 | ⏭ |
