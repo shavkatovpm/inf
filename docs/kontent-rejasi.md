@@ -109,82 +109,131 @@ Tarjima — nusxa emas: narx misollari va so'rov shakli har tilda o'z auditoriya
 
 ## 2. Ketma-ketlik
 
+Dastlabki 40 ta sarlavhadan 26 ta noyob mavzu chiqdi; 14 tasi saytda allaqachon
+mavjud sahifani takrorlagani uchun tushib qoldi (6-bo'limga qarang). Qolgan
+12 tasi quyida — mavjud bo'limlarga sig'adiganlari birinchi, kod talab
+qiladiganlari keyin.
+
 ### Bosqich 0 — kod ✅ bajarildi
 
 | Ish | Holat |
 | --- | --- |
-| `BuyCta` ni mahsulotga moslashtirish | ✅ Endi shu mahsulotni sotadigan **barcha** botli xizmat CTA oladi. Premium → 3 ta, Stars → 2 ta, Gifts → 1 ta |
-| Bo'lim ro'yxatini markazlashtirish | ✅ `src/lib/sections.ts` — yagona manba. Ro'yxat kolleksiyalardan farq qilsa `npm run check` xato beradi |
+| `BuyCta` ni mahsulotga moslashtirish | ✅ Premium → 3 ta, Stars → 2 ta, Gifts → 1 ta |
+| Bo'lim ro'yxatini markazlashtirish | ✅ `src/lib/sections.ts`, kompilyatsiya vaqtida tekshiriladi |
+| Taqqoslash navbarda, bosh sahifada so'nggi materiallar, maqolada backlink bloki | ✅ |
 
 ### Bosqich 1 — mavjud bo'limlarga (yangi kod kerak emas)
 
-**1. Premium muddatlari: 1, 3, 6, 12 oy — qaysi biri arzon?**
+**1. Premium muddatlari: 1, 3, 6, 12 oy — qaysi biri arzon?** ✅ yozildi
 
-- `/taqqoslash/premium-muddatlari` · `/ru/...` · `/en/...`
-- So'rov: *"telegram premium 3 oy narxi"*, *"qaysi muddat arzon"*
-- Dublikat emas: `/telegram-premium` narxni ko'rsatadi, 1 oyga tushadigan qiymatni tahlil qilmaydi
-- Ma'lumot: `premiumPerMonth()` allaqachon mavjud — hisob kodda tayyor
+- `/taqqoslash/premium-muddatlari`
+- Dublikat emas: pillar umumiy summani beradi, oylik qiymatni tahlil qilmaydi
+- Ma'lumot: `premiumPerMonth()` · komponent: `PremiumPerMonth.astro`
 - CTA: StarsJoy + Uzgets + PremiumSend
-- Havolalar: `/telegram-premium`, `/narxlar`, `/reyting/telegram-premium`
 
 **2. Stars paketlari: 50 / 100 / 500 / 1000 — chegirma bormi?**
 
-- `/taqqoslash/stars-paketlari` · `/ru/...` · `/en/...`
+- `/taqqoslash/stars-paketlari`
 - So'rov: *"1000 stars qancha"*, *"katta paket arzonmi"*
 - Dublikat emas: kalkulyator hisoblaydi, javob bermaydi
-- Ma'lumot: ikkala xizmatda ham `flatRate: true` — **katta paket chegirma bermaydi**.
-  Bu ma'lumotdan chiqqan, iqtibos olinadigan xulosa
+- Ma'lumot: ikkalasida ham `flatRate: true` — **katta paket chegirma bermaydi**.
+  Ma'lumotdan chiqqan, iqtibos olinadigan xulosa
 - CTA: StarsJoy + Uzgets
 
 **3. Telegram Premium'ni Visa kartasiz olish**
 
-- `/qollanma/visa-siz-telegram-premium` · `/ru/...` · `/en/...`
-- So'rov: *"premium visa kerakmi"*, *"uzcard bilan premium"*
+- `/qollanma/visa-siz-telegram-premium`
+- So'rov: *"premium visa kerakmi"*
 - Dublikat emas: mavjud `visa-siz-telegram-stars` faqat Stars haqida
-- Ma'lumot: `commonPayments()` — uchala xizmat qabul qiladigan usullar
+- Ma'lumot: `commonPayments()`
 - CTA: StarsJoy + Uzgets + PremiumSend
-- Havolalar: `/qollanma/visa-siz-telegram-stars`, `/telegram-premium`
+
+**4. Telegram Premium'ni UzCard yoki HUMO orqali olish**
+
+- `/qollanma/premium-uzcard-humo`
+- So'rov: *"uzcard bilan telegram premium"*, *"humo premium"*
+- Chegara: mavjud `telegram-premium-qanday-olinadi` umumiy jarayonni beradi.
+  Bu sahifa faqat **to'lov usuli** ga qaratiladi — karta turi, bank ilovasi,
+  to'lov rad etilsa nima qilish. Jarayonni takrorlamaydi, unga havola beradi
+- CTA: StarsJoy + Uzgets + PremiumSend
+
+**5. 1 oylik Telegram Premium qanday olinadi**
+
+- `/qollanma/1-oylik-telegram-premium`
+- So'rov: *"1 oylik telegram premium"*, *"premium bir oyga"*
+- Dublikat emas: #1 muddatlarni taqqoslaydi, bu esa eng qisqa muddatning
+  amaliy tartibini beradi
+- **Diqqat:** taqqoslanganlar ichida 1 oylik tarifni faqat PremiumSend e'lon
+  qilgan. Matn shuni aniq aytishi kerak — CTA uchala xizmatni ko'rsatadi,
+  lekin 1 oylik muddat hammasida yo'q
+- CTA: StarsJoy + Uzgets + PremiumSend (PremiumSend eng mos)
+
+**6. Telegram Stars'ni Fragment'dan tashqari qayerdan olish mumkin**
+
+- `/taqqoslash/fragment-alternativa`
+- So'rov: *"fragmentsiz stars"*, *"fragment alternativa"*
+- Chegara: mavjud `rasmiy-vs-mahalliy` ikki yo'lni umumiy taqqoslaydi.
+  Bu sahifa aynan **Fragment** dan boshlaydi: nega TON kerak, hamyon
+  ochmasdan qanday yo'l bor. Kirish nuqtasi boshqa
+- CTA: StarsJoy + Uzgets
+
+**7. Telegram Stars'ni kartaga chiqarish (Cash Out)**
+
+- `/qollanma/stars-kartaga-chiqarish`
+- So'rov: *"stars pulga aylantirish"*, *"stars yechib olish"*
+- **Ramka majburiy:** oddiy foydalanuvchi Stars'ni naqdga chiqara olmaydi —
+  bu sayt FAQ'ida yozilgan va unga zid yozilmaydi. Chiqara oladiganlar —
+  kanal va bot egalari, Fragment orqali. Sahifa shu farqni birinchi
+  jumlada aytadi
+- Websearch majburiy: Telegram shartlari o'zgaruvchan
+- CTA: zaif (o'quvchi sotmoqchi, olmoqchi emas). Xarid CTA'si o'rniga
+  Stars **sotib olish** sahifalariga kontekstual havola
+
+**8. Nega Telegram SMS kod yubormayapti**
+
+- `/qollanma/telegram-sms-kod-kelmayapti`
+- So'rov katta, lekin **CTA tabiiy tushmaydi** — bu 1.1 mezoniga zid
+- Shuning uchun ro'yxatda oxirgi o'rinda: qolgan 11 tasi tugagach yoziladi.
+  Yozilsa ham, sun'iy CTA qo'yilmaydi
 
 ### Bosqich 2 — yangi bo'lim: `/imkoniyatlar`
 
-Yangi bo'lim oqlanadi, chunki bu intent mavjud uchta klasterning birortasiga tushmaydi:
-`qollanma` — *qanday olinadi*, `taqqoslash` — *qaysi biri*, `xavfsizlik` — *qanday himoyalanadi*.
-Bu esa — *nima beradi*.
+Bo'lim oqlanadi, chunki bu intent mavjud klasterlarning birortasiga tushmaydi:
+`qollanma` — *qanday olinadi*, `taqqoslash` — *qaysi biri*, `xavfsizlik` —
+*qanday himoyalanadi*. Bu esa — *nima beradi*.
 
-**4. Telegram Premium nima beradi: 30+ funksiya**
+**9. Telegram Premium nima beradi: 30+ funksiya**
 
-- `/imkoniyatlar/telegram-premium-funksiyalari` · `/ru/...` · `/en/...`
-- So'rov: *"premium nima beradi"*, *"premium funksiyalari"*
-- Websearch majburiy: funksiyalar ro'yxati Telegram tomonidan o'zgaradi
+- `/imkoniyatlar/telegram-premium-funksiyalari`
+- Websearch majburiy: funksiyalar ro'yxatini Telegram o'zgartiradi
 - CTA: StarsJoy + Uzgets + PremiumSend
 
-**5. Telegram Stars bilan nima qilish mumkin: 9 usul**
+**10. Telegram Stars bilan nima qilish mumkin: 9 usul**
 
-- `/imkoniyatlar/telegram-stars-bilan-nima-qilish` · `/ru/...` · `/en/...`
-- So'rov: *"stars nimaga kerak"*, *"stars bilan nima qilsa bo'ladi"*
+- `/imkoniyatlar/telegram-stars-bilan-nima-qilish`
 - CTA: StarsJoy + Uzgets
 
 ### Bosqich 3 — ma'lumot (maqola emas)
 
-**6. Telegram Gifts narxlari**
+**11. Telegram Gifts narxlari**
 
 Blog post emas — `providers.json` ga qo'shiladi. Shundan keyin `/telegram-gifts`,
 `/narxlar`, `/api/narxlar.json` va JSON-LD **o'zi to'ladi**.
 
-AI matn ichidagi ro'yxatni emas, strukturali ma'lumotni iqtibos qiladi. Rejadagi eng
-qimmatli bo'shliq shu.
+AI matn ichidagi ro'yxatni emas, strukturali ma'lumotni iqtibos qiladi.
+Rejadagi eng qimmatli bo'shliq shu.
 
 ### Bosqich 4 — hisobot seriyasi (oyiga bitta)
 
-**7. Oylik narx hisoboti**
+**12. Oylik narx hisoboti**
 
-- `/hisobot/2026-08` · `/ru/...` · `/en/...`
+- `/hisobot/2026-08`
 - Mazmun: shu oyda nima o'zgardi, nima o'zgarmadi, sabab
-- Bu **birlamchi manba**: modelda bu ma'lumot boshqa joydan yo'q
-- Sarlavhada aniq oy va yil — bu seriya, arxiv qiymati bor
+- **Birlamchi manba**: modelda bu ma'lumot boshqa joydan yo'q
+- Dastlabki rejadagi "Stars narxi 2026" va "Premium 12 oylik 2026" shu
+  seriyaga singdiriladi — alohida sahifa sifatida ular pillar bilan urishardi
 - CTA: mahsulotga qarab
 
----
 
 ## 3. Material yozish tartibi
 
@@ -229,30 +278,56 @@ qo'lda kengaytirilmaydi.
 
 ## 6. Filtrdan o'tmaganlar
 
+Dastlabki 40 ta sarlavhada 26 ta noyob mavzu bor edi (qolganlari uz/ru juftliklari).
+Ulardan 12 tasi 2-bo'limdagi ro'yxatga tushdi, 14 tasi quyidagi sabablarga ko'ra
+tushmadi.
+
 **Sotuvchi hujjati — saytning pozitsiyasini buzadi**
 
 `/oferta`, `/info` (StarsJoy haqida rasmiy sahifa). Infogram sotuvchi emas. Oferta
 qo'yilsa, sayt yuridik jihatdan sotuvchiga aylanadi; hamkor haqida "rasmiy" sahifa esa
-`/reyting` va `/mezonlar` ning qiymatini yo'q qiladi.
+`/reyting` va `/mezonlar` ning qiymatini yo'q qiladi. Bu ikkitasi qayta ko'rilmaydi.
 
 **Mavjud sahifa dublikati**
 
-`/premium` → `/telegram-premium` bor · `/stars` → `/telegram-stars` bor ·
-"Premium sotib olishning eng oson yo'li" → `/qollanma/telegram-premium-qanday-olinadi` ·
-"Stars qanday sotib olinadi" → `/qollanma/stars-qanday-sotib-olinadi` ·
-"Stars Visa kartasiz" → `/qollanma/visa-siz-telegram-stars` ·
-"Stars firibgarlikdan himoya" → `/xavfsizlik/firibgarlik-belgilari` ·
-"Fragmentdan tashqari qayerdan" → `/taqqoslash/rasmiy-vs-mahalliy` ·
-"Uzcard orqali Premium" va "eng yaxshi 3 usul" → mavjud Premium qo'llanmasi qamraydi
+| Rejadagi sarlavha | Allaqachon qamragan sahifa |
+| --- | --- |
+| `/premium` | `/telegram-premium` |
+| `/stars` | `/telegram-stars` |
+| Bosh sahifa (uz/ru) | `/` va `/ru` |
+| "Premium sotib olishning eng oson yo'li" | `/qollanma/telegram-premium-qanday-olinadi` |
+| "Premium O'zbekistonda: eng yaxshi 3 usul" | `/qollanma/telegram-premium-qanday-olinadi` + `/taqqoslash/rasmiy-vs-mahalliy` |
+| "Stars qanday sotib olinadi" | `/qollanma/stars-qanday-sotib-olinadi` |
+| "Stars Visa kartasiz" | `/qollanma/visa-siz-telegram-stars` |
+| "Stars firibgarlikdan himoya" | `/xavfsizlik/firibgarlik-belgilari` |
 
-**Bir-birini yeydiganlar** — "3-6 oy", "1 oylik", "12 oylik", "paketlar taqqoslash"
-to'rttasi bitta intent. Bitta sahifaga birlashtirildi (material 1).
+**Bir-birini yeydiganlar** — "3-6 oy", "12 oylik", "paketlar taqqoslash" uchtasi bitta
+intent: *qaysi muddat arzon*. Ular 1-materialga birlashtirildi. "1 oylik" esa alohida
+qoldi, chunki u taqqoslash emas, amaliy tartib beradi (5-material).
 
-**Mavzudan tashqari** — "Telegram SMS kod kelmayapti": xaridga aloqasi yo'q, topik
-avtoritetni suyultiradi. Bu savol uchun AI Telegram hujjatini iqtibos qiladi.
+"Stars narxi 2026" va "Premium 12 oylik 2026" — alohida sahifa sifatida pillar bilan
+urishardi; oylik hisobot seriyasiga singdirildi (12-material).
 
-**O'z FAQ'iga zid** — "Stars'ni kartaga chiqarish / Cash Out": `pillar.ts` da oddiy
-foydalanuvchi uchun Stars naqd pulga qaytarilmasligi yozilgan.
+**Kerak emas** — `/blog` indeksi. Material mavzu bo'yicha bo'limga tushadi:
+`taqqoslash`, `qollanma`, `xavfsizlik`, `imkoniyatlar`, `hisobot`. GEO uchun farqi
+yo'q — tekshirilgan: ikkala holatda ham bir xil JSON-LD, canonical, hreflang va
+llms.txt yozuvi chiqadi. Farq faqat breadcrumbda: bo'lim nomi modelga sahifaning
+turini aytadi, "blog" esa hech narsa aytmaydi.
 
-**Kerak emas** — `/blog` indeksi. Xronologik blog mavzuviy klasterni buzadi va mavjud
-sahifalar bilan kannibalizatsiya qiladi. Material mavzu bo'yicha bo'limga tushadi.
+---
+
+## 7. Qayta ko'rilgan qarorlar
+
+Dastlabki filtrda quyidagilar noto'g'ri rad etilgan edi va ro'yxatga qaytarildi:
+
+- **"Uzcard orqali Premium"** — mavjud qo'llanma jarayonni beradi, to'lov usulining
+  o'zi alohida so'rov. 4-material, tor ramkada.
+- **"Fragmentdan tashqari qayerdan"** — `rasmiy-vs-mahalliy` ikki yo'lni umumiy
+  taqqoslaydi; bu esa Fragment'dan boshlanadigan boshqa kirish nuqtasi. 6-material.
+- **"Stars'ni kartaga chiqarish"** — men buni "FAQ'ga zid" deb butunlay rad etgandim.
+  Bu noto'g'ri edi: oddiy foydalanuvchi chiqara olmaydi, lekin kanal va bot egalari
+  Fragment orqali chiqaradi. To'g'ri ramkada yozilishi mumkin. 7-material.
+- **"SMS kod kelmayapti"** — CTA tushmagani uchun hamon zaif, lekin so'rov hajmi
+  katta. Ro'yxatda oxirgi o'rinda. 8-material.
+- **"1 oylik Premium"** — muddat taqqoslashiga singdirilgandi; alohida amaliy
+  sahifa sifatida qaytarildi. 5-material.
