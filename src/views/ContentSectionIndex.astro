@@ -1,12 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
 import SectionIndex from './SectionIndex.astro';
+import BuyOptions from '../components/BuyOptions.astro';
 import type { CardItem } from './SectionIndex.astro';
 import type { Locale } from '../i18n/ui';
 import type { SectionKey } from '../i18n/pages';
 import type { ContentSection } from '../lib/sections';
-import { localePath, botLink } from '../config/site.js';
-import { PRIMARY } from '../lib/providers';
+import { localePath } from '../config/site.js';
 
 interface Props { locale: Locale; section: ContentSection }
 const { locale, section } = Astro.props;
@@ -91,17 +91,9 @@ const related = [
   { href: localePath(section === 'xavfsizlik' ? '/qollanma' : '/xavfsizlik', locale), title: section === 'xavfsizlik' ? { uz: 'Amaliy qo‘llanmalar', ru: 'Практические инструкции', en: 'Practical guides' }[locale] : { uz: 'Xavfsiz xarid', ru: 'Безопасная покупка', en: 'Buy safely' }[locale], desc: section === 'xavfsizlik' ? { uz: 'Xarid jarayonini bosqichma-bosqich bajaring.', ru: 'Пройдите покупку шаг за шагом.', en: 'Follow the purchase process step by step.' }[locale] : { uz: 'Firibgarlik belgilarini xariddan oldin tekshiring.', ru: 'Проверьте признаки мошенничества до оплаты.', en: 'Check fraud warning signs before paying.' }[locale] },
 ];
 
-const answerCta = section === 'qollanma' ? {
-  href: botLink(PRIMARY.bot!, `qollanma-index-${locale}`),
-  label: {
-    uz: `${PRIMARY.name} botida xarid qilish`,
-    ru: `Купить в боте ${PRIMARY.name}`,
-    en: `Buy in the ${PRIMARY.name} bot`,
-  }[locale],
-} : undefined;
 ---
 
-<SectionIndex {locale} section={section as SectionKey} {items} answer={answers} {answerCta} faq={faqs} {related}>
+<SectionIndex {locale} section={section as SectionKey} {items} answer={answers} faq={faqs} {related}>
   {items.length === 0 && <p class="note">{empty}</p>}
   {section === 'qollanma' && (
     <section aria-labelledby="guide-scope-heading">
@@ -134,4 +126,6 @@ const answerCta = section === 'qollanma' ? {
       </p>
     </section>
   )}
+
+  <BuyOptions {locale} source={section} />
 </SectionIndex>

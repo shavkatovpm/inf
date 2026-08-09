@@ -18,9 +18,12 @@ interface Props {
   source: string;
   /** Ikkinchi darajali havola (masalan, narxlarga). */
   secondary?: { href: string; label: string };
+  /** Blok sarlavhasi. Bir sahifada bir nechta CTA bo'lsa, qaysi mahsulot
+   *  ekanini ajratish uchun (masalan narxlar sahifasida Stars va Premium). */
+  title?: string;
 }
 
-const { locale, product, source, secondary } = Astro.props;
+const { locale, product, source, secondary, title } = Astro.props;
 const tr = t(locale);
 
 const label = {
@@ -48,7 +51,7 @@ const routes = (() => {
 /** Atributsiya kaliti. PRIMARY uchun qo'shimchasiz — mavjud analitika uzilmaydi. */
 const sourceFor = (id: string) => (id === PRIMARY.id ? source : `${source}-${id}`);
 
-const optionsTitle = {
+const optionsTitle = title ?? {
   uz: 'Xarid variantlari',
   ru: 'Варианты покупки',
   en: 'Purchase options',

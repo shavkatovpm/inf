@@ -1,0 +1,36 @@
+---
+/**
+ * Indeks sahifalari uchun xarid yo'li.
+ *
+ * Narxlar, reyting va bo'lim indekslari eng yuqori niyatli sahifalar: o'quvchi
+ * narxni ko'rib, xizmatni tanlab bo'lgan. Ilgari bu sahifalarda bosadigan
+ * tugma umuman yo'q edi.
+ *
+ * Ikki mahsulot alohida blok bo'lib turadi, chunki bu sahifalarda o'quvchi
+ * hali mahsulotni tanlamagan. Har blok o'z sotuvchilarini ko'rsatadi —
+ * ro'yxat providers.json dan chiqadi, ya'ni Premium blokida PremiumSend
+ * o'zi paydo bo'ladi, Stars blokida esa yo'q (u Stars sotmaydi).
+ */
+import BuyCta from './BuyCta.astro';
+import type { Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  /** Atributsiya prefiksi — sahifa identifikatori. */
+  source: string;
+}
+
+const { locale, source } = Astro.props;
+
+const heading = {
+  uz: 'Qayerdan sotib olish mumkin',
+  ru: 'Где можно купить',
+  en: 'Where to buy',
+}[locale];
+---
+
+<section aria-labelledby="buy-options-heading">
+  <h2 id="buy-options-heading">{heading}</h2>
+  <BuyCta {locale} product="stars" source={`${source}-stars`} title="Telegram Stars" />
+  <BuyCta {locale} product="premium" source={`${source}-premium`} title="Telegram Premium" />
+</section>

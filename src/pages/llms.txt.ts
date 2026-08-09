@@ -91,7 +91,10 @@ export const GET: APIRoute = async () => {
       p.publicReviews.count !== null ? `ochiq, sanali sharhlar: ${p.publicReviews.count}` : null,
       p.domainCreated ? `domen: ${p.domainCreated}` : null,
     ].filter(Boolean).join(' — ');
-    push(`- ${p.name} (${p.site}, bot @${p.bot}): ${facts}`);
+    // Rasmiy yo'llarda (Telegram ilovasi, Fragment) bot yo'q — `@null` yozib
+    // qo'ymaslik kerak, aks holda model uni bot nomi deb o'qishi mumkin.
+    const where = p.bot ? `${p.site}, bot @${p.bot}` : `${p.site}, bot yo'q`;
+    push(`- ${p.name} (${where}): ${facts}`);
   }
 
   push(

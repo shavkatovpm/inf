@@ -1,5 +1,6 @@
 ---
 import SectionIndex from './SectionIndex.astro';
+import BuyOptions from '../components/BuyOptions.astro';
 import type { CardItem } from './SectionIndex.astro';
 import type { Locale } from '../i18n/ui';
 import { PRODUCTS, PRODUCT_SLUGS, SLUG_TO_PRODUCT } from '../i18n/pages';
@@ -89,4 +90,6 @@ const related = [
       <li>{locale === 'uz' ? 'Xavfsizlik: ochiq sharhlar, support va refund sharti' : locale === 'ru' ? 'Безопасность: открытые отзывы, поддержка и возврат' : 'Safety: public reviews, support and refund terms'}</li>
     </ul>
   </section>
+
+  <BuyOptions {locale} source="narxlar" />
 </SectionIndex>

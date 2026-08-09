@@ -100,7 +100,8 @@ export const GET: APIRoute = () => {
     const months = trackRecordMonths(p);
     push(`### ${p.name}`);
     push(`- Sayt: ${p.site}`);
-    push(`- Bot: @${p.bot}`);
+    // Rasmiy yo'llarda bot yo'q — `@null` yozilmaydi.
+    push(p.bot ? `- Bot: @${p.bot}` : '- Bot: yo‘q (rasmiy yo‘l, Telegram/Fragment orqali)');
     push(`- Domen ro'yxatdan o'tgan: ${p.domainCreated ?? "ma'lum emas"}${months !== null ? ` (~${months.toFixed(0)} oy)` : ''}`);
     push(`- To'lov usullari: ${p.payments.join(', ')}`);
     push(`- Yetkazish: ${p.deliveryMinutes.claim}`);
