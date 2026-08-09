@@ -108,7 +108,9 @@ body {
   flex: 1 1 auto;
   display: flex; align-items: center; justify-content: space-between; gap: var(--s-5);
 }
-.site-head ul { list-style: none; display: flex; gap: var(--s-5); margin: 0; padding: 0; flex-wrap: wrap; }
+/* Oraliq --s-4: 8 ta bo'lim nomi bilan --s-5 da menyu bir qatorga sig'may,
+   oxirgi element pastga tushib qolardi. */
+.site-head ul { list-style: none; display: flex; gap: var(--s-4); margin: 0; padding: 0; flex-wrap: wrap; }
 .site-head a {
   color: var(--fg-2); text-decoration: none; font-size: var(--t-sm);
   white-space: nowrap; transition: color .12s;
@@ -134,12 +136,19 @@ body {
 .nav-btn-bars span { display: block; height: 1.5px; background: currentColor; border-radius: 1px; }
 .nav-btn-bars span:nth-child(2) { width: 70%; }
 
+/* ⚠️ NAVIGATSIYA CHEGARASI — 64rem. Uch joyda takrorlanadi va ular BIR XIL
+   bo'lishi shart: shu yerdagi min-width, quyidagi max-width va
+   Layout.astro dagi matchMedia. Media so'rovlari var() ni qo'llamaydi,
+   shuning uchun qiymat qo'lda mos saqlanadi.
+   64rem sabab: uzbekcha 8 ta bo'lim nomi (Taqqoslash, Xavfsizlik,
+   Qo'llanma) 56rem da bir qatorga sig'maydi. */
+
 /* Desktopda navigatsiya doim ochiq — menu tugmasi hech qachon ko'rinmaydi. */
-@media (min-width: 56.01rem) {
+@media (min-width: 64.01rem) {
   .nav-btn { display: none !important; }
 }
 
-@media (max-width: 56rem) {
+@media (max-width: 64rem) {
   .head-inner { position: relative; flex-wrap: nowrap; gap: var(--s-3); }
 
   /* Matn faqat screen-reader uchun aria-label orqali beriladi: mobilda icon yetarli. */

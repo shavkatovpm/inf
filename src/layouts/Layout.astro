@@ -178,7 +178,9 @@ const nav = [
         var nav = document.getElementById('site-nav');
         if (!btn || !nav) return;
 
-        var mq = window.matchMedia('(max-width: 56rem)');
+        // ⚠️ global.css dagi navigatsiya media so'rovlari bilan bir xil
+        // bo'lishi shart (min-width: 64.01rem / max-width: 64rem).
+        var mq = window.matchMedia('(max-width: 64rem)');
 
         function apply() {
           if (mq.matches) {
