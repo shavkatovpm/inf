@@ -133,6 +133,11 @@ const schema = [
     </p>
   </div>
 
+  {/* Qisqa javob ostidagi xarid yo'li. O'quvchi javobni shu yerda oladi —
+      tugma maqola oxirida turgani uchun ko'pchilik uni umuman ko'rmasdi.
+      `-top` qo'shimchasi voronkada yuqori va quyi CTA'ni ajratadi. */}
+  <BuyCta {locale} product={d.product} source={`${SOURCE}-top`} compact />
+
   <article class="prose">
     <Content />
   </article>

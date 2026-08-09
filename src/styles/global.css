@@ -397,6 +397,10 @@ ul, ol { max-width: var(--measure); }
   margin: var(--s-3) 0 0; color: var(--muted); font-size: var(--t-xs);
 }
 .cta-note strong { color: var(--fg-2); font-weight: 500; }
+
+/* Qisqa javob ostidagi ixcham CTA — kontentni pastga surmasligi uchun
+   yuqoridagi bo'sh joy kichraytiriladi. */
+.cta-compact { margin-top: var(--s-4); margin-bottom: var(--s-6); }
 .cta-proof {
   margin: .4rem 0 0; color: var(--muted); font-size: .8rem; line-height: 1.45;
 }

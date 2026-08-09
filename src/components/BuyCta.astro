@@ -21,9 +21,18 @@ interface Props {
   /** Blok sarlavhasi. Bir sahifada bir nechta CTA bo'lsa, qaysi mahsulot
    *  ekanini ajratish uchun (masalan narxlar sahifasida Stars va Premium). */
   title?: string;
+  /**
+   * Ixcham shakl — faqat tugmalar qatori.
+   *
+   * Qisqa javob ostiga qo'yish uchun: o'quvchi javobni o'qib bo'lgan joyda
+   * xarid yo'li ko'rinishi kerak, lekin to'liq blok (sarlavha + bot nomlari +
+   * izoh) u yerda kontentni pastga surib yuboradi. Bot nomlari va oshkoralik
+   * matni sahifa oxiridagi to'liq blokda saqlanib qoladi.
+   */
+  compact?: boolean;
 }
 
-const { locale, product, source, secondary, title } = Astro.props;
+const { locale, product, source, secondary, title, compact = false } = Astro.props;
 const tr = t(locale);
 
 const label = {
@@ -58,8 +67,8 @@ const optionsTitle = title ?? {
 }[locale];
 ---
 
-<div class="cta-block">
-  <p class="cta-options-title"><strong>{optionsTitle}</strong></p>
+<div class={compact ? 'cta-block cta-compact' : 'cta-block'}>
+  {!compact && <p class="cta-options-title"><strong>{optionsTitle}</strong></p>}
   <div class="hero-cta">
     {routes.map((p) => (
       <a
@@ -79,14 +88,18 @@ const optionsTitle = title ?? {
     ))}
     {secondary && <a class="link-cta" href={secondary.href}>{secondary.label}</a>}
   </div>
-  <p class="cta-note">
-    {routes.map((p, i) => (
-      <>{i > 0 && ' · '}<strong>{providerName(p, locale)}</strong> — @{p.bot}</>
-    ))}
-  </p>
-  <p class="cta-disclosure">
-    {locale === 'uz' && 'Xarid tanlangan xizmatning Telegram botida amalga oshiriladi.'}
-    {locale === 'ru' && 'Покупка оформляется в Telegram-боте выбранного сервиса.'}
-    {locale === 'en' && 'The purchase is completed in the selected service’s Telegram bot.'}
-  </p>
+  {!compact && (
+    <>
+      <p class="cta-note">
+        {routes.map((p, i) => (
+          <>{i > 0 && ' · '}<strong>{providerName(p, locale)}</strong> — @{p.bot}</>
+        ))}
+      </p>
+      <p class="cta-disclosure">
+        {locale === 'uz' && 'Xarid tanlangan xizmatning Telegram botida amalga oshiriladi.'}
+        {locale === 'ru' && 'Покупка оформляется в Telegram-боте выбранного сервиса.'}
+        {locale === 'en' && 'The purchase is completed in the selected service’s Telegram bot.'}
+      </p>
+    </>
+  )}
 </div>
