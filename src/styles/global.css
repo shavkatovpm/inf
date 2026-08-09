@@ -450,6 +450,13 @@ th:last-child, td:last-child { padding-right: 0; }
 .best { color: var(--pos); font-weight: 600; }
 .approx { color: var(--muted); font-size: var(--t-xs); }
 
+/* Ikki qavatli katak: asosiy qiymat tepada, ikkilamchisi ostida.
+   Bitta qatorga siqilgan "57 333 · jami 172 000" ko'rinishida ko'z qaysi
+   raqamni solishtirayotganini yo'qotardi. */
+.stack { display: inline-flex; flex-direction: column; align-items: flex-end; line-height: 1.25; }
+.stack-main { font-weight: 600; }
+.stack-sub { color: var(--muted); font-size: var(--t-xs); margin-top: 2px; white-space: nowrap; }
+
 /* Rasmiy yo'l qatorlari — ikkilamchi og'irlik. */
 tr.official th, tr.official td { color: var(--muted); }
 .req { margin: 0; padding-left: 1.1em; font-size: var(--t-sm); color: var(--muted); }
@@ -864,7 +871,9 @@ h2::before {
 .btn-primary { background: #fff; color: #111; box-shadow: none; }
 .btn-primary:hover { transform: none; box-shadow: none; background: #deded8; }
 .btn-ghost { border-color: var(--rule); background: var(--surface); }
-.btn-ghost:hover { transform: none; background: #f0f0ec; }
+/* Fon TOKEN orqali beriladi: qattiq yozilgan yorug' qiymat qorong'i rejimda
+   ham qo'llanib, matn (var(--fg)) bilan qo'shilib ko'rinmay qolardi. */
+.btn-ghost:hover { transform: none; background: var(--rule-soft); }
 .hero .btn-ghost { border-color: #555552; background: transparent; }
 .hero .btn-ghost:hover { background: #292928; }
 

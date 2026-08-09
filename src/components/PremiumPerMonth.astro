@@ -49,15 +49,15 @@ const totalSaving = bestPerMonth.has(shortest) && bestPerMonth.has(longest)
 
 const T = {
   uz: {
-    caption: '1 oyga tushadigan narx — muddat bo‘yicha',
+    caption: '1 oyga tushadigan narx, so‘mda — muddat bo‘yicha',
     service: 'Xizmat', month: 'oy', perMonth: '1 oyga', notPublished: 'e’lon qilinmagan',
-    best: 'eng past', total: 'umumiy', verified: 'Tekshirilgan',
+    best: 'eng past', total: 'jami', verified: 'Tekshirilgan',
     summary: (b: typeof biggest, s: number | null) =>
       `Eng katta pasayish ${b!.from} oydan ${b!.to} oyga o‘tishda: oylik qiymat ${b!.pct}% ga tushadi. ` +
       (s !== null ? `${shortest} oydan ${longest} oyga o‘tganda esa jami ${s}% tejaladi.` : ''),
   },
   ru: {
-    caption: 'Цена за один месяц — по сроку',
+    caption: 'Цена за один месяц, в сумах — по сроку',
     service: 'Сервис', month: 'мес.', perMonth: 'за месяц', notPublished: 'не опубликовано',
     best: 'самая низкая', total: 'всего', verified: 'Проверено',
     summary: (b: typeof biggest, s: number | null) =>
@@ -65,7 +65,7 @@ const T = {
       (s !== null ? `С ${shortest} до ${longest} мес. экономия составляет ${s}%.` : ''),
   },
   en: {
-    caption: 'Cost per month, by term',
+    caption: 'Cost per month in UZS, by term',
     service: 'Service', month: 'mo', perMonth: 'per month', notPublished: 'not published',
     best: 'lowest', total: 'total', verified: 'Verified',
     summary: (b: typeof biggest, s: number | null) =>
@@ -97,10 +97,12 @@ const T = {
                 {per === null ? (
                   <span class="approx">{T.notPublished}</span>
                 ) : (
-                  <>
-                    <span class={isBest ? 'best' : undefined}>{uzs(per)}</span>
-                    <span class="approx"> · {T.total} {uzs(total)}</span>
-                  </>
+                  <span class="stack">
+                    {/* Asosiy raqam — taqqoslash aynan shu bo'yicha ketadi. */}
+                    <span class={`stack-main${isBest ? ' best' : ''}`}>{uzs(per)}</span>
+                    {/* 1 oylik tarifda oylik qiymat va jami bir xil — takrorlamaymiz. */}
+                    {per !== total && <span class="stack-sub">{T.total} {uzs(total)}</span>}
+                  </span>
                 )}
               </td>
             );
