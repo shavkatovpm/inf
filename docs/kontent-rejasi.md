@@ -107,133 +107,110 @@ Tarjima — nusxa emas: narx misollari va so'rov shakli har tilda o'z auditoriya
 
 ---
 
-## 2. Ketma-ketlik
+## 2. Ketma-ketlik — 30 ta material
 
-Dastlabki 40 ta sarlavhadan 26 ta noyob mavzu chiqdi; 14 tasi saytda allaqachon
-mavjud sahifani takrorlagani uchun tushib qoldi (6-bo'limga qarang). Qolgan
-12 tasi quyida — mavjud bo'limlarga sig'adiganlari birinchi, kod talab
-qiladiganlari keyin.
+Reja ikki manbadan quriladi: dastlabki 40 ta sarlavha (filtrlangan, 6-bo'lim) va
+foydalanuvchilarning haqiqiy so'rov naqshlari (8-bo'limdagi raqobat tahlili).
 
-### Bosqich 0 — kod ✅ bajarildi
+**Maqsad 183 ta maqola emas.** Raqobatchining 183 tasi o'rtacha 50–70 so'zdan
+iborat; ularni takrorlash infogram'ni yomonroq nusxaga aylantiradi. Maqsad —
+30 ta material, har biri bitta aniq so'rovga **taqqoslash** javobini beradi.
 
-| Ish | Holat |
-| --- | --- |
-| `BuyCta` ni mahsulotga moslashtirish | ✅ Premium → 3 ta, Stars → 2 ta, Gifts → 1 ta |
-| Bo'lim ro'yxatini markazlashtirish | ✅ `src/lib/sections.ts`, kompilyatsiya vaqtida tekshiriladi |
-| Taqqoslash navbarda, bosh sahifada so'nggi materiallar, maqolada backlink bloki | ✅ |
+### 2.1 Birinchi navbat — so'rovga aniq mos 5 ta
 
-### Bosqich 1 — mavjud bo'limlarga (yangi kod kerak emas)
+Bular foydalanuvchilar aynan yozadigan so'rovlar. Ketma-ketlikda birinchi.
 
-**1. Premium muddatlari: 1, 3, 6, 12 oy — qaysi biri arzon?** ✅ yozildi
-
-- `/taqqoslash/premium-muddatlari`
-- Dublikat emas: pillar umumiy summani beradi, oylik qiymatni tahlil qilmaydi
-- Ma'lumot: `premiumPerMonth()` · komponent: `PremiumPerMonth.astro`
-- CTA: StarsJoy + Uzgets + PremiumSend
-
-**2. Stars paketlari: 50 / 100 / 500 / 1000 — chegirma bormi?**
-
-- `/taqqoslash/stars-paketlari`
-- So'rov: *"1000 stars qancha"*, *"katta paket arzonmi"*
-- Dublikat emas: kalkulyator hisoblaydi, javob bermaydi
-- Ma'lumot: ikkalasida ham `flatRate: true` — **katta paket chegirma bermaydi**.
-  Ma'lumotdan chiqqan, iqtibos olinadigan xulosa
-- CTA: StarsJoy + Uzgets
-
-**3. Telegram Premium'ni Visa kartasiz olish**
-
-- `/qollanma/visa-siz-telegram-premium`
-- So'rov: *"premium visa kerakmi"*
-- Dublikat emas: mavjud `visa-siz-telegram-stars` faqat Stars haqida
-- Ma'lumot: `commonPayments()`
-- CTA: StarsJoy + Uzgets + PremiumSend
-
-**4. Telegram Premium'ni UzCard yoki HUMO orqali olish**
+**A. Telegram Premium'ni UzCard, HUMO yoki so'mda sotib olish**
 
 - `/qollanma/premium-uzcard-humo`
-- So'rov: *"uzcard bilan telegram premium"*, *"humo premium"*
-- Chegara: mavjud `telegram-premium-qanday-olinadi` umumiy jarayonni beradi.
-  Bu sahifa faqat **to'lov usuli** ga qaratiladi — karta turi, bank ilovasi,
-  to'lov rad etilsa nima qilish. Jarayonni takrorlamaydi, unga havola beradi
+- So'rovlar: *"uzcard orqali telegram premium sotib olish"*, *"humo orqali premium"*,
+  *"so'mda premium sotib olish"*
+- Chegara: mavjud `telegram-premium-qanday-olinadi` **jarayonni** beradi
+  (muddat → username → to'lov → tekshirish). Bu sahifa faqat **to'lov usuliga**
+  qaraydi: qaysi xizmat qaysi kartani qabul qiladi, narx farqi, to'lov rad
+  etilsa nima qilish. Jarayonni takrorlamaydi — unga havola beradi
+- Ma'lumot: `commonPayments()` + `providerPayments()` + narx jadvali
 - CTA: StarsJoy + Uzgets + PremiumSend
 
-**5. 1 oylik Telegram Premium qanday olinadi**
+**B. Telegram Stars'ni UzCard, HUMO yoki so'mda sotib olish**
 
-- `/qollanma/1-oylik-telegram-premium`
-- So'rov: *"1 oylik telegram premium"*, *"premium bir oyga"*
-- Dublikat emas: #1 muddatlarni taqqoslaydi, bu esa eng qisqa muddatning
-  amaliy tartibini beradi
-- **Diqqat:** taqqoslanganlar ichida 1 oylik tarifni faqat PremiumSend e'lon
-  qilgan. Matn shuni aniq aytishi kerak — CTA uchala xizmatni ko'rsatadi,
-  lekin 1 oylik muddat hammasida yo'q
-- CTA: StarsJoy + Uzgets + PremiumSend (PremiumSend eng mos)
-
-**6. Telegram Stars'ni Fragment'dan tashqari qayerdan olish mumkin**
-
-- `/taqqoslash/fragment-alternativa`
-- So'rov: *"fragmentsiz stars"*, *"fragment alternativa"*
-- Chegara: mavjud `rasmiy-vs-mahalliy` ikki yo'lni umumiy taqqoslaydi.
-  Bu sahifa aynan **Fragment** dan boshlaydi: nega TON kerak, hamyon
-  ochmasdan qanday yo'l bor. Kirish nuqtasi boshqa
+- `/qollanma/stars-uzcard-humo`
+- So'rovlar: *"uzcard orqali stars sotib olish"*, *"humo orqali stars"*,
+  *"so'mda stars"*
+- Chegara: mavjud `stars-qanday-sotib-olinadi` jarayonni, `visa-siz-telegram-stars`
+  esa "Visa kerakmi" savolini qamraydi. Bu sahifa **to'lov usullarini yonma-yon**
+  qo'yadi: StarsJoy Payme qabul qiladi, Uzgets yo'q — shu farq narxga qanday ta'sir
+  qiladi
 - CTA: StarsJoy + Uzgets
 
-**7. Telegram Stars'ni kartaga chiqarish (Cash Out)**
+**C–E. Muddat sahifalari: 3, 6 va 12 oylik Premium**
 
-- `/qollanma/stars-kartaga-chiqarish`
-- So'rov: *"stars pulga aylantirish"*, *"stars yechib olish"*
-- **Ramka majburiy:** oddiy foydalanuvchi Stars'ni naqdga chiqara olmaydi —
-  bu sayt FAQ'ida yozilgan va unga zid yozilmaydi. Chiqara oladiganlar —
-  kanal va bot egalari, Fragment orqali. Sahifa shu farqni birinchi
-  jumlada aytadi
-- Websearch majburiy: Telegram shartlari o'zgaruvchan
-- CTA: zaif (o'quvchi sotmoqchi, olmoqchi emas). Xarid CTA'si o'rniga
-  Stars **sotib olish** sahifalariga kontekstual havola
-
-**8. Nega Telegram SMS kod yubormayapti**
-
-- `/qollanma/telegram-sms-kod-kelmayapti`
-- So'rov katta, lekin **CTA tabiiy tushmaydi** — bu 1.1 mezoniga zid
-- Shuning uchun ro'yxatda oxirgi o'rinda: qolgan 11 tasi tugagach yoziladi.
-  Yozilsa ham, sun'iy CTA qo'yilmaydi
-
-### Bosqich 2 — yangi bo'lim: `/imkoniyatlar`
-
-Bo'lim oqlanadi, chunki bu intent mavjud klasterlarning birortasiga tushmaydi:
-`qollanma` — *qanday olinadi*, `taqqoslash` — *qaysi biri*, `xavfsizlik` —
-*qanday himoyalanadi*. Bu esa — *nima beradi*.
-
-**9. Telegram Premium nima beradi: 30+ funksiya**
-
-- `/imkoniyatlar/telegram-premium-funksiyalari`
-- Websearch majburiy: funksiyalar ro'yxatini Telegram o'zgartiradi
+- `/taqqoslash/premium-3-oylik` · `/taqqoslash/premium-6-oylik` · `/taqqoslash/premium-12-oylik`
+- So'rovlar: *"3 oylik telegram premium qanday sotib olsa bo'ladi"*,
+  *"6 oylik telegram premium sotib olish"*, *"12 oylik telegram premium sotib olish"*
+- **Hub-spoke qoidasi (2.3) majburiy** — aks holda bular bir-birini va
+  `premium-muddatlari` ni yeydi
+- Har sahifada: shu muddat uchun uchala xizmat narxi, 1 oyga tushadigan qiymat,
+  eng arzoni, kimda bu muddat umuman yo'q
 - CTA: StarsJoy + Uzgets + PremiumSend
 
-**10. Telegram Stars bilan nima qilish mumkin: 9 usul**
+### 2.2 To'liq ro'yxat
 
-- `/imkoniyatlar/telegram-stars-bilan-nima-qilish`
-- CTA: StarsJoy + Uzgets
+| # | Material | URL | CTA | Holat |
+| --- | --- | --- | --- | --- |
+| — | Premium muddatlari (hub) | `/taqqoslash/premium-muddatlari` | 3 | ✅ yozildi |
+| 1 | Premium — UzCard / HUMO / so'm | `/qollanma/premium-uzcard-humo` | 3 | ⏭ **birinchi** |
+| 2 | Stars — UzCard / HUMO / so'm | `/qollanma/stars-uzcard-humo` | 2 | ⏭ |
+| 3 | 3 oylik Premium | `/taqqoslash/premium-3-oylik` | 3 | ⏭ |
+| 4 | 6 oylik Premium | `/taqqoslash/premium-6-oylik` | 3 | ⏭ |
+| 5 | 12 oylik Premium | `/taqqoslash/premium-12-oylik` | 3 | ⏭ |
+| 6 | 1 oylik Premium | `/taqqoslash/premium-1-oylik` | 3 | |
+| 7 | Stars paketlari — chegirma bormi | `/taqqoslash/stars-paketlari` | 2 | |
+| 8 | Premium Visa kartasiz | `/qollanma/visa-siz-telegram-premium` | 3 | |
+| 9 | Click orqali sotib olish | `/qollanma/click-orqali-tolov` | 3 | |
+| 10 | Payme orqali sotib olish | `/qollanma/payme-orqali-tolov` | 3 | |
+| 11 | To'lov o'tmadi — karta rad etdi | `/xavfsizlik/tolov-otmadi` | 3 | |
+| 12 | Stars — Fragment alternativasi | `/taqqoslash/fragment-alternativa` | 2 | |
+| 13 | Mahalliy narx vs App Store narxi | `/taqqoslash/app-store-narx-farqi` | 2 | |
+| 14 | 1000 Stars qancha turadi | `/taqqoslash/1000-stars-narxi` | 2 | |
+| 15 | Kichik paketlar: 50 va 100 Stars | `/taqqoslash/kichik-stars-paketlari` | 2 | |
+| 16 | Katta miqdor: 2500+ Stars | `/taqqoslash/katta-stars-paketlari` | 2 | |
+| 17 | Premium nima beradi — funksiyalar | `/imkoniyatlar/premium-funksiyalari` | 3 | yangi bo'lim |
+| 18 | Stars bilan nima qilish mumkin | `/imkoniyatlar/stars-bilan-nima-qilish` | 2 | yangi bo'lim |
+| 19 | Stars va Premium — farqi nima | `/imkoniyatlar/stars-va-premium-farqi` | 3 | |
+| 20 | Telegram Gifts nima, qanday yuboriladi | `/imkoniyatlar/gifts-qanday-yuboriladi` | StarsJoy | |
+| 21 | Premium'ni sovg'a qilish | `/qollanma/premium-sovga-qilish` | 3 | |
+| 22 | Username xato kiritilsa nima bo'ladi | `/xavfsizlik/username-xatosi` | 3 | |
+| 23 | Pul qaytarish kafolati — kimda bor | `/taqqoslash/pul-qaytarish-kafolati` | 3 | |
+| 24 | Xizmatni tekshirish: 7 belgi | `/xavfsizlik/xizmatni-tekshirish` | 3 | |
+| 25 | Yetkazish qancha vaqt oladi | `/taqqoslash/yetkazish-vaqti` | 3 | |
+| 26 | Stars'ni kartaga chiqarish | `/qollanma/stars-kartaga-chiqarish` | zaif | ramka majburiy |
+| 27 | Telegram Gifts narxlari | `providers.json` ga | StarsJoy | maqola emas |
+| 28 | Oylik narx hisoboti | `/hisobot/2026-08` | mahsulotga qarab | seriya |
+| 29 | Premium muddatini uzaytirish | `/qollanma/premium-uzaytirish` | 3 | |
+| 30 | Nega Telegram SMS kod yubormayapti | `/qollanma/sms-kod-kelmayapti` | **yo'q** | oxirgi |
 
-### Bosqich 3 — ma'lumot (maqola emas)
+CTA ustuni: 3 = StarsJoy + Uzgets + PremiumSend, 2 = StarsJoy + Uzgets.
+Ro'yxat `providers.json` dan quriladi, qo'lda yozilmaydi (1.1).
 
-**11. Telegram Gifts narxlari**
+### 2.3 Hub-spoke qoidasi — kannibalizatsiyaga qarshi
 
-Blog post emas — `providers.json` ga qo'shiladi. Shundan keyin `/telegram-gifts`,
-`/narxlar`, `/api/narxlar.json` va JSON-LD **o'zi to'ladi**.
+Bir mavzuning bir nechta sahifasi bo'lganda (muddatlar, paketlar, to'lov usullari)
+ular **turli o'q** bo'yicha kesilishi shart:
 
-AI matn ichidagi ro'yxatni emas, strukturali ma'lumotni iqtibos qiladi.
-Rejadagi eng qimmatli bo'shliq shu.
+- **Hub** — variantlarni bir-biriga solishtiradi.
+  `premium-muddatlari`: *3 oy 6 oydan qimmatroqmi?*
+- **Spoke** — bitta variant ichida xizmatlarni solishtiradi.
+  `premium-3-oylik`: *3 oylik tarifni qaysi xizmatdan olgan arzon?*
 
-### Bosqich 4 — hisobot seriyasi (oyiga bitta)
+Har spoke sahifasida majburiy:
 
-**12. Oylik narx hisoboti**
+1. Birinchi ekranda shu muddat/paket uchun **uchala xizmat narxi**
+2. Hub'ga havola: "boshqa muddatlar bilan taqqoslash"
+3. Hub'dan spoke'ga qaytish havolasi
+4. `answer` matni faqat shu variant haqida — hub matnining nusxasi emas
 
-- `/hisobot/2026-08`
-- Mazmun: shu oyda nima o'zgardi, nima o'zgarmadi, sabab
-- **Birlamchi manba**: modelda bu ma'lumot boshqa joydan yo'q
-- Dastlabki rejadagi "Stars narxi 2026" va "Premium 12 oylik 2026" shu
-  seriyaga singdiriladi — alohida sahifa sifatida ular pillar bilan urishardi
-- CTA: mahsulotga qarab
-
+Agar spoke sahifasi hub'ning qisqartmasi bo'lib qolsa, u yozilmaydi.
 
 ## 3. Material yozish tartibi
 
@@ -331,3 +308,59 @@ Dastlabki filtrda quyidagilar noto'g'ri rad etilgan edi va ro'yxatga qaytarildi:
   katta. Ro'yxatda oxirgi o'rinda. 8-material.
 - **"1 oylik Premium"** — muddat taqqoslashiga singdirilgandi; alohida amaliy
   sahifa sifatida qaytarildi. 5-material.
+
+---
+
+## 8. Raqobat tahlili (2026-08-08 da o'lchangan)
+
+Sabab: starstg.uz AI tavsiyalarida ko'proq chiqayotgani kuzatilgan, starsjoy.uz esa
+kam. Nima farq qilishini aniqlash uchun ikkala sayt o'lchandi.
+
+| | starstg.uz | starsjoy.uz | infogram.uz |
+| --- | --- | --- | --- |
+| uz blog maqolalari | **183** | 59 | 2 |
+| Sitemap URL (jami) | 572 | 142 | 64 |
+| Tillar | uz / ru / en | uz / ru | uz / ru / en |
+| llms.txt hajmi | 27 KB | 28 KB | 8 KB |
+| AI crawler ruxsati | to'liq | to'liq | to'liq |
+
+### Nima aniqlandi
+
+**1. Sarlavha gipotezasi rad etildi.** "uzcard orqali premium", "3/6/12 oylik premium",
+"humo orqali stars" kabi so'rovlar uchun maqolalar **StarsJoy'da allaqachon bor**
+(`telegram-premium-uzcard`, `telegram-premium-3-oy-6-oy`, `telegram-premium-12-oylik`,
+`telegram-stars-uzcard-bilan-sotib-olish`, `telegram-stars-humo-bilan-sotib-olish`).
+Sarlavhalar bor, natija yo'q — demak sabab sarlavhada emas.
+
+**2. Raqobatchining maqolalari yupqa.** `/uz/blog/telegram-premium-uzcard-2026`:
+~50 so'z, bitta H1, H2 yo'q (faqat CTA), hreflang 0 ta, FAQPage schema yo'q.
+Boshqalari ham shunday: 50–70 so'z oralig'ida.
+
+**3. Ular miqdor va qamrov bilan yutmoqda**, sifat bilan emas: 183 maqola, har biri
+bitta aniq so'rovga; ustiga Telegram'dan tashqari 24 ta mavzu (Steam Wallet — 10,
+to'lov API — 7, SBP, reseller biznes).
+
+**4. Dastlabki 40 talik reja StarsJoy'ning mavjud blog ro'yxati ekan.** `/oferta` va
+`/info` shundan kelib chiqqan — ular sotuvchi sayt uchun mantiqli, taqqoslash nashri
+uchun zararli.
+
+### O'lchab bo'lmagani
+
+Sayt ichidagi omillar o'lchandi. AI tavsiyasini nima boshqarayotgani **bu yerdan
+bilinmaydi**: tashqi eslatmalar, Telegram kanallaridagi tavsiyalar, forum va sharhlar,
+domen obro'si — bularning hech biri tekshirilmadi. Shuning uchun "30 ta maqola yozsak
+chiqamiz" degan xulosa chiqarilmaydi. Miqdor omillardan biri, yagonasi emas.
+
+### Infogram uchun xulosa
+
+StarsJoy'ning nusxasi bo'lish yechim emas — u allaqachon yutqazmoqda. Infogram'ning
+boshqa pozitsiyasi bor va u ikkala raqobatchida ham yo'q:
+
+- `/api/narxlar.json` — mashina o'qiydigan, litsenziyalangan narx dataseti
+- `/mezonlar` — natijadan oldin e'lon qilingan formula
+- `AggregateOffer` + `Dataset` JSON-LD, uchala tilda hreflang
+
+"uzcard orqali premium sotib olish" so'roviga sotuvchi *"bizdan oling"* deydi.
+Infogram esa *"uchala xizmat UzCard qabul qiladi, narxlari shu, eng arzoni shu,
+tekshirilgan sana shu"* deydi. Model qaysi biriga tayanishi ehtimoli yuqori
+ekanini ana shu farq belgilaydi.
