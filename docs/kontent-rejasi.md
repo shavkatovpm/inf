@@ -107,14 +107,14 @@ Tarjima — nusxa emas: narx misollari va so'rov shakli har tilda o'z auditoriya
 
 ---
 
-## 2. Ketma-ketlik — 30 ta material
+## 2. Ketma-ketlik — 29 ta material
 
 Reja ikki manbadan quriladi: dastlabki 40 ta sarlavha (filtrlangan, 6-bo'lim) va
 foydalanuvchilarning haqiqiy so'rov naqshlari (8-bo'limdagi raqobat tahlili).
 
 **Maqsad 183 ta maqola emas.** Raqobatchining 183 tasi o'rtacha 50–70 so'zdan
 iborat; ularni takrorlash infogram'ni yomonroq nusxaga aylantiradi. Maqsad —
-30 ta material, har biri bitta aniq so'rovga **taqqoslash** javobini beradi.
+29 ta material, har biri bitta aniq so'rovga **taqqoslash** javobini beradi.
 
 ### 2.1 Birinchi navbat — so'rovga aniq mos 5 ta
 
@@ -164,31 +164,30 @@ Bular foydalanuvchilar aynan yozadigan so'rovlar. Ketma-ketlikda birinchi.
 | 3 | 3 oylik Premium | `/taqqoslash/premium-3-oylik` | 3 | ⏭ |
 | 4 | 6 oylik Premium | `/taqqoslash/premium-6-oylik` | 3 | ⏭ |
 | 5 | 12 oylik Premium | `/taqqoslash/premium-12-oylik` | 3 | ⏭ |
-| 6 | 1 oylik Premium | `/taqqoslash/premium-1-oylik` | 3 | |
-| 7 | Stars paketlari — chegirma bormi | `/taqqoslash/stars-paketlari` | 2 | |
-| 8 | Premium Visa kartasiz | `/qollanma/visa-siz-telegram-premium` | 3 | |
-| 9 | Click orqali sotib olish | `/qollanma/click-orqali-tolov` | 3 | |
-| 10 | Payme orqali sotib olish | `/qollanma/payme-orqali-tolov` | 3 | |
-| 11 | To'lov o'tmadi — karta rad etdi | `/xavfsizlik/tolov-otmadi` | 3 | |
-| 12 | Stars — Fragment alternativasi | `/taqqoslash/fragment-alternativa` | 2 | |
-| 13 | Mahalliy narx vs App Store narxi | `/taqqoslash/app-store-narx-farqi` | 2 | |
-| 14 | 1000 Stars qancha turadi | `/taqqoslash/1000-stars-narxi` | 2 | |
-| 15 | Kichik paketlar: 50 va 100 Stars | `/taqqoslash/kichik-stars-paketlari` | 2 | |
-| 16 | Katta miqdor: 2500+ Stars | `/taqqoslash/katta-stars-paketlari` | 2 | |
-| 17 | Premium nima beradi — funksiyalar | `/imkoniyatlar/premium-funksiyalari` | 3 | yangi bo'lim |
-| 18 | Stars bilan nima qilish mumkin | `/imkoniyatlar/stars-bilan-nima-qilish` | 2 | yangi bo'lim |
-| 19 | Stars va Premium — farqi nima | `/imkoniyatlar/stars-va-premium-farqi` | 3 | |
-| 20 | Telegram Gifts nima, qanday yuboriladi | `/imkoniyatlar/gifts-qanday-yuboriladi` | StarsJoy | |
-| 21 | Premium'ni sovg'a qilish | `/qollanma/premium-sovga-qilish` | 3 | |
-| 22 | Username xato kiritilsa nima bo'ladi | `/xavfsizlik/username-xatosi` | 3 | |
-| 23 | Pul qaytarish kafolati — kimda bor | `/taqqoslash/pul-qaytarish-kafolati` | 3 | |
-| 24 | Xizmatni tekshirish: 7 belgi | `/xavfsizlik/xizmatni-tekshirish` | 3 | |
-| 25 | Yetkazish qancha vaqt oladi | `/taqqoslash/yetkazish-vaqti` | 3 | |
-| 26 | Stars'ni kartaga chiqarish | `/qollanma/stars-kartaga-chiqarish` | zaif | ramka majburiy |
-| 27 | Telegram Gifts narxlari | `providers.json` ga | StarsJoy | maqola emas |
-| 28 | Oylik narx hisoboti | `/hisobot/2026-08` | mahsulotga qarab | seriya |
-| 29 | Premium muddatini uzaytirish | `/qollanma/premium-uzaytirish` | 3 | |
-| 30 | Nega Telegram SMS kod yubormayapti | `/qollanma/sms-kod-kelmayapti` | **yo'q** | oxirgi |
+| 6 | Stars paketlari — chegirma bormi | `/taqqoslash/stars-paketlari` | 2 | |
+| 7 | Premium Visa kartasiz | `/qollanma/visa-siz-telegram-premium` | 3 | |
+| 8 | Click orqali sotib olish | `/qollanma/click-orqali-tolov` | 3 | |
+| 9 | Payme orqali sotib olish | `/qollanma/payme-orqali-tolov` | 3 | |
+| 10 | To'lov o'tmadi — karta rad etdi | `/xavfsizlik/tolov-otmadi` | 3 | |
+| 11 | Stars — Fragment alternativasi | `/taqqoslash/fragment-alternativa` | 2 | |
+| 12 | Mahalliy narx vs App Store narxi | `/taqqoslash/app-store-narx-farqi` | 2 | |
+| 13 | 1000 Stars qancha turadi | `/taqqoslash/1000-stars-narxi` | 2 | |
+| 14 | Kichik paketlar: 50 va 100 Stars | `/taqqoslash/kichik-stars-paketlari` | 2 | |
+| 15 | Katta miqdor: 2500+ Stars | `/taqqoslash/katta-stars-paketlari` | 2 | |
+| 16 | Premium nima beradi — funksiyalar | `/imkoniyatlar/premium-funksiyalari` | 3 | yangi bo'lim |
+| 17 | Stars bilan nima qilish mumkin | `/imkoniyatlar/stars-bilan-nima-qilish` | 2 | yangi bo'lim |
+| 18 | Stars va Premium — farqi nima | `/imkoniyatlar/stars-va-premium-farqi` | 3 | |
+| 19 | Telegram Gifts nima, qanday yuboriladi | `/imkoniyatlar/gifts-qanday-yuboriladi` | StarsJoy | |
+| 20 | Premium'ni sovg'a qilish | `/qollanma/premium-sovga-qilish` | 3 | |
+| 21 | Username xato kiritilsa nima bo'ladi | `/xavfsizlik/username-xatosi` | 3 | |
+| 22 | Pul qaytarish kafolati — kimda bor | `/taqqoslash/pul-qaytarish-kafolati` | 3 | |
+| 23 | Xizmatni tekshirish: 7 belgi | `/xavfsizlik/xizmatni-tekshirish` | 3 | |
+| 24 | Yetkazish qancha vaqt oladi | `/taqqoslash/yetkazish-vaqti` | 3 | |
+| 25 | Stars'ni kartaga chiqarish | `/qollanma/stars-kartaga-chiqarish` | zaif | ramka majburiy |
+| 26 | Telegram Gifts narxlari | `providers.json` ga | StarsJoy | maqola emas |
+| 27 | Oylik narx hisoboti | `/hisobot/2026-08` | mahsulotga qarab | seriya |
+| 28 | Premium muddatini uzaytirish | `/qollanma/premium-uzaytirish` | 3 | |
+| 29 | Nega Telegram SMS kod yubormayapti | `/qollanma/sms-kod-kelmayapti` | **yo'q** | oxirgi |
 
 CTA ustuni: 3 = StarsJoy + Uzgets + PremiumSend, 2 = StarsJoy + Uzgets.
 Ro'yxat `providers.json` dan quriladi, qo'lda yozilmaydi (1.1).
@@ -306,8 +305,10 @@ Dastlabki filtrda quyidagilar noto'g'ri rad etilgan edi va ro'yxatga qaytarildi:
   Fragment orqali chiqaradi. To'g'ri ramkada yozilishi mumkin. 7-material.
 - **"SMS kod kelmayapti"** — CTA tushmagani uchun hamon zaif, lekin so'rov hajmi
   katta. Ro'yxatda oxirgi o'rinda. 8-material.
-- **"1 oylik Premium"** — muddat taqqoslashiga singdirilgandi; alohida amaliy
-  sahifa sifatida qaytarildi. 5-material.
+- **"1 oylik Premium"** — alohida sahifa sifatida qaytarilgandi, keyin yana
+  olib tashlandi (2026-08-09, foydalanuvchi qarori). Sabab: 1 oylik tarifni
+  faqat bitta xizmat e'lon qilgan, ya'ni taqqoslash uchun material yo'q —
+  hub jadvalida u allaqachon ko'rinadi. Alohida sahifa yupqa bo'lardi.
 
 ---
 
@@ -318,8 +319,8 @@ kam. Nima farq qilishini aniqlash uchun ikkala sayt o'lchandi.
 
 | | starstg.uz | starsjoy.uz | infogram.uz |
 | --- | --- | --- | --- |
-| uz blog maqolalari | **183** | 59 | 2 |
-| Sitemap URL (jami) | 572 | 142 | 64 |
+| uz blog maqolalari | **183** | 58 | 2 |
+| Sitemap URL (jami) | 571 | 142 | 63 |
 | Tillar | uz / ru / en | uz / ru | uz / ru / en |
 | llms.txt hajmi | 27 KB | 28 KB | 8 KB |
 | AI crawler ruxsati | to'liq | to'liq | to'liq |
