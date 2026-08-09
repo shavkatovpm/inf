@@ -85,6 +85,20 @@ Har material `src/content.config.ts` dagi `articleSchema` ga bo'ysunadi. Majburi
 Matn strukturasi: H1 → qisqa javob → faktlar → savol shaklidagi H2'lar → FAQ →
 ichki havolalar. Bu ketma-ketlik pillar sahifalarida allaqachon ishlaydi.
 
+### 1.5.0 CTA joylashuvi
+
+Har maqolada **ikkita** CTA bo'ladi:
+
+1. **Qisqa javob ostida** — ixcham shakl, faqat tugmalar. O'quvchi javobni shu
+   yerda oladi; tugma sahifa oxirida turgan bo'lsa, ko'pchilik uni ko'rmaydi.
+2. **Maqola oxirida** — to'liq blok: bot nomlari va oshkoralik matni bilan.
+
+Atributsiya kalitlari farqli (`...-top` va `...-cta`), shuning uchun voronkada
+qaysi joylashuv ko'proq konversiya berayotgani ko'rinadi.
+
+Ikkalasi ham `Article.astro` dan avtomatik chiqadi — MDX ichida qo'lda
+qo'shilmaydi.
+
 ### 1.5.1 Ichki havolalar — avtomatik, qo'lda qo'shilmaydi
 
 `Article.astro` har maqola oxiriga havola bloki qo'yadi: bosh sahifa, mahsulot
@@ -121,7 +135,7 @@ foydalanuvchilarning haqiqiy so'rov naqshlari (8-bo'limdagi raqobat tahlili).
 iborat; ularni takrorlash infogram'ni yomonroq nusxaga aylantiradi. Maqsad —
 29 ta material, har biri bitta aniq so'rovga **taqqoslash** javobini beradi.
 
-### 2.1 Birinchi navbat — so'rovga aniq mos 5 ta
+### 2.1 Birinchi navbat — so'rovga aniq mos 5 ta ✅ BAJARILDI (2026-08-09)
 
 Bular foydalanuvchilar aynan yozadigan so'rovlar. Ketma-ketlikda birinchi.
 
@@ -170,11 +184,11 @@ Bular foydalanuvchilar aynan yozadigan so'rovlar. Ketma-ketlikda birinchi.
 | --- | --- | --- | --- | --- |
 | — | Premium muddatlari (hub) | `/taqqoslash/premium-muddatlari` | 3 | ✅ yozildi |
 | 1 | Premium — UzCard / HUMO / so'm | `/qollanma/telegram-premium-qanday-olinadi` (kuchaytirildi) | 3 | ✅ |
-| 2 | Stars — UzCard / HUMO / so'm | `/qollanma/stars-qanday-sotib-olinadi` (kuchaytiriladi) | 2 | ⏭ **keyingi** |
-| 3 | 3 oylik Premium | `/taqqoslash/premium-3-oylik` | 3 | ⏭ |
-| 4 | 6 oylik Premium | `/taqqoslash/premium-6-oylik` | 3 | ⏭ |
-| 5 | 12 oylik Premium | `/taqqoslash/premium-12-oylik` | 3 | ⏭ |
-| 6 | Stars paketlari — chegirma bormi | `/taqqoslash/stars-paketlari` | 2 | |
+| 2 | Stars — UzCard / HUMO / so'm | `/qollanma/stars-qanday-sotib-olinadi` (kuchaytirildi) | 2 | ✅ |
+| 3 | 3 oylik Premium | `/taqqoslash/premium-3-oylik` | 3 | ✅ |
+| 4 | 6 oylik Premium | `/taqqoslash/premium-6-oylik` | 3 | ✅ |
+| 5 | 12 oylik Premium | `/taqqoslash/premium-12-oylik` | 3 | ✅ |
+| 6 | Stars paketlari — chegirma bormi | `/taqqoslash/stars-paketlari` | 2 | ⏭ **keyingi** |
 | 7 | Premium Visa kartasiz | `/qollanma/visa-siz-telegram-premium` | 3 | |
 | 8 | Click orqali sotib olish | `/qollanma/click-orqali-tolov` | 3 | |
 | 9 | Payme orqali sotib olish | `/qollanma/payme-orqali-tolov` | 3 | |
