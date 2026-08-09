@@ -911,3 +911,8 @@ tbody tr:hover { background: #f7f7f4; }
   .card:hover { background: #1d1d1b; border-color: #777773; }
   .site-foot { background: #151515; }
 }
+
+/* Javob qutisi ichidagi xarid tugmalari. `.answer p:last-child` qoidasi
+   endi oxirgi element emas — oraliq shu yerda aniq beriladi. */
+.answer .cta-compact { margin: var(--s-4) 0 0; }
+.answer .cta-compact + .cta-compact { margin-top: var(--s-2); }

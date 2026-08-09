@@ -91,6 +91,7 @@ const schema = [
       {locale === 'en' && `1 Telegram Star from ${uzs(minUnit)} UZS. For example, 1000 Stars — from ${uzs(minUnit * 1000)} UZS.`}
     </p>
     <p class="meta">{tr('label.updated')}: {VERIFIED_AT}</p>
+    <BuyCta {locale} product="stars" source={`${SOURCE}-top`} compact />
   </div>
 
   {/* JS bilan ishlaydigan qism. JS bo'lmasa yashirin qoladi. */}

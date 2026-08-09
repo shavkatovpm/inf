@@ -145,6 +145,7 @@ function rawLabel(key: string, value: number | null, p: any): string {
       {tr('label.updated')}: {VERIFIED_AT} ·{' '}
       <a href={localePath('/mezonlar', locale)}>{tr('nav.mezonlar')}</a>
     </p>
+    <BuyCta {locale} product={product} source={`${SOURCE}-top`} compact />
   </div>
 
   {segments.map((s) => (

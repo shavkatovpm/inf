@@ -167,6 +167,9 @@ const schema = [
   {/* Fold ustidagi to'g'ridan-to'g'ri javob — LLM extraction shundan ishlaydi. */}
   <div class="answer">
     <p><strong>{S.answerLead}</strong> {S.answer}</p>
+    {/* Javob qutisi ichidagi xarid yo'li — ikkala mahsulot uchun. */}
+    <BuyCta {locale} product="stars" source={`${SOURCE}-top-stars`} compact />
+    <BuyCta {locale} product="premium" source={`${SOURCE}-top-premium`} compact />
   </div>
 
   {/* Narxlar — to'liq kenglikdagi kontrast band.

@@ -127,6 +127,7 @@ const schema = [
   <div class="answer">
     <p><strong>{locale === 'uz' ? 'Qisqa javob.' : locale === 'ru' ? 'Коротко.' : 'Short answer.'}</strong> {answer}</p>
     <p class="meta">{tr('label.updated')}: <time datetime={VERIFIED_AT}>{VERIFIED_AT}</time></p>
+    <BuyCta {locale} product={ctaProduct} source={`${SOURCE}-top`} compact />
   </div>
 
   {/* Tezkor faktlar — mashina uchun eng oson o'qiladigan blok. */}

@@ -5,6 +5,7 @@
  * shu bitta shablonni ishlatadi.
  */
 import Layout from '../layouts/Layout.astro';
+import BuyCta from '../components/BuyCta.astro';
 import { t, type Locale } from '../i18n/ui';
 import { SECTIONS, type SectionKey } from '../i18n/pages';
 import { localePath } from '../config/site.js';
@@ -78,6 +79,8 @@ const schema = [
     <div class="answer">
       <p>{answer}</p>
       <p class="meta">{tr('label.updated')}: <time datetime={VERIFIED_AT}>{VERIFIED_AT}</time></p>
+      <BuyCta {locale} product="stars" source={`${section}-top-stars`} compact />
+      <BuyCta {locale} product="premium" source={`${section}-top-premium`} compact />
     </div>
   )}
 
