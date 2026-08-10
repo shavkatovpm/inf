@@ -210,8 +210,8 @@ Bular foydalanuvchilar aynan yozadigan so'rovlar. Ketma-ketlikda birinchi.
 | 3 | 3 oylik Premium | `/taqqoslash/premium-3-oylik` | 3 | ✅ |
 | 4 | 6 oylik Premium | `/taqqoslash/premium-6-oylik` | 3 | ✅ |
 | 5 | 12 oylik Premium | `/taqqoslash/premium-12-oylik` | 3 | ✅ |
-| 6 | Stars paketlari — chegirma bormi | `/taqqoslash/stars-paketlari` | 2 | ⏭ **keyingi** |
-| 7 | Premium Visa kartasiz | `/qollanma/visa-siz-telegram-premium` | 3 | |
+| 6 | Stars paketlari — chegirma bormi | `/taqqoslash/stars-paketlari` | 2 | ✅ |
+| 7 | Premium Visa kartasiz | `/qollanma/visa-siz-telegram-premium` | 3 | ⏭ **keyingi** |
 | 8 | Click orqali sotib olish | `/qollanma/click-orqali-tolov` | 3 | |
 | 9 | Payme orqali sotib olish | `/qollanma/payme-orqali-tolov` | 3 | |
 | 10 | To'lov o'tmadi — karta rad etdi | `/xavfsizlik/tolov-otmadi` | 3 | |
