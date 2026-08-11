@@ -14,7 +14,13 @@ const { locale, section } = Astro.props;
 // id — "<locale>/<slug>" ko'rinishida.
 const entries = (await getCollection(section as any))
   .filter((e: any) => e.id.startsWith(`${locale}/`))
-  .sort((a: any, b: any) => a.data.order - b.data.order);
+  // Yangi maqolalar bo'lim sahifasida birinchi ko'rinadi.
+  // Bir kunda chiqqan materiallarda `order` barqaror ikkilamchi tartib beradi.
+  .sort((a: any, b: any) =>
+    a.data.published === b.data.published
+      ? b.data.order - a.data.order
+      : a.data.published < b.data.published ? 1 : -1
+  );
 
 const items: CardItem[] = entries.map((e: any) => ({
   href: localePath(`/${section}/${e.id.split('/').slice(1).join('/')}`, locale),
