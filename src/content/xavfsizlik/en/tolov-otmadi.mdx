@@ -1,0 +1,73 @@
+---
+title: "Telegram payment failed: why was the card declined?"
+metaTitle: "Telegram payment declined — 7 reasons cards fail"
+description: "What to check when a card declines Telegram Premium or Stars payment: balance, fee, limits, card status, authentication, and bank support."
+answer: "If a Telegram Premium or Stars payment is declined, do not retry repeatedly. Check the balance, fee, card expiry, transfer limit and authentication. For Premium, create a fresh invoice in StarsJoy, Uzgets or PremiumSend; for Stars, use StarsJoy or Uzgets, then retry once. If it fails again, only the issuing bank can give the exact reason."
+published: "2026-08-12"
+updated: "2026-08-12"
+order: 3
+product: "premium"
+faq:
+  - q: "Why does a card decline a payment?"
+    a: "Common causes include insufficient funds after fees, an expired or blocked card, failed authentication, an exceeded limit, a restriction on that transaction type, or a bank security check. The card-issuing bank can see the exact reason."
+  - q: "Is money debited when a payment is declined?"
+    a: "A finally declined transaction is normally not completed, but the balance may temporarily show a hold or pending operation. Check the status before paying again; if a debit is confirmed, follow the paid-but-not-delivered procedure."
+  - q: "How many times should I retry the payment?"
+    a: "Repeated attempts without fixing the cause can strengthen a security block or create a duplicate-payment risk. Check the balance, limit and details, generate a fresh bot invoice, and retry only once."
+  - q: "Whom should I contact if Payme or Click declines it?"
+    a: "If the app shows an error or decline, contact that app's support or the card-issuing bank. If the transaction is successful but the product is not delivered, send the receipt and order number to the seller."
+  - q: "Should I send support an SMS code or card details?"
+    a: "No. The order number, time, amount, error text and a receipt with secret details hidden are enough. Never send a CVV, PIN, SMS code, Telegram password or 2FA code."
+steps:
+  - name: "Check the operation status"
+    text: "Read whether the payment app says declined, pending or successful, and record the error message."
+  - name: "Allow for the balance and fee"
+    text: "Make sure the card covers the order plus any card-transfer fee."
+  - name: "Check the card and limits"
+    text: "Check the card expiry and block status, transfer or online-payment limit, and authentication method."
+  - name: "Retry once with a fresh invoice"
+    text: "The old invoice may have expired; create a new bot order and compare all payment details again."
+  - name: "Contact the bank or support"
+    text: "After another decline, ask the bank for the reason; after a debit, send the receipt and order number to the seller."
+---
+
+“Card declined” means that **payment authorization was not approved**, not that the Telegram product disappeared during delivery. A bot may display a general message, but only the card issuer can see the precise decline code and card restrictions.
+
+## Which status should you check first?
+
+| Status | Meaning | Next action |
+|---|---|---|
+| Declined | the bank or processor did not approve it | fix the cause, then retry once |
+| Pending | there is no final result yet | do not pay again; wait for an update |
+| Successful | payment was approved | contact the seller if delivery is missing |
+| Cancelled | the operation was not completed or was reversed | check the balance and create a new order |
+
+If the status is **successful**, use the separate [debited-without-delivery guide](/en/xavfsizlik/tolov-qilindi-mahsulot-kelmadi) instead of this declined-card procedure.
+
+## Why can a card be declined?
+
+1. **Insufficient funds.** The balance may cover the order but not a P2P transfer fee. Payme, for example, publishes a 1.1% card-to-card transfer fee.
+2. **A limit was reached.** The bank may cap a single operation, daily or monthly transfers, or online payments.
+3. **The card is inactive.** It may be expired, temporarily blocked or not yet activated.
+4. **Authentication failed.** A PIN, in-app approval or SMS confirmation may be incorrect or expired.
+5. **The details or amount are stale.** A card number, amount or link from an old bot order may have expired.
+6. **The operation is not permitted.** The card type or bank settings may restrict that transfer.
+7. **A security filter intervened.** Repeated attempts, an unusual amount or a new recipient can trigger bank review.
+
+Visa authorization codes likewise distinguish insufficient funds, expired cards, incorrect PINs and transactions not permitted. A generic app message may not reveal which specific reason applies.
+
+## How should you retry safely?
+
+First calculate the balance **including any fee**, then inspect the card expiry and app limits. Do not reuse an old invoice: create a new bot order and compare the recipient, card and amount from the beginning.
+
+Retry only once after those checks. If it fails again, ask the bank for the decline reason instead of trying the same card repeatedly in different apps. If necessary, select another method currently offered by the bot. [Click payment](/en/qollanma/click-orqali-tolov) and [Payme payment](/en/qollanma/payme-orqali-tolov) do not necessarily have identical terms.
+
+## What if the available balance decreased?
+
+Do not create another payment if the balance fell despite a decline message. The operation may still be pending or the amount may be temporarily held. Save the receipt, time, amount and transaction identifier, then ask the payment app or bank to confirm the status.
+
+If the operation is confirmed successful, send the seller the order number and a receipt with secret details hidden. If support asks for a password or SMS code, check the [fraud warning signs](/en/xavfsizlik/firibgarlik-belgilari).
+
+## Sources and verification date
+
+Information was checked on 12 August 2026 against [Visa authorization codes](https://developer.visa.com/request_response_codes), [Visa consumer support](https://usa.visa.com/support.html), [Payme money transfers](https://help.payme.uz/denezhnye-perevody/) and [Payme fees](https://help.payme.uz/chavo/komissii/). Exact decline reasons and limits depend on the card issuer.

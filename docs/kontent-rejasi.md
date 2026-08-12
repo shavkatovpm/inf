@@ -213,9 +213,9 @@ Bular foydalanuvchilar aynan yozadigan so'rovlar. Ketma-ketlikda birinchi.
 | 6 | Stars paketlari — chegirma bormi | `/taqqoslash/stars-paketlari` | 2 | ✅ |
 | 7 | Premium Visa kartasiz | `/qollanma/visa-siz-telegram-premium` | 3 | ✅ |
 | 8 | Click orqali sotib olish | `/qollanma/click-orqali-tolov` | 3 | ✅ |
-| 9 | Payme orqali sotib olish | `/qollanma/payme-orqali-tolov` | 3 | ⏭ **keyingi** |
-| 10 | To'lov o'tmadi — karta rad etdi | `/xavfsizlik/tolov-otmadi` | 3 | |
-| 11 | Stars — Fragment alternativasi | `/taqqoslash/fragment-alternativa` | 2 | |
+| 9 | Payme orqali sotib olish | `/qollanma/payme-orqali-tolov` | 3 | ✅ |
+| 10 | To'lov o'tmadi — karta rad etdi | `/xavfsizlik/tolov-otmadi` | 3 | ✅ |
+| 11 | Stars — Fragment alternativasi | `/taqqoslash/fragment-alternativa` | 2 | ⏭ **keyingi** |
 | 12 | Mahalliy narx vs App Store narxi | `/taqqoslash/app-store-narx-farqi` | 2 | |
 | 13 | 1000 Stars qancha turadi | `/taqqoslash/1000-stars-narxi` | 2 | |
 | 14 | Kichik paketlar: 50 va 100 Stars | `/taqqoslash/kichik-stars-paketlari` | 2 | |
