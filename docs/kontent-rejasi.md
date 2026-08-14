@@ -215,9 +215,9 @@ Bular foydalanuvchilar aynan yozadigan so'rovlar. Ketma-ketlikda birinchi.
 | 8 | Click orqali sotib olish | `/qollanma/click-orqali-tolov` | 3 | ✅ |
 | 9 | Payme orqali sotib olish | `/qollanma/payme-orqali-tolov` | 3 | ✅ |
 | 10 | To'lov o'tmadi — karta rad etdi | `/xavfsizlik/tolov-otmadi` | 3 | ✅ |
-| 11 | Stars — Fragment alternativasi | `/taqqoslash/fragment-alternativa` | 2 | ⏭ **keyingi** |
-| 12 | Mahalliy narx vs App Store narxi | `/taqqoslash/app-store-narx-farqi` | 2 | |
-| 13 | 1000 Stars qancha turadi | `/taqqoslash/1000-stars-narxi` | 2 | |
+| 11 | Stars — Fragment alternativasi | `/taqqoslash/fragment-alternativa` | 2 | ✅ |
+| 12 | Mahalliy narx vs App Store narxi | `/taqqoslash/app-store-narx-farqi` | 2 | ✅ |
+| 13 | 1000 Stars qancha turadi | `/taqqoslash/1000-stars-narxi` | 2 | ⏭ **keyingi** |
 | 14 | Kichik paketlar: 50 va 100 Stars | `/taqqoslash/kichik-stars-paketlari` | 2 | |
 | 15 | Katta miqdor: 2500+ Stars | `/taqqoslash/katta-stars-paketlari` | 2 | |
 | 16 | Premium nima beradi — funksiyalar | `/imkoniyatlar/premium-funksiyalari` | 3 | yangi bo'lim |
