@@ -217,8 +217,8 @@ Bular foydalanuvchilar aynan yozadigan so'rovlar. Ketma-ketlikda birinchi.
 | 10 | To'lov o'tmadi — karta rad etdi | `/xavfsizlik/tolov-otmadi` | 3 | ✅ |
 | 11 | Stars — Fragment alternativasi | `/taqqoslash/fragment-alternativa` | 2 | ✅ |
 | 12 | Mahalliy narx vs App Store narxi | `/taqqoslash/app-store-narx-farqi` | 2 | ✅ |
-| 13 | 1000 Stars qancha turadi | `/taqqoslash/1000-stars-narxi` | 2 | ⏭ **keyingi** |
-| 14 | Kichik paketlar: 50 va 100 Stars | `/taqqoslash/kichik-stars-paketlari` | 2 | |
+| 13 | 1000 Stars qancha turadi | `/taqqoslash/1000-stars-narxi` | 2 | ✅ |
+| 14 | Kichik paketlar: 50 va 100 Stars | `/taqqoslash/kichik-stars-paketlari` | 2 | ⏭ **keyingi** |
 | 15 | Katta miqdor: 2500+ Stars | `/taqqoslash/katta-stars-paketlari` | 2 | |
 | 16 | Premium nima beradi — funksiyalar | `/imkoniyatlar/premium-funksiyalari` | 3 | yangi bo'lim |
 | 17 | Stars bilan nima qilish mumkin | `/imkoniyatlar/stars-bilan-nima-qilish` | 2 | yangi bo'lim |

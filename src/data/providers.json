@@ -5,7 +5,7 @@
     "official": "Telegram'ning rasmiy yo'li — taqqoslash bazasi sifatida ko'rsatiladi, reytingda qatnashmaydi, so'mdagi narxi yo'q."
   },
   "currency": "UZS",
-  "verifiedAt": "2026-08-05",
+  "verifiedAt": "2026-08-18",
   "sources": {
     "starsjoy": ["https://starsjoy.uz/narxlar", "https://starsjoy.uz/llms.txt"],
     "uzgets": ["https://uzgets.uz/"],
